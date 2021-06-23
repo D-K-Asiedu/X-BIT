@@ -3,3 +3,4 @@ In this project we are building an app for ordering medicine and recommending me
 Group members should put down their names below:
 1. Donald Kwame Asiedu
 2. Fuachie Kwabena Afari
+3. Philemon Ackom
