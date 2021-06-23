@@ -5,4 +5,4 @@ In this project we are building an app for ordering medicine and recommending me
 - Fuachie Kwabena Afari
 - Gloria Abedi Gyemfa 
 - Twum-Asare Seth
-
+- Philemon Ackom
