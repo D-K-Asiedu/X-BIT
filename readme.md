@@ -6,5 +6,6 @@ In this project we are building an app for ordering medicine and recommending me
 - Gloria Abedi Gyemfa 
 - Twum-Asare Seth
 - Philemon Ackom
-- Joseph Sefa Djentuh 
--Afari Prince
+- Joseph Sefa Djentuh
+- Afari Prince
+- Owusu Bernard
