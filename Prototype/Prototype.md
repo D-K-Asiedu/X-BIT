@@ -1,5 +1,5 @@
 # Medical app prototype
-This is a link to the pototype of this medical app
+hi there this is Bofah, i have posted a link here ..it is the prototype of the medical app
 
 [Figma Prototype design](https://www.figma.com/proto/dBXV2V4POLRiAxakztnAis/Medical-app-prototype?node-id=1%3A3&scaling=scale-down&page-id=0%3A1&starting-point-node-id=1%3A3)
 

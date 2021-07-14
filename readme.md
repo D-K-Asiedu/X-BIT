@@ -10,3 +10,4 @@ In this project we are building an app for ordering medicine and recommending me
 - Afari Prince
 - Owusu Bernard
 - Addae- Bofah Christopher
+- Domfeh Collins
