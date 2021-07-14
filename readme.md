@@ -2,7 +2,7 @@ In this project we are building an app for ordering medicine and recommending me
 
 # Group members
 - Donald Kwame Asiedu
-- Fuachie Kwabena Afari
+- Kwabena Afari Fuachie
 - Gloria Abedi Gyemfa 
 - Twum-Asare Seth
 - Philemon Ackom
@@ -10,4 +10,3 @@ In this project we are building an app for ordering medicine and recommending me
 - Afari Prince
 - Owusu Bernard
 - Addae- Bofah Christopher
-
