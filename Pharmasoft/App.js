@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text } from 'react-native';
-import FirstAidScreen from './screens/FirstAidScreen';
+import FirstAidDetailsScreen from './screens/FirstAidDetailsScreen';
 
 
 export default function App() {
@@ -10,7 +10,12 @@ export default function App() {
       title: 'Resuscitation',
       color: '#ffaadd',
       description: '',
-      steps: []
+      steps: [
+        ['Steps',
+          [1,'Title 1. ','Text 1'],
+          [2,'Title 2. ','Text 2']
+        ]
+      ]
     },
     {
       id: 2,
@@ -38,7 +43,16 @@ export default function App() {
       title: 'Burns',
       color: '#ddffaa',
       description: '',
-      steps: []
+      steps: [
+        ['Major burns',
+          [1,'Title 1','Text 1'],
+          [2,'Title 2','Text 2']
+        ],
+        ['Minor burns',
+          [1,'Title 1','Text 1'],
+          [2,'Title 2','Text 2']
+      ]
+      ]
     },
     {
       id: 6,
@@ -57,6 +71,6 @@ export default function App() {
   ])
 
   return (
-    <FirstAidScreen firstAid={firstAid} />
+    <FirstAidDetailsScreen firstAid={firstAid[4]} />
   );
 }

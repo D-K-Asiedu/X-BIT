@@ -8,17 +8,17 @@ import NavBar from '../components/NavBar'
 const FirstAidScreen = ({firstAid}) => {
     return (
         <View style={globalStyles.container}>
-            <View style={styles.header}>
-                <View style={styles.iconBox1}>
+            <View style={globalStyles.header}>
+                <View>
                     <Feather name="menu" size={30} color='white' />
                 </View>
-                <Text style={styles.h2}>First aid guide</Text>
-                <View style={styles.iconBox2}>
+                <Text style={globalStyles.h2}>First aid guide</Text>
+                <View>
                     <Ionicons name="search" size={24} color='white' />
                 </View>
             </View>
 
-            <View style={styles.content}>
+            <View style={globalStyles.content}>
                 <FlatList
                     data = {firstAid}
                     renderItem = {({item}) => (
@@ -36,26 +36,4 @@ const FirstAidScreen = ({firstAid}) => {
 export default FirstAidScreen
 
 const styles = StyleSheet.create({
-    header:{
-        flexDirection: 'row',
-        height: 100,
-        backgroundColor: globalColours.mainCol,
-        paddingTop: 30,
-        paddingHorizontal: 20,
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    h2:{
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#ffffff',
-    },
-    content:{
-        flex: 1,
-        paddingTop: 2,
-        paddingHorizontal: 20,
-        backgroundColor: '#f2f2f2',
-        borderTopStartRadius: 30,
-        borderTopEndRadius: 30, 
-    },
 })
