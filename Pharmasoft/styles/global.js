@@ -7,6 +7,14 @@ export const globalColours = {
     darkBlue: darkBlueBuffer,
     greyBlue: '#375a64',
     lightGrey: '#808080',
+    firstAid:{
+        'blood': '#f5d0d0',
+        'heart': '#f2c8dc',
+        'lung': '#b2edd8',
+        'fire': '#ead9ad',
+        'poison': '#dfc5f3',
+        'choke': '#c6dff5',    
+    }
 }
 
 export const globalStyles = StyleSheet.create({
@@ -42,3 +50,14 @@ export const globalStyles = StyleSheet.create({
         borderTopEndRadius: 30, 
     },
 })
+
+export const images = {
+    firstAid:{
+        'blood': require('../assets/first-aid-icons/blood.png'),
+        'heart': require('../assets/first-aid-icons/heart.png'),
+        'lung': require('../assets/first-aid-icons/lung.png'),
+        'fire': require('../assets/first-aid-icons/fire.png'),
+        'poison': require('../assets/first-aid-icons/poison.png'),
+        'choke': require('../assets/first-aid-icons/choke.png'),    
+    }
+}

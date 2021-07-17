@@ -22,7 +22,7 @@ const FirstAidScreen = ({firstAid}) => {
                 <FlatList
                     data = {firstAid}
                     renderItem = {({item}) => (
-                        <FirstAidCard title={item.title} color={item.color} description = {item.description} />
+                        <FirstAidCard title={item.title} bgColor={globalColours.firstAid[item.image]} image={item.image} description = {item.description} />
                     )}
                     keyExtractor = {firstAid => firstAid.id}
                 />

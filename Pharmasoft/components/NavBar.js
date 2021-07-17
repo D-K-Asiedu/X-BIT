@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
 
         borderTopWidth: 1,
-        borderTopColor: '#dddddd',
+        borderTopColor: 'rgba(99,99,99,0.2)',
     },
     pageBtn:{
         alignItems: 'center',

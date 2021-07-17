@@ -1,21 +1,25 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { globalColours } from '../styles/global'
+import { StyleSheet, Text, View, Image } from 'react-native'
+import { globalColours, firstAidImages, images } from '../styles/global'
 import { Entypo } from '@expo/vector-icons';
 
 
-const FirstAidCard = ({title, description, color}) => {
+const FirstAidCard = ({title, description, bgColor, image}) => {
     const imgBox = {
+        justifyContent: 'center',
+        alignItems: 'center',
         width: 70,
         height: 70,
         borderRadius: 20,
         marginRight: 15,
-        backgroundColor: color,
+        backgroundColor: bgColor,
     }
 
     return (
         <View style={styles.card}>
-            <View style={imgBox}></View>
+            <View style={imgBox}>
+                <Image source={images.firstAid[image]} />
+            </View>
             <View style={styles.textBox}>
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.description}>{description || 'Lorem ipsum dolor random gibberish here'}</Text>
@@ -33,19 +37,12 @@ export default FirstAidCard
 
 const styles = StyleSheet.create({
     card:{
-        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10,
+        marginVertical: 5,
         padding: 15,
         backgroundColor: '#ffffff',
         borderRadius: 20,
-    },
-    imgBox:{
-        width: 70,
-        height: 70,
-        borderRadius: 20,
-        marginRight: 15,
     },
     title:{
         fontSize: 20,
