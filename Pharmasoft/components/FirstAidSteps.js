@@ -17,8 +17,7 @@ export default FirstAidSteps
 
 const styles = StyleSheet.create({
     stepsCard:{
-        flex: 1,
-        marginTop: 25,
+        marginVertical: 25,
     },
     stepNum:{
         backgroundColor: '#f77612',

@@ -1,36 +1,42 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, FlatList } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Touchable } from 'react-native'
 import { globalStyles } from '../styles/global'
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 import FirstAidSteps from '../components/FirstAidSteps';
 
-const FirstAidDetailsScreen = ({firstAid}) => {
-    const [activeStep, setActiveStep] = useState(firstAid.steps[0])
-    const [stepDetails, setStepDetails] = useState(activeStep.filter((step) => (activeStep.indexOf(step) != 0)))
+const FirstAidDetailsScreen = ({navigation}) => {
+    const activeStep = navigation.getParam('steps')[0]
+    const stepDetails = activeStep.filter((step) => (activeStep.indexOf(step) != 0))
 
     return (
         <View style={{...globalStyles.container, ...styles.container}}>
             <View style={{...globalStyles.header, ...styles.header}}>
-                <View>
-                    <Ionicons name="arrow-back" size={30} color="#ffffff" />
-                </View>
-                <Text style={globalStyles.h2}>{firstAid.title}</Text>
-                <View>
+                <TouchableOpacity>
+                    <Ionicons name="arrow-back" size={30} color="#ffffff" onPress = {()=>navigation.goBack()}/>
+                </TouchableOpacity>
+                <Text style={globalStyles.h2}>{navigation.getParam('title')}</Text>
+                <TouchableOpacity>
                     <MaterialIcons name="add-call" size={30} color="#ffffff" />
-                </View>
+                </TouchableOpacity>
             </View>
 
             <View style={{...globalStyles.content, ...styles.content}}>
-                <View style={styles.title}>
+                <TouchableOpacity 
+                style={styles.title}
+                activeOpacity={navigation.getParam('steps').length = 1 && 1}
+                >
                     <Text style={globalStyles.h3}>{activeStep[0]}</Text>
-                    {firstAid.steps.length > 1 && <Entypo name="chevron-down" size={20} color="#f77612" />}
-                </View>
+                    {navigation.getParam('steps').length > 1 && <Entypo name="chevron-down" size={20} color="#f77612" />}
+                </TouchableOpacity>
                 <View style={styles.steps}>
-                    {/* <FirstAidSteps index={1} emText='Title.' details=' Text here' /> */}
                     <FlatList 
                         data={stepDetails}
                         renderItem = {({item}) => (
-                            <FirstAidSteps index={item[0]} emText={item[1]} details={item[2]} />
+                            <FirstAidSteps 
+                            index={item[0]} 
+                            emText={item[1]} 
+                            details={item[2]} 
+                            />
                         )}
                         keyExtractor = {stepDetails => stepDetails[0]}
                     />

@@ -1,10 +1,10 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { globalColours, firstAidImages, images } from '../styles/global'
+import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native'
+import { globalColours, images } from '../styles/global'
 import { Entypo } from '@expo/vector-icons';
 
 
-const FirstAidCard = ({title, description, bgColor, image}) => {
+const FirstAidCard = ({id, title, description, bgColor, image, viewDetails}) => {
     const imgBox = {
         justifyContent: 'center',
         alignItems: 'center',
@@ -16,18 +16,22 @@ const FirstAidCard = ({title, description, bgColor, image}) => {
     }
 
     return (
-        <View style={styles.card}>
-            <View style={imgBox}>
-                <Image source={images.firstAid[image]} />
-            </View>
-            <View style={styles.textBox}>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.description}>{description || 'Lorem ipsum dolor random gibberish here'}</Text>
-            </View>
-            <View style={styles.iconBox}>
-                <Entypo name="chevron-right" size={18} color={globalColours.greyBlue} />
-            </View>
-        </View>
+            <TouchableOpacity 
+            style={styles.card}
+            activeOpacity={0.5}
+            onPress={viewDetails}
+            >
+                <View style={imgBox}>
+                    <Image source={images.firstAid[image]} />
+                </View>
+                <View style={styles.textBox}>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.description}>{description || 'Lorem ipsum dolor random gibberish here'}</Text>
+                </View>
+                <View style={styles.iconBox}>
+                    <Entypo name="chevron-right" size={18} color={globalColours.greyBlue} />
+                </View>
+            </TouchableOpacity>
     )
 }
 
