@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Touchable } from 'r
 import { globalStyles } from '../styles/global'
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 import FirstAidSteps from '../components/FirstAidSteps';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const FirstAidDetailsScreen = ({navigation}) => {
     const [activeStep, setActiveStep]  = useState(1)
@@ -43,6 +44,10 @@ const FirstAidDetailsScreen = ({navigation}) => {
 
     return (
         <View style={{...globalStyles.container, ...styles.container}}>
+            {/* <LinearGradient
+                colors={['red','blue']}
+                style={styles.backGround} 
+            /> */}
             <View style={{...globalStyles.header, ...styles.header}}>
                 <TouchableOpacity>
                     <Ionicons name="arrow-back" size={30} color="#ffffff" onPress = {()=>navigation.goBack()}/>

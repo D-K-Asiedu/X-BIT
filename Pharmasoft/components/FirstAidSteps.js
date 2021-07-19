@@ -8,7 +8,7 @@ const FirstAidSteps = ({index, stepText}) => {
     return (
         <View style={styles.stepsCard}>
             <Text style={styles.stepNum}>Step {index}</Text>
-            <View style={styles.image}></View>
+            {/* <View style={styles.image}></View> */}
             <Text style={styles.text}><Text style={styles.emText}>{Array.isArray(stepText) && stepText[0]}</Text>{Array.isArray(stepText)? stepText[1]: stepText}</Text>
         </View>
     )
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     },
     text:{
         fontSize: 16,
-        color: globalColours.lightGrey,
+        color: globalColours.grey,
+        marginTop: 10,
     },
     emText:{
         fontWeight: 'bold',

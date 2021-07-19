@@ -22,7 +22,7 @@ const FirstAidCard = ({id, title, description, bgColor, image, viewDetails}) => 
             onPress={viewDetails}
             >
                 <View style={imgBox}>
-                    <Image source={images.firstAid[image]} />
+                    <Image source={images.firstAid[image]} style={styles.img} />
                 </View>
                 <View style={styles.textBox}>
                     <Text style={styles.title}>{title}</Text>
@@ -43,10 +43,11 @@ const styles = StyleSheet.create({
     card:{
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 5,
+        marginVertical: 7,
         padding: 15,
         backgroundColor: '#ffffff',
         borderRadius: 20,
+        elevation: 2,
     },
     title:{
         fontSize: 20,
@@ -63,5 +64,9 @@ const styles = StyleSheet.create({
     },
     iconBox:{
         width: 20,
-    }
+    },
+    img:{
+        width: 50,
+        height: 50,
+    },
 })

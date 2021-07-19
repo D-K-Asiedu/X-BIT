@@ -19,7 +19,7 @@ export default firstAid = [
     {
       id: 2,
       title: 'Bruises',
-      image: '',
+      image: 'plaster',
       gradient: ['',''],
       description: '',
       steps: {
@@ -121,7 +121,7 @@ export default firstAid = [
     {
       id: 7,
       title: 'Bee sting',
-      image: '',
+      image: 'bee',
       gradient: ['',''],
       description: '',
       steps: {
@@ -141,7 +141,7 @@ export default firstAid = [
     {
       id: 8,
       title: 'Concussion',
-      image: '',
+      image: 'concussion',
       gradient: ['',''],
       description: '',
       steps: {
@@ -175,7 +175,7 @@ export default firstAid = [
     {
       id: 10,
       title: 'Cardiac Arrest',
-      image: '',
+      image: 'heart-flat',
       gradient: ['',''],
       description: '',
       steps: {
@@ -192,7 +192,7 @@ export default firstAid = [
     {
       id: 11,
       title: 'Cut',
-      image: '',
+      image: 'cut',
       gradient: ['',''],
       description: '',
       steps: {
@@ -208,7 +208,7 @@ export default firstAid = [
     {
       id: 12,
       title: 'Eye problems',
-      image: '',
+      image: 'eye',
       gradient: ['',''],
       description: '',
       steps: {
@@ -224,7 +224,7 @@ export default firstAid = [
     {
       id: 13,
       title: 'Fracture',
-      image: '',
+      image: 'bone',
       gradient: ['',''],
       description: '',
       steps: {
@@ -238,7 +238,7 @@ export default firstAid = [
     {
       id: 14,
       title: 'Nosebleed',
-      image: '',
+      image: 'nose',
       gradient: ['',''],
       description: '',
       steps: {
@@ -257,7 +257,7 @@ export default firstAid = [
     {
       id: 15,
       title: 'Heatstroke',
-      image: '',
+      image: 'heat',
       gradient: ['',''],
       description: '',
       steps: {
@@ -277,7 +277,7 @@ export default firstAid = [
     {
       id: 16,
       title: 'Heart attack',
-      image: '',
+      image: 'heart',
       gradient: ['',''],
       description: '',
       steps: {
@@ -293,7 +293,7 @@ export default firstAid = [
     {
       id: 17,
       title: 'Hypothermia',
-      image: '',
+      image: 'cold',
       gradient: ['',''],
       description: '',
       steps: {
@@ -313,7 +313,7 @@ export default firstAid = [
     {
       id: 18,
       title: 'Sprains',
-      image: '',
+      image: 'injury',
       gradient: ['',''],
       description: '',
       steps: {
@@ -327,7 +327,7 @@ export default firstAid = [
     {
       id: 19,
       title: 'Teeth injury',
-      image: '',
+      image: 'tooth',
       gradient: ['',''],
       description: '',
       steps: {
