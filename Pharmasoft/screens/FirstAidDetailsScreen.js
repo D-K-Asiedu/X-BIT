@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, Touchable } from 'react-native'
-import { globalStyles } from '../styles/global'
+import { globalColours, globalStyles } from '../styles/global'
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 import FirstAidSteps from '../components/FirstAidSteps';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -42,13 +42,15 @@ const FirstAidDetailsScreen = ({navigation}) => {
         setStepDetails(activeBranch.AcSteps)
     }, [activeBranch])
 
+    const mainColor = navigation.getParam('gradient')[0] || globalColours.mainCol
+
     return (
-        <View style={{...globalStyles.container, ...styles.container}}>
+        <View style={{...globalStyles.container, ...styles.container, backgroundColor:mainColor}}>
             {/* <LinearGradient
                 colors={['red','blue']}
                 style={styles.backGround} 
             /> */}
-            <View style={{...globalStyles.header, ...styles.header}}>
+            <View style={{...globalStyles.header, ...styles.header, backgroundColor:mainColor}}>
                 <TouchableOpacity>
                     <Ionicons name="arrow-back" size={30} color="#ffffff" onPress = {()=>navigation.goBack()}/>
                 </TouchableOpacity>
@@ -64,7 +66,7 @@ const FirstAidDetailsScreen = ({navigation}) => {
                 activeOpacity={navigation.getParam('steps').categories == 1 && 1 }
                 >
                     <Text style={globalStyles.h3}>{navigation.getParam('steps').categories > 1? activeBranch.AcTitle: 'Steps'}</Text>
-                    {navigation.getParam('steps').categories > 1 && <Entypo name="chevron-down" size={20} color="#f77612" />}
+                    {navigation.getParam('steps').categories > 1 && <Entypo name="chevron-down" size={20} color={mainColor} />}
                 </TouchableOpacity>
                 <View style={styles.steps}>
                     <FlatList 
@@ -72,7 +74,8 @@ const FirstAidDetailsScreen = ({navigation}) => {
                         renderItem = {({item}) => (
                             <FirstAidSteps 
                             index={stepDetails.indexOf(item) + 1} 
-                            stepText = {item} 
+                            stepText = {item}
+                            color = {mainColor} 
                             />
                         )}
                         keyExtractor = {stepDetails => Math.random() * 1000}

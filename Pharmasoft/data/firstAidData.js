@@ -3,7 +3,7 @@ export default firstAid = [
       id: 1,
       title: 'Asthma',
       image: 'lung',
-      gradient: ['',''],
+      gradient: ['#1cb87f','#0bffdc'],
       description: '',
       steps: {
         categories: 1,
@@ -20,7 +20,7 @@ export default firstAid = [
       id: 2,
       title: 'Bruises',
       image: 'plaster',
-      gradient: ['',''],
+      gradient: ['#f5b332','#f6e120'],
       description: '',
       steps: {
         categories: 1,
@@ -36,7 +36,7 @@ export default firstAid = [
       id: 3,
       title: 'Choking',
       image: 'choke',
-      gradient: ['',''],
+      gradient: ['#0c88fc','#2fe4ef'],
       description: '',
       steps: {
         categories: 1,
@@ -56,7 +56,7 @@ export default firstAid = [
       id: 4,
       title: 'Burns',
       image: 'fire',
-      gradient: ['',''],
+      gradient: ['#ff2406','#ff912c'],
       description: '',
       steps: {
         categories: 3,
@@ -122,7 +122,7 @@ export default firstAid = [
       id: 7,
       title: 'Bee sting',
       image: 'bee',
-      gradient: ['',''],
+      gradient: ['#000000','#fff400'],
       description: '',
       steps: {
         notes: [
@@ -142,7 +142,7 @@ export default firstAid = [
       id: 8,
       title: 'Concussion',
       image: 'concussion',
-      gradient: ['',''],
+      gradient: ['#2dea56','#e1ff25'],
       description: '',
       steps: {
         categories: 1,
@@ -176,7 +176,7 @@ export default firstAid = [
       id: 10,
       title: 'Cardiac Arrest',
       image: 'heart-flat',
-      gradient: ['',''],
+      gradient: ['#ff047d','#ba29fe'],
       description: '',
       steps: {
         categories: 1,
@@ -193,7 +193,7 @@ export default firstAid = [
       id: 11,
       title: 'Cut',
       image: 'cut',
-      gradient: ['',''],
+      gradient: ['#2f6ff5','#021847'],
       description: '',
       steps: {
         categories: 1,
@@ -209,7 +209,7 @@ export default firstAid = [
       id: 12,
       title: 'Eye problems',
       image: 'eye',
-      gradient: ['',''],
+      gradient: ['#ff3e3e','#f5a4a4'],
       description: '',
       steps: {
         categories: 1,
@@ -225,7 +225,7 @@ export default firstAid = [
       id: 13,
       title: 'Fracture',
       image: 'bone',
-      gradient: ['',''],
+      gradient: ['#ffcf25','#c4f857'],
       description: '',
       steps: {
         categories: 1,
@@ -239,7 +239,7 @@ export default firstAid = [
       id: 14,
       title: 'Nosebleed',
       image: 'nose',
-      gradient: ['',''],
+      gradient: ['#f0b37b','#ff5454'],
       description: '',
       steps: {
         categories: 1,
@@ -258,7 +258,7 @@ export default firstAid = [
       id: 15,
       title: 'Heatstroke',
       image: 'heat',
-      gradient: ['',''],
+      gradient: ['#fc3636','#8c1313'],
       description: '',
       steps: {
         categories: 1,
@@ -278,7 +278,7 @@ export default firstAid = [
       id: 16,
       title: 'Heart attack',
       image: 'heart',
-      gradient: ['',''],
+      gradient: ['#f82323','#5fb1ff'],
       description: '',
       steps: {
         categories: 1,
@@ -294,7 +294,7 @@ export default firstAid = [
       id: 17,
       title: 'Hypothermia',
       image: 'cold',
-      gradient: ['',''],
+      gradient: ['#33d8dd','#4682c9'],
       description: '',
       steps: {
         categories: 1,
@@ -314,7 +314,7 @@ export default firstAid = [
       id: 18,
       title: 'Sprains',
       image: 'injury',
-      gradient: ['',''],
+      gradient: ['#e58550','#ff4539'],
       description: '',
       steps: {
         categories: 1,
@@ -328,7 +328,7 @@ export default firstAid = [
       id: 19,
       title: 'Teeth injury',
       image: 'tooth',
-      gradient: ['',''],
+      gradient: ['#f86060','#feca8e'],
       description: '',
       steps: {
         categories: 1,
@@ -341,7 +341,7 @@ export default firstAid = [
       id: 20,
       title: 'Poison',
       image: 'poison',
-      gradient: ['',''],
+      gradient: ['#b10bff','#4fed7b'],
       description: '',
       steps: {
         categories: 1,

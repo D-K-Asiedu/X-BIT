@@ -2,12 +2,12 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { globalColours } from '../styles/global'
 
-const FirstAidSteps = ({index, stepText}) => {
+const FirstAidSteps = ({index, stepText, color}) => {
     
 
     return (
         <View style={styles.stepsCard}>
-            <Text style={styles.stepNum}>Step {index}</Text>
+            <Text style={{...styles.stepNum, backgroundColor: color}}>Step {index}</Text>
             {/* <View style={styles.image}></View> */}
             <Text style={styles.text}><Text style={styles.emText}>{Array.isArray(stepText) && stepText[0]}</Text>{Array.isArray(stepText)? stepText[1]: stepText}</Text>
         </View>

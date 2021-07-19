@@ -2,6 +2,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import FirstAidScreen from '../screens/FirstAidScreen';
 import FirstAidDetailsScreen from '../screens/FirstAidDetailsScreen';
+import FirstAidSearchScreen from '../screens/FirstAidSearchScreen';
 
 
 const screens = {
@@ -13,6 +14,12 @@ const screens = {
     },
     FirstAidDetails: {
         screen: FirstAidDetailsScreen,
+        navigationOptions:{
+            headerShown: false,
+        }
+    },
+    FirstAidSearch: {
+        screen: FirstAidSearchScreen,
         navigationOptions:{
             headerShown: false,
         }

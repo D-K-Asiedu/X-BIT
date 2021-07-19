@@ -21,7 +21,7 @@ const FirstAidScreen = ({ navigation }) => {
         </TouchableOpacity>
         <Text style={globalStyles.h2}>First aid guide</Text>
         <TouchableOpacity>
-          <Ionicons name="search" size={24} color='white' />
+          <Ionicons name="search" size={24} color='white' onPress={() => navigation.navigate('FirstAidSearch')} />
         </TouchableOpacity>
       </View>
 
