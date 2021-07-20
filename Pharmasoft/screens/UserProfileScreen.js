@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import ProfileInfo from '../components/ProfileInfo';
 import { AntDesign } from '@expo/vector-icons';
 import Divider from '../components/Divider';
@@ -16,27 +16,27 @@ const UserProfileScreen = () => {
             </View>
 
             {/* Content */}
-            <View style={styles.content}>
+                <View style={styles.content}>
+                <ScrollView>
+                    {/* Profile Picture */}
+                    <View style={styles.profilePicView}>
+                        <Image source={require("../assets/userprofile.png")} style={styles.profilePic} />
+                        <Text style={styles.name}>Kwaku Safo Dankwa</Text>
+                    </View>
 
-                {/* Profile Picture */}
-                <View style={styles.profilePicView}>
-                    <Image source={require("../assets/userprofile.png")} style={styles.profilePic}/>
-                    <Text style={styles.name}>Kwaku Safo Dankwa</Text>
+                    {/* Profile Info */}
+                    <View style={styles.profiles}>
+                        <ProfileInfo icon={"email"} title={"Email"} profile={"coloneldankwa@gmail.com"} />
+                        <Divider />
+                        <ProfileInfo icon={"phone"} title={"Contact"} profile={"+233203589545"} />
+                        <Divider />
+                        <ProfileInfo icon={"date"} title={"Date of Birth"} profile={"19th January 2000"} />
+                        <Divider />
+                        <ProfileInfo icon={"allergies"} title={"Allergies"} profile={"Strong scents"} />
+                        <Divider />
+                    </View>
+                    </ScrollView>
                 </View>
-
-                {/* Profile Info */}
-                <View style={styles.profiles}>
-                    <ProfileInfo icon={"email"} title={"Email"} profile={"coloneldankwa@gmail.com"}/>
-                    <Divider />
-                    <ProfileInfo icon={"phone"} title={"Contact"} profile={"+233203589545"} />
-                    <Divider />
-                    <ProfileInfo icon={"date"} title={"Date of Birth"} profile={"19th January 2000"} />
-                    <Divider />
-                    <ProfileInfo icon={"allergies"} title={"Allergies"} profile={"Strong scents"} />
-                    <Divider />
-                </View>
-
-            </View>
         </View>
     )
 }
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     },
 
     content: {
-        backgroundColor: 'white',
+        backgroundColor: '#f2f2f2',
         flex: 1,
         borderTopEndRadius: 30,
         borderTopLeftRadius: 30,
@@ -85,13 +85,15 @@ const styles = StyleSheet.create({
     profilePic: {
         height: 90,
         width: 90,
-        borderRadius: 90/2
+        borderRadius: 90 / 2
     },
 
     name: {
-        fontSize: 25,
-        letterSpacing:1,
-        marginTop: 20
+        fontSize: 20,
+        fontWeight: 'bold',
+        letterSpacing: 2,
+        marginTop: 20,
+        color: 'black'
     },
 
     profiles: {
