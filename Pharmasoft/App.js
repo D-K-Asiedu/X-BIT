@@ -1,21 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+import LoginScreen  from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+
+export default function App(props) {
+  const [changeScreen, setchangeScreen] = useState(<LoginScreen onChangeScreen = {(command)=>Screenchanger(command)}/>)
+  
+  let Screenchanger = (command) =>{
+    if (command === 'Register'){
+      setchangeScreen( <RegisterScreen onChangeScreen = {(command)=>Screenchanger(command)}/>)
+    }else if (command === "Login"){
+      setchangeScreen(<LoginScreen onChangeScreen = {(command)=>Screenchanger(command)}/>)
+    }
+  }
+  
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {changeScreen}
     </View>
+    
+   
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  paddingTop:20,
+    flex:1,
+    backgroundColor:'#1ba665',
+    width:'100%'}
+  });
