@@ -67,6 +67,7 @@ const FirstAidScreen = ({ navigation }) => {
       {searchActive ? <SearchHeader /> : <DefaultHeader />}
 
       <View style={globalStyles.content}>
+      {firstAid.length == 0 && searchActive && <Text style={styles.errText}>No results</Text>}
         <FlatList
           data={firstAid}
           renderItem={({ item }) => (
@@ -83,11 +84,9 @@ const FirstAidScreen = ({ navigation }) => {
           )}
           keyExtractor={firstAid => firstAid.id.toString()}
         />
-        {firstAid.length == 0 && <Text style={styles.errText}>No results</Text>}
       </View>
 
-      <NavBar active='first-aid' />
-      <StatusBar style="light" backgroundColor="transparent" />
+      <StatusBar style="light" translucent={true} />
     </View>
   )
 };
@@ -107,7 +106,9 @@ const styles = StyleSheet.create({
   },
   errText:{
     fontSize: 24,
-    fontWeight: 'bold',
-    color: globalColours.lightGrey,
+    fontStyle: 'italic',
+    color: globalColours.greyBlue,
+    textAlign: 'center',
+    marginTop: 20,
   }
 })

@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import FIrstAidNav from './routes/FirstAidStack';
-import FirstAidDropDown from './components/FirstAidDropDown';
+import { NavigationContainer } from '@react-navigation/native';
+import AppTabNav from './routes/AppTabNav';
+import PseudoTabNav from './routes/PseudoTabNav';
 
 
 export default function App() {
   return (
-    // <FirstAidDropDown />
-    <FIrstAidNav />
+    <PseudoTabNav />
+    // <FIrstAidNav />
+    // <NavigationContainer>
+    //   <AppTabNav />
+    // </NavigationContainer>
   );
 }

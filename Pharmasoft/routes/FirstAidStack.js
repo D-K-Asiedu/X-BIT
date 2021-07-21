@@ -3,7 +3,6 @@ import {createAppContainer} from 'react-navigation';
 import FirstAidScreen from '../screens/FirstAidScreen';
 import FirstAidDetailsScreen from '../screens/FirstAidDetailsScreen';
 
-
 const screens = {
     FirstAid: {
         screen: FirstAidScreen,
@@ -19,6 +18,7 @@ const screens = {
     },
 }
 
-const FirstAidStack = createStackNavigator(screens);
+// export default FirstAidStack = createStackNavigator(screens);
 
+const FirstAidStack = createStackNavigator(screens);
 export default createAppContainer(FirstAidStack);

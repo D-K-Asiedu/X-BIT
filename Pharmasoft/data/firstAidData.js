@@ -60,7 +60,7 @@ export default firstAid = [
       description: '',
       steps: {
         categories: 3,
-        title1: 'First-degree burn / Minor burns',
+        title1: 'First-degree burn',
         title2: 'Second-degree burn',
         title3: 'Third-degree burn',
         steps1: [

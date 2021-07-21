@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 15,
         position: 'absolute',
-        left: 100,
+        left: 125,
         top: 140,
         elevation: 5,
         backgroundColor: '#ffffff',
