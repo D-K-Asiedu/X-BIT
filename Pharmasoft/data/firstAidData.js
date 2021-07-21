@@ -62,7 +62,7 @@ export default firstAid = [
         categories: 3,
         title1: 'First-degree burn / Minor burns',
         title2: 'Second-degree burn',
-        title2: 'Third-degree burn',
+        title3: 'Third-degree burn',
         steps1: [
           'Run cool water over the affected area for up to 15 minutes. If that’s not possible, apply a cool compress to the area instead. Avoid applying ice to burned tissue. It can cause more damage.',
           'Over-the-counter pain relievers can help relieve pain. Applying lidocaine or an aloe-vera gel or cream can also reduce discomfort from minor burns.',

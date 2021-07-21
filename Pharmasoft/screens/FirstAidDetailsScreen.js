@@ -1,14 +1,19 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, Touchable } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { globalColours, globalStyles } from '../styles/global'
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 import FirstAidSteps from '../components/FirstAidSteps';
 import { LinearGradient } from 'expo-linear-gradient';
+import FirstAidDropDown from '../components/FirstAidDropDown';
+import { Linking } from 'react-native';
 
 const FirstAidDetailsScreen = ({navigation}) => {
     const [activeStep, setActiveStep]  = useState(1)
     const [activeBranch, setActiveBranch] = useState({})
     const [stepDetails, setStepDetails] = useState([])
+    const [dropDownVisible, setDropDownVisible] = useState(false)
+
+    const phoneNum = "tel:911"
 
     useEffect(() => {
         switch (activeStep) {
@@ -36,15 +41,27 @@ const FirstAidDetailsScreen = ({navigation}) => {
             default:
                 break;
         }
-    }, [])
+    }, [activeStep])
 
     useEffect(() => {
         setStepDetails(activeBranch.AcSteps)
     }, [activeBranch])
 
+    const openDropDown = () => {
+        if(navigation.getParam('steps').categories > 1){
+            setDropDownVisible(true)
+        }
+    }
+
+    const set = (step) => {
+        setActiveStep(step)
+        setDropDownVisible(false)
+    }
+
     const mainColor = navigation.getParam('gradient')[0] || globalColours.mainCol
 
     return (
+        <TouchableWithoutFeedback style={{flex: 1}} onPress={() => setDropDownVisible(false)}>
         <View style={{...globalStyles.container, ...styles.container, backgroundColor:mainColor}}>
             {/* <LinearGradient
                 colors={['red','blue']}
@@ -56,7 +73,7 @@ const FirstAidDetailsScreen = ({navigation}) => {
                 </TouchableOpacity>
                 <Text style={globalStyles.h2}>{navigation.getParam(`title`)}</Text>
                 <TouchableOpacity>
-                    <MaterialIcons name="add-call" size={30} color="#ffffff" />
+                    <MaterialIcons name="add-call" size={30} color="#ffffff" onPress = {() => Linking.openURL(phoneNum)} />
                 </TouchableOpacity>
             </View>
 
@@ -64,6 +81,7 @@ const FirstAidDetailsScreen = ({navigation}) => {
                 <TouchableOpacity 
                 style={styles.title}
                 activeOpacity={navigation.getParam('steps').categories == 1 && 1 }
+                onPress={openDropDown}
                 >
                     <Text style={globalStyles.h3}>{navigation.getParam('steps').categories > 1? activeBranch.AcTitle: 'Steps'}</Text>
                     {navigation.getParam('steps').categories > 1 && <Entypo name="chevron-down" size={20} color={mainColor} />}
@@ -78,11 +96,18 @@ const FirstAidDetailsScreen = ({navigation}) => {
                             color = {mainColor} 
                             />
                         )}
-                        keyExtractor = {stepDetails => Math.random() * 1000}
+                        keyExtractor = {stepDetails => (Math.random() * 1000).toString()}
                     />
                 </View>
             </View>
+
+            {dropDownVisible && <FirstAidDropDown 
+                content={[navigation.getParam('steps').title1, navigation.getParam('steps').title2, navigation.getParam('steps').title3]}
+                color = {mainColor}
+                set = {set}
+                />}
         </View>
+        </TouchableWithoutFeedback>
     )
 }
 
