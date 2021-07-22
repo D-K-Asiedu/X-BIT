@@ -1,61 +1,115 @@
-import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from 'react-native'
 import { globalStyles, globalColours } from '../styles/global'
 import FirstAidCard from '../components/FirstAidCard'
-import {Feather, Ionicons} from '@expo/vector-icons'
-import NavBar from '../components/NavBar'
+import { Feather, Ionicons } from '@expo/vector-icons'
+import NavBar from '../components/NavBar';
+import firstAidData from '../data/firstAidData';
+import { StatusBar } from 'expo-status-bar'
 
-const FirstAidScreen = ({firstAid}) => {
+const FirstAidScreen = ({ navigation }) => {
+  const [firstAid, setFirstAid] = useState([])
+  const [searchActive, setSearchActive] = useState(false)
+  const [searchText, setSearchText] = useState('')
+
+  useEffect(() => {
+    setFirstAid(firstAidData)
+  }, [])
+
+  const SearchHeader = () => {
     return (
-        <View style={globalStyles.container}>
-            <View style={styles.header}>
-                <View style={styles.iconBox1}>
-                    <Feather name="menu" size={30} color='white' />
-                </View>
-                <Text style={styles.h2}>First aid guide</Text>
-                <View style={styles.iconBox2}>
-                    <Ionicons name="search" size={24} color='white' />
-                </View>
-            </View>
-
-            <View style={styles.content}>
-                <FlatList
-                    data = {firstAid}
-                    renderItem = {({item}) => (
-                        <FirstAidCard title={item.title} color={item.color} description = {item.description} />
-                    )}
-                    keyExtractor = {firstAid => firstAid.id}
-                />
-            </View>
-
-            <NavBar active = 'first-aid' />
-        </View>
+      <View style={{ ...globalStyles.header, ...styles.header }}>
+        <TouchableOpacity>
+          <Ionicons name="arrow-back" size={25} color="#ffffff" onPress={() => {
+            setSearchText('')
+            setSearchActive(false)
+            }} />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Search first aid ..."
+          autoFocus={true}
+          underlineColorAndroid="transparent"
+          onChangeText = {text => setSearchText(text) }
+          defaultValue={searchText}
+        />
+      </View>
     )
+  }
+
+  const DefaultHeader = () => {
+    return (
+      <View style={globalStyles.header}>
+        <TouchableOpacity>
+          <Feather name="menu" size={30} color='white' />
+        </TouchableOpacity>
+        <Text style={globalStyles.h2}>First aid guide</Text>
+        <TouchableOpacity>
+          <Ionicons name="search" size={24} color='white' onPress={() => setSearchActive(true)} />
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  const searchItem = () => {
+    setFirstAid(firstAidData.filter((item) => (
+      item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+    )))
+  }
+
+  useEffect(() => {
+    searchItem()
+  }, [searchText])
+
+
+  return (
+    <View style={globalStyles.container}>
+      {searchActive ? <SearchHeader /> : <DefaultHeader />}
+
+      <View style={globalStyles.content}>
+      {firstAid.length == 0 && searchActive && <Text style={styles.errText}>No results</Text>}
+        <FlatList
+          data={firstAid}
+          renderItem={({ item }) => (
+            <FirstAidCard
+              id={item.id}
+              title={item.title}
+              bgColor={globalColours.firstAid[item.image]}
+              image={item.image}
+              description={item.description}
+              viewDetails={() => {
+                navigation.navigate('FirstAidDetails', item)
+              }}
+            />
+          )}
+          keyExtractor={firstAid => firstAid.id.toString()}
+        />
+      </View>
+
+      <StatusBar style="light" translucent={true} />
+    </View>
+  )
+
 };
 
 export default FirstAidScreen
 
 const styles = StyleSheet.create({
-    header:{
-        flexDirection: 'row',
-        height: 100,
-        backgroundColor: globalColours.mainCol,
-        paddingTop: 30,
-        paddingHorizontal: 20,
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    h2:{
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#ffffff',
-    },
-    content:{
-        flex: 1,
-        paddingTop: 2,
-        paddingHorizontal: 20,
-        backgroundColor: '#f2f2f2',
-        borderTopStartRadius: 30,
-        borderTopEndRadius: 30, 
-    },
+  searchBar: {
+    flex: 1,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ffffff',
+    marginHorizontal: 20,
+  },
+  errText:{
+    fontSize: 24,
+    fontStyle: 'italic',
+    color: globalColours.greyBlue,
+    textAlign: 'center',
+    marginTop: 20,
+  }
 })

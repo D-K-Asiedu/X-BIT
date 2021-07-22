@@ -1,21 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import FIrstAidNav from './routes/FirstAidStack';
+import { NavigationContainer } from '@react-navigation/native';
+import AppTabNav from './routes/AppTabNav';
+import PseudoTabNav from './routes/PseudoTabNav';
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    // <PseudoTabNav />
+    <FIrstAidNav />
+    // <NavigationContainer>
+    //   <AppTabNav />
+    // </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
