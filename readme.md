@@ -11,3 +11,6 @@ In this project we are building an app for ordering medicine and recommending me
 - Owusu Bernard
 - Addae- Bofah Christopher
 - Domfeh Collins
+
+Link to sample pharmasoft app
+(Pharmasoft apk) [https://mega.nz/file/pOQxxSKR#laMpQ97iEQNzko0hLLTDrirhl9p4bolMpMlxVxP5Nlg] 
