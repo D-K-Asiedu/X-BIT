@@ -17,18 +17,11 @@ export default function App(props) {
   }
   
   return (
-    <View style={styles.container}>
-      {changeScreen}
-    </View>
+      changeScreen
     
    
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-  paddingTop:20,
-    flex:1,
-    backgroundColor:'#1ba665',
-    width:'100%'}
   });

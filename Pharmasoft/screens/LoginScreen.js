@@ -1,155 +1,112 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput,Image, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, Image, TouchableOpacity, View } from 'react-native';
+import InputField from '../components/InputField';
+import Button from '../components/Button';
 
-export default function LoginScreen(props){
+const mainCol = "#1ba665"
+const lightGrey = "#f2f2f2"
+const darkBlue = "#1a2e35"
 
+export default function LoginScreen() {
 
-   
+  return (
+    <View style={styles.container}>
 
-    return(
-        <View style={styles.container}>
-    
-        <View style={{flexDirection:'row',height:"40%",padding:30}}>
-          <View style={{alignItems:'center',justifyContent:'center',flex:6}}>
-             <Text style={{fontSize:50,}}>X_bit</Text> 
-          </View>
-          <TouchableOpacity>
-           <View  style={styles.half1}>
-           <Text style={{color:'#f0fa6b'}}> Skip
-           </Text>
-           </View>
-          </TouchableOpacity>
+      <View style={styles.imgBox}>
+          <Image source={require('../assets/login.png')} style={styles.image} />
+        <TouchableOpacity style={styles.skipBtn}>
+            <Text style={styles.skipText}> {"Skip>>"} </Text>
+        </TouchableOpacity>
       </View>
-      
-      <View style={styles.half2}>
-        <View style={{height:'10%', width:"100%",alignItems:'center',justifyContent:'center', alignSelf:'center'}}>  
-          <Text style={{fontSize:20}}>Log in to your account</Text>
+
+      <View style={styles.content}>
+          <Text style={styles.h2}>Log in to your account</Text>
+        
+        <View style={styles.contentCard}>
+          <InputField title="E-mail or phone number" />
+          <InputField title="Password" />
+          <Button
+            title="Login"
+            color='#ffffff'
+            bgColor="#1ba665"
+           />
+          <Button
+            title="Login with google"
+            color='#1a2e35'
+            bgColor="#f2f2f2"
+            border1="#c4c4c4"
+            image="google"
+           />
+          
+          <View style={styles.bottomBox}>
+            <Text style={styles.bottomText}>Don't have an account, </Text>
+            <TouchableOpacity>
+              <Text style={styles.bottomLink}>Register</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-  
-        <View style={styles.half3}>
-          <View style={{marginTop:50}}>
-            <Text style={{fontWeight:'bold',color:'#8c8c8c'}}>Email or Phone Number</Text>
-            <View style={styles.inputText}>
-             <TextInput
-              placeholder="Enter your email or phone number"
-            />
-            </View>
-          </View>
+      </View>
+    </View>
 
-          <View style={{marginTop:20}}>
-            <Text style={{fontWeight:'bold',color:'#8c8c8c'}}>Password</Text>
-            <View style={styles.inputText}>
-             <TextInput
-              placeholder="Enter your password"
-            />
-            </View>
-          </View>
-          <View style={{marginTop:40}}>
-            <TouchableOpacity style={styles.loginStyle} >
-              <Text style={{fontWeight:'bold',color:'#fff'}}>Login</Text>
-            </TouchableOpacity>
-  
-          </View>
-          
-          <View style={{marginTop:15,flexDirection:'row'}}>  
-             <TouchableOpacity style={styles.googleStyle}>
-               <View style={{marginEnd:2}}><Image style={{width:25,height:25}} source={require('../assets/google2.png')}/></View>
-               <Text>Login with Google</Text>
-             </TouchableOpacity>
-          </View>  
-          
-          <View style={{marginTop:30, backgroundColor:'white',width:'100%',justifyContent:'center', flexDirection:'row'}}>
-            <Text>Don't have an account, </Text>
-            <TouchableOpacity onPress={()=> props.onChangeScreen("Register")}>
-               <Text style={{fontWeight:"bold",color:'#1ba665'}}>Register</Text>
-            </TouchableOpacity>
-          </View>
-
-        </View>  
-          
-        
-        
-      </View>  
-    </View>    
-      
-     
-      
-    
-
-    );
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex:1,
-      backgroundColor:'#1ba665',
-      width:'100%'
-    },
-  
-    half1:{
-      marginTop:8,
-      alignItems:'flex-end',
-      justifyContent:'flex-end'
-    },
-  
-    skipStyle:{
-      color:'#f0fa6b'
-    },
-  
-    half2:{
-      width:'100%',
-      justifyContent:'center',
-      alignSelf:'center',
-      alignItems:'center',
-      height:'60%',
-      borderTopLeftRadius:20,
-      borderTopRightRadius:20,
-      backgroundColor:'#e1e8e8'
-  
-    },
-  
-    half3:{
-      backgroundColor:'#fff',
-      width:'100%',
-      height:"90%",
-      borderTopLeftRadius:30, 
-      borderTopRightRadius:30,
-      alignItems:'center',
-      paddingStart:10, 
-      alignSelf:'center', 
-    },
-    inputText:{
-      alignItems:'center',
-      justifyContent:'center',
-      height:45,
-      borderRadius:10,
-      borderWidth:1,
-      alignSelf:'center',
-      alignItems:'flex-start',
-      width:320,paddingStart:5
-  
-    },
-    googleStyle:{
-      flexDirection:'row', 
-      backgroundColor:'#e1e8e8',
-      justifyContent:'center', 
-      height:45,
-      borderRadius:10,
-      borderWidth:1,
-      alignSelf:'center',
-      alignItems:'center',
-      width:320
-   },
-   loginStyle:{
-      backgroundColor:'#1ba665',
-      justifyContent:'center',
-      height:45,borderRadius:10,
-      borderWidth:1,
-      alignSelf:'center',
-      alignItems:'center',
-      width:320
-
-   }
-   
-  });
-  
+  container: {
+    flex: 1,
+    backgroundColor: mainCol,
+  },
+  imgBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 30,
+    flex: 1,
+  },
+  image:{
+    width: 250,
+    height: 250,
+  },
+  skipBtn:{
+    position: 'absolute',
+    top: 30,
+    right: 10,
+  },
+  skipText:{
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#fbbc05',
+  },
+  content: {
+    justifyContent: 'center',
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    backgroundColor: lightGrey,
+  },
+  h2: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: darkBlue,
+    paddingVertical: 10,
+    textAlign: 'center',
+  },
+  contentCard: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 45,
+    borderTopRightRadius: 45,
+    paddingVertical: 45,
+    paddingHorizontal: 20,
+  },
+  bottomBox:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 30,
+  },
+  bottomText:{
+    fontSize: 16,
+  },
+  bottomLink:{
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: mainCol,
+  }
+});
