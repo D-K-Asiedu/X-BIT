@@ -1,136 +1,124 @@
-import React from 'react'
+import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, Image, TouchableOpacity, View } from 'react-native';
+import InputField from '../components/InputField';
+import Button from '../components/Button';
+import { StatusBar } from 'expo-status-bar';
 
+const mainCol = "#1ba665"
+const lightGrey = "#f2f2f2"
+const darkBlue = "#1a2e35"
 
-export default function LoginScreen(props) {
+export default function RegisterScreen({navigation}) {
+  const [listDisplay, setListDisplay] = useState(false)
+
   return (
     <View style={styles.container}>
-      {/* <View style={{ flexDirection: 'row', height: "40%", padding: 30 }}>
-        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 6 }}>
-          <Text style={{ fontSize: 50, }}>Front End</Text>
-        </View>
-        <TouchableOpacity>
-          <View style={styles.half1}>
-            <Text style={{ color: '#f0fa6b' }}> Skip
-            </Text>
-          </View>
+
+      <View style={styles.imgBox}>
+          <Image source={require('../assets/register.png')} style={styles.image} />
+        <TouchableOpacity 
+          style={styles.skipBtn}
+          onPress={() => navigation.navigate('Home')}
+          >
+            <Text style={styles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.half2}>
-        <View style={{ height: '10%', width: "100%", alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Create new account</Text>
-        </View>
-
-        <View style={styles.half3}>
-          <View style={{ marginTop: 50 }}>
-            <Text style={{ fontWeight: 'bold', color: '#8c8c8c' }}>Name</Text>
-            <View style={styles.inputText}>
-              <TextInput
-                placeholder="Enter your name"
-              />
-            </View>
-          </View>
-          <View style={{ marginTop: 20 }}>
-            <Text style={{ fontWeight: 'bold', color: '#8c8c8c' }}>E-mail</Text>
-            <View style={styles.inputText}>
-              <TextInput
-                placeholder="Enter your E-mail"
-              />
-            </View>
-          </View>
-          <View style={{ marginTop: 40 }}>
-            <TouchableOpacity style={{ backgroundColor: '#1ba665', justifyContent: 'center', height: 45, borderRadius: 10, borderWidth: 1, alignSelf: 'center', alignItems: 'center', width: 320 }}>
-              <Text style={{ color: '#fff', fontWeight: 'bold' }}>Register</Text>
+      <View style={styles.content}>
+          <Text style={styles.h2}>Create an account</Text>
+        
+        <View style={styles.contentCard}>
+          <InputField title="Name" />
+          <InputField title="E-mail" />
+           {listDisplay && <>
+            <InputField title="Phone number" />
+            <InputField title="Password" />
+            <InputField title="Confirm password" placeHolder="Confirm password" />
+           </>}
+          <Button
+            title="Register"
+            color='#ffffff'
+            bgColor="#1ba665"
+           />
+          <Button
+            title="Register with google"
+            color='#1a2e35'
+            bgColor="#f2f2f2"
+            border1="#c4c4c4"
+            image="google"
+           />
+          
+          <View style={styles.bottomBox}>
+            <Text style={styles.bottomText}>Already have an account, </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.bottomLink}>Login</Text>
             </TouchableOpacity>
-
-          </View>
-          <View style={{ marginTop: 15, flexDirection: 'row' }}>
-
-            <TouchableOpacity style={styles.googleStyle}>
-              <View style={{ marginEnd: 2 }}><Image style={{ width: 25, height: 25 }} source={require('../assets/google2.png')} /></View>
-              <Text>Register with Google</Text>
-            </TouchableOpacity>
-
-          </View>
-          <View style={{ marginTop: 30, backgroundColor: 'white', width: '100%', justifyContent: 'center', flexDirection: 'row' }}>
-            <Text>Already have an account, </Text>
-            <TouchableOpacity onPress={() => props.onChangeScreen("Login")}>
-              <Text style={{ fontWeight: "bold", color: '#1ba665' }}>Login</Text>
-            </TouchableOpacity>
-
           </View>
         </View>
+      </View>
 
-
-
-      </View> */}
-
-
+      <StatusBar style="light" translucent={true} />
     </View>
+
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1ba665',
+    backgroundColor: mainCol,
   },
-
-  half1: {
-    marginTop: 8,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
-  },
-
-  skipStyle: {
-    color: '#f0fa6b'
-  },
-
-  half2: {
-    width: '100%',
-    justifyContent: 'center',
-    alignSelf: 'center',
+  imgBox: {
     alignItems: 'center',
-    height: '60%',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    backgroundColor: '#e1e8e8'
-
+    justifyContent: 'center',
+    paddingTop: 30,
+    flex: 1,
   },
-
-  half3: {
+  image:{
+    width: 250,
+    height: 232,
+  },
+  skipBtn:{
+    position: 'absolute',
+    top: 40,
+    right: 10,
+  },
+  skipText:{
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#fbbc05',
+  },
+  content: {
+    justifyContent: 'center',
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    backgroundColor: lightGrey,
+  },
+  h2: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: darkBlue,
+    paddingVertical: 10,
+    textAlign: 'center',
+  },
+  contentCard: {
     backgroundColor: '#fff',
-    width: '100%',
-    height: "90%",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    alignItems: 'center',
-    paddingStart: 10,
-    alignSelf: 'center',
+    borderTopLeftRadius: 45,
+    borderTopRightRadius: 45,
+    paddingVertical: 45,
+    paddingHorizontal: 20,
   },
-  inputText: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 45,
-    borderRadius: 10,
-    borderWidth: 1,
-    alignSelf: 'center',
-    alignItems: 'flex-start',
-    width: 320, paddingStart: 5
-
-  },
-  googleStyle: {
+  bottomBox:{
     flexDirection: 'row',
-    backgroundColor: '#e1e8e8',
     justifyContent: 'center',
-    height: 45,
-    borderRadius: 10,
-    borderWidth: 1,
-    alignSelf: 'center',
-    alignItems: 'center',
-    width: 320
-
+    marginTop: 30,
+  },
+  bottomText:{
+    fontSize: 16,
+  },
+  bottomLink:{
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: mainCol,
   }
 });

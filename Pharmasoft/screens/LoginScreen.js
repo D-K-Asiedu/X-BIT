@@ -2,19 +2,23 @@ import React from 'react';
 import { StyleSheet, Text, TextInput, Image, TouchableOpacity, View } from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
+import { StatusBar } from 'expo-status-bar';
 
 const mainCol = "#1ba665"
 const lightGrey = "#f2f2f2"
 const darkBlue = "#1a2e35"
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
 
   return (
     <View style={styles.container}>
 
       <View style={styles.imgBox}>
           <Image source={require('../assets/login.png')} style={styles.image} />
-        <TouchableOpacity style={styles.skipBtn}>
+        <TouchableOpacity 
+          style={styles.skipBtn}
+          onPress={() => navigation.navigate('Home')}
+          >
             <Text style={styles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>
       </View>
@@ -40,12 +44,14 @@ export default function LoginScreen() {
           
           <View style={styles.bottomBox}>
             <Text style={styles.bottomText}>Don't have an account, </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text style={styles.bottomLink}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
+
+      <StatusBar style="light" translucent={true} />
     </View>
 
   );
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
   },
   skipBtn:{
     position: 'absolute',
-    top: 30,
+    top: 40,
     right: 10,
   },
   skipText:{
