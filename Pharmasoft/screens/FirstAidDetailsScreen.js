@@ -7,34 +7,35 @@ import { LinearGradient } from 'expo-linear-gradient';
 import FirstAidDropDown from '../components/FirstAidDropDown';
 import { Linking } from 'react-native';
 
-const FirstAidDetailsScreen = ({navigation}) => {
+const FirstAidDetailsScreen = ({navigation, route}) => {
     const [activeStep, setActiveStep]  = useState(1)
     const [activeBranch, setActiveBranch] = useState({})
     const [stepDetails, setStepDetails] = useState([])
     const [dropDownVisible, setDropDownVisible] = useState(false)
 
     const phoneNum = "tel:911"
+    const item = route.params
 
     useEffect(() => {
         switch (activeStep) {
             case 1:
                 setActiveBranch({
-                    AcTitle: navigation.getParam('steps').title1,
-                    AcSteps: navigation.getParam('steps').steps1,
+                    AcTitle: item.steps.title1,
+                    AcSteps: item.steps.steps1,
                 })
                 break;
 
             case 2:
                 setActiveBranch({
-                    AcTitle: navigation.getParam('steps').title2,
-                    AcSteps: navigation.getParam('steps').steps2,
+                    AcTitle: item.steps.title2,
+                    AcSteps: item.steps.steps2,
                 })
                 break;
 
             case 3:
                 setActiveBranch({
-                    AcTitle: navigation.getParam('steps').title3,
-                    AcSteps: navigation.getParam('steps').steps3,
+                    AcTitle: item.steps.title3,
+                    AcSteps: item.steps.steps3,
                 })
                 break;
         
@@ -48,7 +49,7 @@ const FirstAidDetailsScreen = ({navigation}) => {
     }, [activeBranch])
 
     const openDropDown = () => {
-        if(navigation.getParam('steps').categories > 1){
+        if(item.steps.categories > 1){
             setDropDownVisible(true)
         }
     }
@@ -58,7 +59,7 @@ const FirstAidDetailsScreen = ({navigation}) => {
         setDropDownVisible(false)
     }
 
-    const mainColor = navigation.getParam('gradient')[0] || globalColours.mainCol
+    const mainColor = item.gradient[0] || globalColours.mainCol
 
     return (
         <TouchableWithoutFeedback style={{flex: 1}} onPress={() => setDropDownVisible(false)}>
@@ -71,7 +72,7 @@ const FirstAidDetailsScreen = ({navigation}) => {
                 <TouchableOpacity>
                     <Ionicons name="arrow-back" size={30} color="#ffffff" onPress = {()=>navigation.goBack()}/>
                 </TouchableOpacity>
-                <Text style={globalStyles.h2}>{navigation.getParam(`title`)}</Text>
+                <Text style={globalStyles.h2}>{item.title}</Text>
                 <TouchableOpacity>
                     <MaterialIcons name="add-call" size={30} color="#ffffff" onPress = {() => Linking.openURL(phoneNum)} />
                 </TouchableOpacity>
@@ -80,11 +81,11 @@ const FirstAidDetailsScreen = ({navigation}) => {
             <View style={{...globalStyles.content, ...styles.content}}>
                 <TouchableOpacity 
                 style={styles.title}
-                activeOpacity={navigation.getParam('steps').categories == 1 && 1 }
+                activeOpacity={item.steps.categories == 1 && 1 }
                 onPress={openDropDown}
                 >
-                    <Text style={globalStyles.h3}>{navigation.getParam('steps').categories > 1? activeBranch.AcTitle: 'Steps'}</Text>
-                    {navigation.getParam('steps').categories > 1 && <Entypo name="chevron-down" size={20} color={mainColor} />}
+                    <Text style={globalStyles.h3}>{item.steps.categories > 1? activeBranch.AcTitle: 'Steps'}</Text>
+                    {item.steps.categories > 1 && <Entypo name="chevron-down" size={20} color={mainColor} />}
                 </TouchableOpacity>
                 <View style={styles.steps}>
                     <FlatList 
@@ -102,7 +103,7 @@ const FirstAidDetailsScreen = ({navigation}) => {
             </View>
 
             {dropDownVisible && <FirstAidDropDown 
-                content={[navigation.getParam('steps').title1, navigation.getParam('steps').title2, navigation.getParam('steps').title3]}
+                content={[item.steps.title1, item.steps.title2, item.steps.title3]}
                 color = {mainColor}
                 set = {set}
                 />}

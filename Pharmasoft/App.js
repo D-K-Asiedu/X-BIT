@@ -7,8 +7,8 @@ import PseudoTabNav from './routes/PseudoTabNav';
 
 export default function App() {
   return (
-    <PseudoTabNav />
-    // <FIrstAidNav />
+    // <PseudoTabNav />
+    <FIrstAidNav />
     // <NavigationContainer>
     //   <AppTabNav />
     // </NavigationContainer>
