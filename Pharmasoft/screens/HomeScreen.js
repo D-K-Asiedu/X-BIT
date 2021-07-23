@@ -141,7 +141,7 @@ const HomeScr = ({navigation}) => {
                 </View>
             </View>
 
-            <View style={styles.medicineView}>
+            <View style={styles.lastView}>
               <Image source={require('../assets/lung.png')} style={styles.medicineImage}/>
               <Text style={styles.medicineTextOne}></Text>
               <Text style={styles.medicineTextTwo}></Text>
