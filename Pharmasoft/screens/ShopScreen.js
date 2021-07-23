@@ -2,7 +2,6 @@ import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { globalStyles } from '../styles/global'
-import { StatusBar } from 'expo-status-bar'
 import ErrorPageCard from '../components/ErrorPageCard'
 
 const ShopScreen = () => {
@@ -22,7 +21,6 @@ const ShopScreen = () => {
                 <ErrorPageCard />
             </View>
 
-            <StatusBar style="light" translucent={true} />
         </View>
     )
 }

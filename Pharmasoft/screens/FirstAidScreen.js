@@ -5,7 +5,6 @@ import FirstAidCard from '../components/FirstAidCard'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import NavBar from '../components/NavBar';
 import firstAidData from '../data/firstAidData';
-import { StatusBar } from 'expo-status-bar'
 
 const FirstAidScreen = ({ navigation }) => {
   const [firstAid, setFirstAid] = useState([])
@@ -30,6 +29,7 @@ const FirstAidScreen = ({ navigation }) => {
           placeholder="Search first aid ..."
           autoFocus={true}
           underlineColorAndroid="transparent"
+          autoCompleteType="off"
           onChangeText = {text => setSearchText(text) }
           defaultValue={searchText}
         />
@@ -86,7 +86,6 @@ const FirstAidScreen = ({ navigation }) => {
         />
       </View>
 
-      <StatusBar style="light" translucent={true} />
     </View>
   )
 

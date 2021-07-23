@@ -1,16 +1,14 @@
 import React from 'react';
-import FIrstAidNav from './routes/FirstAidStack';
 import { NavigationContainer } from '@react-navigation/native';
 import AppTabNav from './routes/AppTabNav';
-import PseudoTabNav from './routes/PseudoTabNav';
+import { StatusBar } from 'expo-status-bar'
 
 
 export default function App() {
   return (
-    // <PseudoTabNav />
-    <FIrstAidNav />
-    // <NavigationContainer>
-    //   <AppTabNav />
-    // </NavigationContainer>
+    <NavigationContainer>
+      <AppTabNav />
+      <StatusBar style="inverted" translucent={true} />
+    </NavigationContainer>
   );
 }
