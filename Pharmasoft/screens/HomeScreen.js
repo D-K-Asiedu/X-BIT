@@ -2,16 +2,16 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 //import * as Animatable from 'react-native-animatable';
-import { useTheme } from '@react-navigation/native';
+//import { useTheme } from '@react-navigation/native';
 
 
 
 
 const HomeScr = ({navigation}) => {
 
-  const { colors } = useTheme();
+  //const { colors } = useTheme();
 
-  const theme = useTheme();
+  //const theme = useTheme();
   
     return (
       <View style={styles.container}> 
@@ -90,7 +90,7 @@ const HomeScr = ({navigation}) => {
             <Text style={styles.smallRightText}>See all </Text>
           </View>
 
-          <View style={styles.footerSixView}>
+          <View style={styles.lastView}>
             <View style={styles.medicineView}>
               <Image source={require('../assets/heart-flat.png')} style={styles.medicineImage}/>
               <Text style={styles.medicineTextOne}></Text>
@@ -124,7 +124,7 @@ const HomeScr = ({navigation}) => {
             </View>
           </View>
 
-          <View style={styles.footerSevenView}>
+          <View style={styles.lastView}>
             <View style={styles.medicineView}>
               <Image source={require('../assets/heart-flat.png')} style={styles.medicineImage}/>
               <Text style={styles.medicineTextOne}></Text>
@@ -163,9 +163,6 @@ const HomeScr = ({navigation}) => {
 };
 
 export default HomeScr;
-
-//const {height} = Dimensions.get("screen");
-//const height_logo = height * 0.28;
 
 const styles = StyleSheet.create({
     container: {
@@ -309,7 +306,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row'
     },
 
-    footerSixView:{
+    lastView:{
       flexDirection: 'row',
       justifyContent: 'space-between'
     },
@@ -354,8 +351,5 @@ const styles = StyleSheet.create({
       flexDirection: 'row'
     },
 
-    footerSevenView:{
-      flexDirection: 'row',
-    },
 
 });
