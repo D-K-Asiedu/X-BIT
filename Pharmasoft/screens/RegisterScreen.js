@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, TextInput, Image, TouchableOpacity, View } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  TextInput, 
+  Image, 
+  TouchableOpacity, 
+  View,
+  ScrollView 
+} from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
 import { StatusBar } from 'expo-status-bar';
@@ -39,6 +47,7 @@ export default function RegisterScreen({navigation}) {
             title="Register"
             color='#ffffff'
             bgColor="#1ba665"
+            style={{marginTop: 15,}}
            />
           <Button
             title="Register with google"
@@ -46,6 +55,7 @@ export default function RegisterScreen({navigation}) {
             bgColor="#f2f2f2"
             border1="#c4c4c4"
             image="google"
+            style={{marginTop: 15,}}
            />
           
           <View style={styles.bottomBox}>

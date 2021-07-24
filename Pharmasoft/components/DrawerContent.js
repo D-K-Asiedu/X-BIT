@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         color: globalColours.darkBlue,
     },
     email:{
-        fontSize: 14,
+        fontSize: 12,
         color: globalColours.greyBlue,
     }
 })
