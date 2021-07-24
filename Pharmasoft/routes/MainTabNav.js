@@ -1,12 +1,12 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from '../screens/HomeScreen'
-import ShopScreen from '../screens/ShopScreen'
+import HomeScreen from '../screens/HomeScreen';
+import ShopScreen from '../screens/ShopScreen';
 import FirstAidScreen from "../screens/FirstAidScreen";
 import { globalColours } from "../styles/global";
 import { Ionicons, Fontisto, FontAwesome5 } from '@expo/vector-icons';
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
     return (

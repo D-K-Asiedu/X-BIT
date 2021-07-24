@@ -1,5 +1,5 @@
 
-import {StyleSheet, Dimensions, StatusBar} from 'react-native'
+import {StyleSheet, Dimensions, StatusBar} from 'react-native';
 
 
 const height = Platform.OS === 'android' ? Dimensions.get('screen').height - StatusBar.currentHeight : Dimensions.get("window").height;
