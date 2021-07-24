@@ -1,3 +1,4 @@
+
 import {StyleSheet, Dimensions, StatusBar} from 'react-native'
 
 
@@ -12,7 +13,8 @@ export const globalColours = {
     lightGrey: '#808080',
     darkGrey: '#333333',
     grey: '#696969',
-    firstAid:{
+//  first-aid:    
+    homeImages:{
         'plaster':'#f7e0b5',
         'heart':'#b7dbfd',
         'heart-flat':'#fcd0e5',
@@ -36,7 +38,6 @@ export const globalColours = {
 export const globalStyles = StyleSheet.create({
     container:{
         flex: 1,
-        // height: height,
         backgroundColor: globalColours.mainCol,
     },
     header:{
@@ -69,23 +70,24 @@ export const globalStyles = StyleSheet.create({
 })
 
 export const images = {
-    firstAid:{
-        'plaster':require('../assets/first-aid-icons/plaster.png'),
-        'heart': require('../assets/first-aid-icons/heart.png'),
-        'heart-flat': require('../assets/first-aid-icons/heart-flat.png'),
-        'lung': require('../assets/first-aid-icons/lung.png'),
-        'bee': require('../assets/first-aid-icons/bee.png'),
-        'concussion': require('../assets/first-aid-icons/concussion.png'),
-        'fire': require('../assets/first-aid-icons/fire.png'),
-        'cut': require('../assets/first-aid-icons/cut.png'),
-        'eye': require('../assets/first-aid-icons/eye.png'),
-        'poison': require('../assets/first-aid-icons/poisons.png'),
-        'bone': require('../assets/first-aid-icons/bone.png'),
-        'choke': require('../assets/first-aid-icons/choke.png'),    
-        'heat': require('../assets/first-aid-icons/heat.png'),
-        'cold': require('../assets/first-aid-icons/cold.png'),
-        'tooth': require('../assets/first-aid-icons/tooth.png'),
-        'injury': require('../assets/first-aid-icons/injury.png'),
-        'nose': require('../assets/first-aid-icons/bleeding.png'),
+//  first-aid    
+    homeImages:{
+        'plaster':require('../assets/home-icons/plaster.png'),
+        'heart': require('../assets/home-icons/heart.png'),
+        'heart-flat': require('../assets/home-icons/heart-flat.png'),
+        'lung': require('../assets/home-icons/lung.png'),
+        'bee': require('../assets/home-icons/bee.png'),
+        'concussion': require('../assets/home-icons/concussion.png'),
+        'fire': require('../assets/home-icons/fire.png'),
+        'cut': require('../assets/home-icons/cut.png'),
+        'eye': require('../assets/home-icons/eye.png'),
+        'poison': require('../assets/home-icons/poisons.png'),
+        'bone': require('../assets/home-icons/bone.png'),
+        'choke': require('../assets/home-icons/choke.png'),    
+        'heat': require('../assets/home-icons/heat.png'),
+        'cold': require('../assets/home-icons/cold.png'),
+        'tooth': require('../assets/home-icons/tooth.png'),
+        'injury': require('../assets/home-icons/injury.png'),
+        'nose': require('../assets/home-icons/bleeding.png'),
     }
 }

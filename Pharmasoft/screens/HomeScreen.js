@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+//import { globalStyles } from '../styles/global';
 //import * as Animatable from 'react-native-animatable';
 //import { useTheme } from '@react-navigation/native';
 
@@ -23,7 +24,7 @@ const HomeScr = ({navigation}) => {
               <Text style={styles.yellTextTwo} >Run at least 500km daily or you are going to die</Text>
             </View >
             <View style={styles.yellImageView}>
-              <Image source={require('../assets/go.png')} style={styles.yellImage}/>
+              <Image source={require('../home-icons/go.png')} style={styles.yellImage}/>
             </View>
           </View>
         </View>
@@ -36,28 +37,28 @@ const HomeScr = ({navigation}) => {
           <View style={styles.footerTwoView}>
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../assets/poisons.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../home-icons/poisons.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}>Poisoning</Text>
             </View>
 
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../assets/bleeding.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../home-icons/bleeding.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}> Bleeding</Text>
             </View>
 
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../assets/heart-flat.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../home-icons/heart-flat.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}>Resusitation</Text>
             </View>
 
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../assets/lung.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../home-icons/lung.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}>Asthma</Text>
             </View>
@@ -69,19 +70,19 @@ const HomeScr = ({navigation}) => {
 
           <View style={styles.footerFourView}>
             <View >
-              <Image source={require('../assets/poisons.png')} style={styles.imageOne}/>
+              <Image source={require('../home-icons/poisons.png')} style={styles.imageOne}/>
             </View>
 
             <View >
-              <Image source={require('../assets/bleeding.png')} style={styles.imageTwo}/>
+              <Image source={require('../home-icons/bleeding.png')} style={styles.imageTwo}/>
             </View>
 
             <View >
-              <Image source={require('../assets/heart-flat.png')} style={styles.imageThree}/>
+              <Image source={require('../home-icons/heart-flat.png')} style={styles.imageThree}/>
             </View>
 
             <View >
-              <Image source={require('../assets/lung.png')} style={styles.imageFour}/>
+              <Image source={require('../home-icons/lung.png')} style={styles.imageFour}/>
             </View>
           </View>
 
@@ -92,7 +93,7 @@ const HomeScr = ({navigation}) => {
 
           <View style={styles.lastView}>
             <View style={styles.medicineView}>
-              <Image source={require('../assets/heart-flat.png')} style={styles.medicineImage}/>
+              <Image source={require('../home-icons/heart-flat.png')} style={styles.medicineImage}/>
               <Text style={styles.medicineTextOne}></Text>
               <Text style={styles.medicineTextTwo}></Text>
                 <View style={styles.Button}>
@@ -108,7 +109,7 @@ const HomeScr = ({navigation}) => {
             </View>
 
             <View style={styles.medicineView}>
-              <Image source={require('../assets/lung.png')} style={styles.medicineImage}/>
+              <Image source={require('../home-icons/lung.png')} style={styles.medicineImage}/>
               <Text style={styles.medicineTextOne}></Text>
               <Text style={styles.medicineTextTwo}></Text>
                 <View>
@@ -126,7 +127,7 @@ const HomeScr = ({navigation}) => {
 
           <View style={styles.lastView}>
             <View style={styles.medicineView}>
-              <Image source={require('../assets/heart-flat.png')} style={styles.medicineImage}/>
+              <Image source={require('../home-icons/heart-flat.png')} style={styles.medicineImage}/>
               <Text style={styles.medicineTextOne}></Text>
               <Text style={styles.medicineTextTwo}></Text>
                 <View>
@@ -142,7 +143,7 @@ const HomeScr = ({navigation}) => {
             </View>
 
             <View style={styles.lastView}>
-              <Image source={require('../assets/lung.png')} style={styles.medicineImage}/>
+              <Image source={require('../home-icons/lung.png')} style={styles.medicineImage}/>
               <Text style={styles.medicineTextOne}></Text>
               <Text style={styles.medicineTextTwo}></Text>
                 <View>
