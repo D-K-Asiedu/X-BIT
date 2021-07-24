@@ -15,7 +15,7 @@ const FirstAidScreen = ({ navigation }) => {
     setFirstAid(firstAidData)
   }, [])
 
-  const SearchHeader = () => {
+  const SearchHeader = ({navigation}) => {
     return (
       <View style={{ ...globalStyles.header, ...styles.header }}>
         <TouchableOpacity>
@@ -40,7 +40,9 @@ const FirstAidScreen = ({ navigation }) => {
   const DefaultHeader = () => {
     return (
       <View style={globalStyles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.openDrawer()}
+        >
           <Feather name="menu" size={30} color='white' />
         </TouchableOpacity>
         <Text style={globalStyles.h2}>First aid guide</Text>

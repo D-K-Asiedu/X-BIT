@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import AppTabNav from './routes/AppTabNav';
+import MainStack from './routes/MainStack'
 import { StatusBar } from 'expo-status-bar'
 
 
 export default function App() {
   return (
     <NavigationContainer>
-      <AppTabNav />
+      <MainStack />
       <StatusBar style="inverted" translucent={true} />
     </NavigationContainer>
   );

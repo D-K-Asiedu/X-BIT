@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import FirstAidScreen from '../screens/FirstAidScreen';
 import FirstAidDetailsScreen from '../screens/FirstAidDetailsScreen'
+import MainTabNav from './MainTabNav'
+import MainDrawer from './MainDrawer';
 
 
 const Stack = createStackNavigator();
@@ -13,7 +14,7 @@ function FirstAidStack() {
         headerShown: false
       }}
     >
-      <Stack.Screen name="FirstAid" component={FirstAidScreen} />
+      <Stack.Screen name="MainDrawer" component={MainDrawer} />
       <Stack.Screen name="FirstAidDetails" component={FirstAidDetailsScreen} />
     </Stack.Navigator>
   );
