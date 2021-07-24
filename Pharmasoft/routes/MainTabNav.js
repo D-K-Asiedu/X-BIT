@@ -14,9 +14,10 @@ const Tabs = () => {
         <Tab.Navigator
             tabBarOptions={{
                 activeTintColor: globalColours.mainCol,
+                inactiveTintColor: globalColours.lightGrey,
                 labelPosition: 'beside-icon',
                 keyboardHidesTabBar: true,
-                // unmountOnBlur: true,
+                unmountOnBlur: true,
             }}
             screenOptions={({route}) => ({
                 tabBarIcon: ({color, size}) => {

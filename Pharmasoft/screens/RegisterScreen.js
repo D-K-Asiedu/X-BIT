@@ -18,7 +18,7 @@ export default function RegisterScreen({navigation}) {
           <Image source={require('../assets/register.png')} style={styles.image} />
         <TouchableOpacity 
           style={styles.skipBtn}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('MainDrawer')}
           >
             <Text style={styles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>

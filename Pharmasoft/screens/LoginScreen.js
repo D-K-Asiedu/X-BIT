@@ -17,7 +17,7 @@ export default function LoginScreen({navigation}) {
           <Image source={require('../assets/login.png')} style={styles.image} />
         <TouchableOpacity 
           style={styles.skipBtn}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('MainDrawer')}
           >
             <Text style={styles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>
@@ -33,6 +33,7 @@ export default function LoginScreen({navigation}) {
             title="Login"
             color='#ffffff'
             bgColor="#1ba665"
+            style={{marginTop: 15,}}
            />
           <Button
             title="Login with google"
@@ -40,6 +41,7 @@ export default function LoginScreen({navigation}) {
             bgColor="#f2f2f2"
             border1="#c4c4c4"
             image="google"
+            style={{marginTop: 15,}}
            />
           
           <View style={styles.bottomBox}>
