@@ -4,7 +4,7 @@ import MainStack from './routes/MainStack'
 import { StatusBar } from 'expo-status-bar'
 
 
-export default function App() {
+export default function App(props) {
   return (
     <NavigationContainer>
       <MainStack />
