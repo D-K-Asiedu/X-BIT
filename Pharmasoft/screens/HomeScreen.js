@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import firstAidLinks from '../components/firstAidLinks';
 //import { globalStyles } from '../styles/global';
 //import * as Animatable from 'react-native-animatable';
 //import { useTheme } from '@react-navigation/native';
@@ -8,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 
 
-const HomeScr = ({navigation}) => {
+const HomeScreen = ({navigation}) => {
 
   //const { colors } = useTheme();
 
@@ -35,33 +36,12 @@ const HomeScr = ({navigation}) => {
           </View>
 
           <View style={styles.footerTwoView}>
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/poisons.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}>Poisoning</Text>
-            </View>
+            <firstAidLinks title="poisoning" image="poisons" />
+            <firstAidLinks title="bleeding" image="bleeding" />
+            <firstAidLinks title="resusitation" image="heart-flat" />
+            <firstAidLinks title="asthma" image="lung" />
+          </View>
 
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/bleeding.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}> Bleeding</Text>
-            </View>
-
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/heart-flat.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}>Resusitation</Text>
-            </View>
-
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/lung.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}>Asthma</Text>
-            </View>
           </View>
 
           <View style={styles.footerThreeView}>
@@ -158,12 +138,12 @@ const HomeScr = ({navigation}) => {
                 </View>
             </View>
           </View>
-        </View>
       </View>
+
     );
 };
 
-export default HomeScr;
+export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
