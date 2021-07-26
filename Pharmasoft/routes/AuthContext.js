@@ -1,14 +1,45 @@
-import React, {useState, useContext} from 'react'
-
-const AuthContext = React.createContext({
-    authValue: {isLoggedIn: false, isSkipped: false},
-    setAuthValue: () => {},    
-})
+import React, { useState, useContext } from 'react'
 
 
+const AuthContext = React.createContext()
+export const AuthUpdateContext = React.createContext()
 
-    // const [auth, setAuth] = useState({ isLoggedIn: false, isSkipped: false })
+export const useAuth = () => useContext(AuthContext)
+export const useUpdateAuth = () => useContext(AuthUpdateContext)
 
-    // const updateAuth = (authValues) => {
-    //     setAuth(prevAuthValue => ({...prevAuthValue, ...authValues}))
-    // } 
+export const AuthProvider = ({ children }) => {
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [skipped, setSkipped] = useState(false)
+
+    const toggleAuth = (value) => {
+        switch (value) {
+            case 'skip':
+                setSkipped(true)
+                break;
+
+            case 'login':
+                setLoggedIn(true)
+                break;
+
+            case 'logout':
+                setSkipped(false)
+                setLoggedIn(false)
+                break;
+
+
+            default:
+                break;
+        }
+    }
+
+    return(
+        <AuthUpdateContext.Provider value = {toggleAuth} >
+        <AuthContext.Provider value={{
+            isLoggedIn: loggedIn,
+            isSkipped: skipped
+        }}>
+            {children}      
+        </AuthContext.Provider>
+        </AuthUpdateContext.Provider>
+    )
+}

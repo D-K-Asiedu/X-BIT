@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { 
   StyleSheet, 
   Text, 
@@ -11,6 +11,7 @@ import {
 import InputField from '../components/InputField';
 import Button from '../components/Button';
 import { StatusBar } from 'expo-status-bar';
+import { useUpdateAuth } from '../routes/AuthContext';
 
 const mainCol = "#1ba665"
 const lightGrey = "#f2f2f2"
@@ -18,6 +19,7 @@ const darkBlue = "#1a2e35"
 
 export default function RegisterScreen({navigation}) {
   const [listDisplay, setListDisplay] = useState(false)
+  const authenticate = useUpdateAuth()
 
   return (
     <View style={styles.container}>
@@ -26,7 +28,7 @@ export default function RegisterScreen({navigation}) {
           <Image source={require('../assets/register.png')} style={styles.image} />
         <TouchableOpacity 
           style={styles.skipBtn}
-          onPress={() => navigation.navigate('MainDrawer')}
+          onPress={() => authenticate('skip')}
           >
             <Text style={styles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>

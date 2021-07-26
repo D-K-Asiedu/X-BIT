@@ -1,14 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, Image, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, Image, TouchableOpacity, View } from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
 import { StatusBar } from 'expo-status-bar';
+import { useUpdateAuth } from '../routes/AuthContext';
 
 const mainCol = "#1ba665"
 const lightGrey = "#f2f2f2"
 const darkBlue = "#1a2e35"
 
 export default function LoginScreen({navigation}) {
+  const authenticate = useUpdateAuth()
 
   return (
     <View style={styles.container}>
@@ -17,7 +19,7 @@ export default function LoginScreen({navigation}) {
           <Image source={require('../assets/login.png')} style={styles.image} />
         <TouchableOpacity 
           style={styles.skipBtn}
-          onPress={() => navigation.navigate('MainDrawer')}
+          onPress={() => authenticate('skip')}
           >
             <Text style={styles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>

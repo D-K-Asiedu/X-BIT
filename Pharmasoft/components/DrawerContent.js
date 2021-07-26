@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { globalColours } from '../styles/global';
 import {
@@ -13,10 +13,17 @@ import {
     Fontisto 
 } from '@expo/vector-icons';
 import { Linking } from 'react-native';
+import { useUpdateAuth, useAuth } from '../routes/AuthContext';
 
 
 const DrawerContent = ({navigation}) => {
-    const [isLoggedIn, setLoggedIn] = useState(true)
+    const tempLogin = useAuth().isLoggedIn
+    const [isLoggedIn, setLoggedIn] = useState(false)
+    const authenticate = useUpdateAuth()
+
+    useEffect(() => {
+        setLoggedIn(tempLogin)
+    }, [tempLogin])
 
 
     return (
@@ -34,7 +41,7 @@ const DrawerContent = ({navigation}) => {
                         <>
                             <Image source={require('../assets/no-user.jpg')} style={styles.avatarImg} />
                             <Text style={styles.loginText}>
-                                <Text style={styles.loginEm} onPress={() => navigation.navigate('Login')}>Login</Text> to access your profile
+                                <Text style={styles.loginEm} onPress={() => authenticate('logout')}>Login</Text> to access your profile
                             </Text>
                         </>
                     }
@@ -74,7 +81,7 @@ const DrawerContent = ({navigation}) => {
             {isLoggedIn && <DrawerItem
                 icon={() => (<SimpleLineIcons name="logout" size={24} color={globalColours.lightGrey} />)}
                 label="Logout"
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => authenticate('logout')}
             />}
         </View>
     )
