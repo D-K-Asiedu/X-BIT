@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+
 import firstAidLinks from '../components/firstAidLinks';
+import medViewLinks from '../components/medViewLinks';
 //import { globalStyles } from '../styles/global';
 //import * as Animatable from 'react-native-animatable';
 //import { useTheme } from '@react-navigation/native';
@@ -72,71 +73,13 @@ const HomeScreen = ({navigation}) => {
           </View>
 
           <View style={styles.lastView}>
-            <View style={styles.medicineView}>
-              <Image source={require('../home-icons/heart-flat.png')} style={styles.medicineImage}/>
-              <Text style={styles.medicineTextOne}></Text>
-              <Text style={styles.medicineTextTwo}></Text>
-                <View style={styles.Button}>
-                  <TouchableOpacity onPress={()=>navigation.navigate('')}>
-                  <LinearGradient
-                    colors={['#1BA665', '#1BA665']}
-                    style={styles.buttonIn}
-                  >
-                  <Text style={styles.buttonText}>Add To Cart</Text>
-                  </LinearGradient>
-                  </TouchableOpacity>
-                </View>
-            </View>
-
-            <View style={styles.medicineView}>
-              <Image source={require('../home-icons/lung.png')} style={styles.medicineImage}/>
-              <Text style={styles.medicineTextOne}></Text>
-              <Text style={styles.medicineTextTwo}></Text>
-                <View>
-                  <TouchableOpacity onPress={()=>navigation.navigate('')}>
-                  <LinearGradient
-                    colors={['#1BA665', '#1BA665']}
-                    style={styles.buttonIn}
-                  >
-                  <Text style={styles.buttonText}>Add To Cart</Text>
-                  </LinearGradient>
-                  </TouchableOpacity>
-                </View>
-            </View>
+            <medViewLinks title='medOne' image='fluxamox'/>
+            <medViewLinks title='medTwo' image='vitamina'/>
           </View>
 
           <View style={styles.lastView}>
-            <View style={styles.medicineView}>
-              <Image source={require('../home-icons/heart-flat.png')} style={styles.medicineImage}/>
-              <Text style={styles.medicineTextOne}></Text>
-              <Text style={styles.medicineTextTwo}></Text>
-                <View>
-                  <TouchableOpacity onPress={()=>navigation.navigate('')}>
-                  <LinearGradient
-                    colors={['#1BA665', '#1BA665']}
-                    style={styles.buttonIn}
-                  >
-                  <Text style={styles.buttonText}>Add To Cart</Text>
-                  </LinearGradient>
-                  </TouchableOpacity>
-                </View>
-            </View>
-
-            <View style={styles.lastView}>
-              <Image source={require('../home-icons/lung.png')} style={styles.medicineImage}/>
-              <Text style={styles.medicineTextOne}></Text>
-              <Text style={styles.medicineTextTwo}></Text>
-                <View>
-                  <TouchableOpacity onPress={()=>navigation.navigate('')}>
-                  <LinearGradient
-                    colors={['#1BA665', '#1BA665']}
-                    style={styles.buttonIn}
-                  >
-                  <Text style={styles.buttonText}>Add To Cart</Text> 
-                  </LinearGradient>
-                  </TouchableOpacity>
-                </View>
-            </View>
+            <medViewLinks title='medOne' image='fluxamox'/>
+            <medViewLinks title='medTwo' image='vitamina'/>
           </View>
       </View>
 
@@ -291,46 +234,6 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between'
     },
-    medicineView:{
-      flexDirection: 'column' ,
-      backgroundColor: '#fff',
-      borderRadius: 10
-    },
-
-    medicineImage:{
-      resizeMode: 'center'
-    },
-    medicineTextOne:{
-      fontSize: 16,
-      fontWeight: 'bold',
-      color:'blue',
-      textAlign: 'center'
-    },
-    medicineTextTwo:{
-      fontSize: 12,
-      fontWeight: 'normal',
-      color:'#808080',
-      textAlign: 'center'
-    },
-    Button:{
-      alignItems: 'flex-end',
-      margin: 10
-    },
-
-    buttonText:{
-      color: 'white',
-      fontWeight: 'bold',
-      fontSize: 11
-    },
-
-    buttonIn:{
-      width: 100,
-      height: 30,
-      justifyContent: 'center',
-      borderRadius: 5,
-      alignItems: 'center',
-      flexDirection: 'row'
-    },
-
+    
 
 });
