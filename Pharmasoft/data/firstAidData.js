@@ -3,7 +3,7 @@ export default firstAid = [
       id: 1,
       title: 'Asthma',
       image: 'lung',
-      gradient: ['#1cb87f','#0bffdc'],
+      gradient: ['#1cb87f','#14a790'],
       description: '',
       steps: {
         categories: 1,
@@ -20,7 +20,7 @@ export default firstAid = [
       id: 2,
       title: 'Bruises',
       image: 'plaster',
-      gradient: ['#f5b332','#f6e120'],
+      gradient: ['#FFC837','#db36a4'],
       description: '',
       steps: {
         categories: 1,
@@ -36,7 +36,7 @@ export default firstAid = [
       id: 3,
       title: 'Choking',
       image: 'choke',
-      gradient: ['#0c88fc','#2fe4ef'],
+      gradient: ['#0c88fc','#14b2e4'],
       description: '',
       steps: {
         categories: 1,
@@ -79,8 +79,8 @@ export default firstAid = [
     {
       id: 5,
       title: 'Blisters',
-      image: '',
-      gradient: ['',''],
+      image: 'blister',
+      gradient: ['#FF8235','#30E8BF'],
       description: '',
       steps: {
         categories: 2,
@@ -105,8 +105,8 @@ export default firstAid = [
     {
       id: 6,
       title: 'CPR',
-      image: '',
-      gradient: ['',''],
+      image: 'cpr',
+      gradient: ['#ec008c','#fc6767'],
       description: '',
       steps: {
         categories: 1,
@@ -122,7 +122,7 @@ export default firstAid = [
       id: 7,
       title: 'Bee sting',
       image: 'bee',
-      gradient: ['#000000','#fff400'],
+      gradient: ['#FF8008','#FFC837'],
       description: '',
       steps: {
         notes: [
@@ -142,7 +142,7 @@ export default firstAid = [
       id: 8,
       title: 'Concussion',
       image: 'concussion',
-      gradient: ['#2dea56','#e1ff25'],
+      gradient: ['#2dea56','#ffc500'],
       description: '',
       steps: {
         categories: 1,
@@ -158,8 +158,8 @@ export default firstAid = [
     {
       id: 9,
       title: 'Cramps',
-      image: '',
-      gradient: ['',''],
+      image: 'muscle',
+      gradient: ['#f85032','#e73827'],
       description: '',
       steps: {
         categories: 1,
@@ -225,7 +225,7 @@ export default firstAid = [
       id: 13,
       title: 'Fracture',
       image: 'bone',
-      gradient: ['#ffcf25','#c4f857'],
+      gradient: ['#F4D03F','#16A085'],
       description: '',
       steps: {
         categories: 1,
@@ -278,7 +278,7 @@ export default firstAid = [
       id: 16,
       title: 'Heart attack',
       image: 'heart',
-      gradient: ['#f82323','#5fb1ff'],
+      gradient: ['#f82323','#4A569D'],
       description: '',
       steps: {
         categories: 1,
@@ -328,7 +328,7 @@ export default firstAid = [
       id: 19,
       title: 'Teeth injury',
       image: 'tooth',
-      gradient: ['#f86060','#feca8e'],
+      gradient: ['#FF416C','#FF4B2B'],
       description: '',
       steps: {
         categories: 1,
@@ -341,7 +341,7 @@ export default firstAid = [
       id: 20,
       title: 'Poison',
       image: 'poison',
-      gradient: ['#b10bff','#4fed7b'],
+      gradient: ['#b10bff','#0f9b0f'],
       description: '',
       steps: {
         categories: 1,

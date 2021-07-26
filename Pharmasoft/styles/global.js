@@ -30,6 +30,10 @@ export const globalColours = {
         'tooth':'#f9d3d3',
         'injury': '#ecccba',
         'nose': '#f5cccc',
+        'cpr': '#ffd0e5',
+        'blister': '#eef8e2',
+        'muscle': '#ffe2c4',
+
     }
 }
 
@@ -87,5 +91,8 @@ export const images = {
         'tooth': require('../assets/first-aid-icons/tooth.png'),
         'injury': require('../assets/first-aid-icons/injury.png'),
         'nose': require('../assets/first-aid-icons/bleeding.png'),
+        'cpr': require('../assets/first-aid-icons/cpr.png'),
+        'blister': require('../assets/first-aid-icons/blister.png'),
+        'muscle': require('../assets/first-aid-icons/muscle.png')
     }
 }

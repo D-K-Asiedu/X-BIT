@@ -62,13 +62,16 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
     const mainColor = item.gradient[0] || globalColours.mainCol
 
     return (
-        <TouchableWithoutFeedback style={{flex: 1}} onPress={() => setDropDownVisible(false)}>
-        <View style={{...globalStyles.container, ...styles.container, backgroundColor:mainColor}}>
-            {/* <LinearGradient
-                colors={['red','blue']}
-                style={styles.backGround} 
-            /> */}
-            <View style={{...globalStyles.header, ...styles.header, backgroundColor:mainColor}}>
+        <LinearGradient
+            colors={item.gradient}
+            start={[0,0]}
+            end={[1,0]}             
+            style={{...globalStyles.container, ...styles.container}}>
+            <LinearGradient 
+                colors={item.gradient}
+                start={[0,0]}
+                end={[1,0]} 
+                style={{...globalStyles.header, ...styles.header}}>
                 <TouchableOpacity>
                     <Ionicons name="arrow-back" size={30} color="#ffffff" onPress = {()=>navigation.goBack()}/>
                 </TouchableOpacity>
@@ -76,7 +79,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
                 <TouchableOpacity>
                     <MaterialIcons name="add-call" size={30} color="#ffffff" onPress = {() => Linking.openURL(phoneNum)} />
                 </TouchableOpacity>
-            </View>
+            </LinearGradient>
 
             <View style={{...globalStyles.content, ...styles.content}}>
                 <TouchableOpacity 
@@ -107,8 +110,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
                 color = {mainColor}
                 set = {set}
                 />}
-        </View>
-        </TouchableWithoutFeedback>
+        </LinearGradient>
     )
 }
 
