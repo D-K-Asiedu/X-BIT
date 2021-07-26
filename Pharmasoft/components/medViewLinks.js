@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const medViewLinks = (image, title) => {
+const MedViewLinks = (image, title) => {
 
     const images = {
         medOne: require('../home-icons/fluxamox.png'),
@@ -28,7 +28,7 @@ const medViewLinks = (image, title) => {
     )
 }
 
-export default medViewLinks;
+export default MedViewLinks;
 
 const styles = StyleSheet.create({
     medicineView:{

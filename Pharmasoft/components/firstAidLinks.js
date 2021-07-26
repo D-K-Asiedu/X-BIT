@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 
-const firstAidLinks = ({title, image}) => {
+const FirstAidLinks = ({title, image}) => {
     const images = {
         'poisoning': require('../home-icons/poisons.png'),
         'bleeding': require('../home-icons/bleeding.png'),
@@ -21,7 +21,7 @@ const firstAidLinks = ({title, image}) => {
     )
 }
 
-export default firstAidLinks;
+export default FirstAidLinks;
 
 const styles = StyleSheet.create({
     footerTwoSubView:{

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const articleImageLinks = () => {
+const ArticleImageLinks = () => {
     return (
         <View>
             <Text></Text>
@@ -9,7 +9,7 @@ const articleImageLinks = () => {
     )
 }
 
-export default articleImageLinks;
+export default ArticleImageLinks;
 
 const styles = StyleSheet.create({
 

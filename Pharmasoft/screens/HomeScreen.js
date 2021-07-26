@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView } from 'react-native';
 
-import firstAidLinks from '../components/firstAidLinks';
-import medViewLinks from '../components/medViewLinks';
+import FirstAidLinks from '../components/FirstAidLinks';
+import MedViewLinks from '../components/MedViewLinks';
+
+import ArticleCarouselCarousel from '../components/ArticleCarousel';
 //import { globalStyles } from '../styles/global';
 //import * as Animatable from 'react-native-animatable';
 //import { useTheme } from '@react-navigation/native';
@@ -37,10 +39,10 @@ const HomeScreen = ({navigation}) => {
           </View>
 
           <View style={styles.footerTwoView}>
-            <firstAidLinks title="poisoning" image="poisons" />
-            <firstAidLinks title="bleeding" image="bleeding" />
-            <firstAidLinks title="resusitation" image="heart-flat" />
-            <firstAidLinks title="asthma" image="lung" />
+            <FirstAidLinks title="poisoning" image="poisons" />
+            <FirstAidLinks title="bleeding" image="bleeding" />
+            <FirstAidLinks title="resusitation" image="heart-flat" />
+            <FirstAidLinks title="asthma" image="lung" />
           </View>
 
           </View>
@@ -48,7 +50,11 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.footerThreeView}>
             <Text style={styles.boldLeftText}>Articles</Text>
           </View>
-
+          
+          <View>
+            <ArticleCarousel />
+          </View>
+          
           <View style={styles.footerFourView}>
             <View >
               <Image source={require('../home-icons/poisons.png')} style={styles.imageOne}/>
@@ -73,13 +79,13 @@ const HomeScreen = ({navigation}) => {
           </View>
 
           <View style={styles.lastView}>
-            <medViewLinks title='medOne' image='fluxamox'/>
-            <medViewLinks title='medTwo' image='vitamina'/>
+            <MedViewLinks title='medOne' image='fluxamox'/>
+            <MedViewLinks title='medTwo' image='vitamina'/>
           </View>
 
           <View style={styles.lastView}>
-            <medViewLinks title='medOne' image='fluxamox'/>
-            <medViewLinks title='medTwo' image='vitamina'/>
+            <MedViewLinks title='medOne' image='fluxamox'/>
+            <MedViewLinks title='medTwo' image='vitamina'/>
           </View>
       </View>
 
