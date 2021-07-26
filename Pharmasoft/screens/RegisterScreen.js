@@ -1,12 +1,12 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
   StyleSheet, 
   Text, 
-  TextInput, 
   Image, 
   TouchableOpacity, 
   View,
-  ScrollView 
+  ScrollView,
+  Keyboard 
 } from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
@@ -20,12 +20,23 @@ const darkBlue = "#1a2e35"
 export default function RegisterScreen({navigation}) {
   const [listDisplay, setListDisplay] = useState(false)
   const authenticate = useUpdateAuth()
+  const [imgDisplay, setImgDisplay] = useState(true)
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
+    Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
+
+    // return () => {
+    //   Keyboard.removeListener('keyboardDidShow', () => setImgDisplay(false))
+    //   Keyboard.removeListener('keyboardDidHide', () => setImgDisplay(true))  
+    // }
+  }, [])
 
   return (
     <View style={styles.container}>
 
       <View style={styles.imgBox}>
-          <Image source={require('../assets/register.png')} style={styles.image} />
+         {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={styles.image} />}
         <TouchableOpacity 
           style={styles.skipBtn}
           onPress={() => authenticate('skip')}
@@ -38,8 +49,8 @@ export default function RegisterScreen({navigation}) {
           <Text style={styles.h2}>Create an account</Text>
         
         <View style={styles.contentCard}>
-          <InputField title="Name" />
-          <InputField title="E-mail" />
+          <InputField title="Name" focusHandler={() => setListDisplay(true)} />
+          <InputField title="E-mail" focusHandler={() => setListDisplay(true)} />
            {listDisplay && <>
             <InputField title="Phone number" />
             <InputField title="Password" />
@@ -62,7 +73,7 @@ export default function RegisterScreen({navigation}) {
           
           <View style={styles.bottomBox}>
             <Text style={styles.bottomText}>Already have an account, </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text style={styles.bottomLink}>Login</Text>
             </TouchableOpacity>
           </View>
@@ -87,8 +98,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image:{
-    width: 250,
-    height: 232,
+    width: 275,
+    height: 255,
   },
   skipBtn:{
     position: 'absolute',

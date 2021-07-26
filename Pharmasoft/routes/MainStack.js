@@ -1,10 +1,9 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import FirstAidDetailsScreen from '../screens/FirstAidDetailsScreen'
 import MainDrawer from './MainDrawer';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import { AuthContext } from '../App';
 import { useAuth } from './AuthContext';
 
 const Stack = createStackNavigator();

@@ -1,5 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, Image, TouchableOpacity, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { 
+  StyleSheet, 
+  Text, 
+  Image, 
+  TouchableOpacity, 
+  View,
+  Keyboard 
+} from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
 import { StatusBar } from 'expo-status-bar';
@@ -11,12 +18,18 @@ const darkBlue = "#1a2e35"
 
 export default function LoginScreen({navigation}) {
   const authenticate = useUpdateAuth()
+  const [imgDisplay, setImgDisplay] = useState(true)
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
+    Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
+  }, [])
 
   return (
     <View style={styles.container}>
 
       <View style={styles.imgBox}>
-          <Image source={require('../assets/login.png')} style={styles.image} />
+          {imgDisplay && <Image source={require('../assets/login.png')} style={styles.image} />}
         <TouchableOpacity 
           style={styles.skipBtn}
           onPress={() => authenticate('skip')}
