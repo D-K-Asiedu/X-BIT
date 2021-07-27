@@ -14,7 +14,7 @@ const ArticleCarousel = () => {
     }
     
     change = ({nativeEvent}) => {
-        const slide = Math.ceil(nativeEvent.cpntentOffset.x / nativeEvent.layoutMeasurement.width);
+        const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
         if(slide !== this.state.active){
             this.setState({active: slide});
         }

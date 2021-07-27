@@ -18,7 +18,7 @@ const Swipable = () => {
             <View style={styles.yellView}>
               <View style={styles.yellTextView}>
                 <Text style={styles.yellTextOne} >Tip of the day</Text>
-                <Text style={styles.yellTextTwo} >Run at least 500km daily or you are going to die</Text>
+                <Text style={styles.yellTextTwo} >Run at least 5km daily or you are going to burn out</Text>
               </View >
               <View style={styles.yellImageView}>
                 <Image source={require('../assets/go.png')} style={styles.yellImage}/>
@@ -28,7 +28,7 @@ const Swipable = () => {
             <View style={styles.yellView}>
               <View style={styles.yellTextView}>
                 <Text style={styles.yellTextOne} >Tip of the day</Text>
-                <Text style={styles.yellTextTwo} >Run at least 500km daily or you are going to die</Text>
+                <Text style={styles.yellTextTwo} >Run at least 2m daily or you are going to enter depression</Text>
               </View >
               <View style={styles.yellImageView}>
                 <Image source={require('../assets/go.png')} style={styles.yellImage}/>
