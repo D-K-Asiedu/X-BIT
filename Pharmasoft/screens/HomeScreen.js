@@ -3,8 +3,8 @@ import { View, Text, Button, StyleSheet, StatusBar, Dimensions, Image, Touchable
 
 import FirstAidLinks from '../components/FirstAidLinks';
 import MedViewLinks from '../components/MedViewLinks';
-
-import ArticleCarouselCarousel from '../components/ArticleCarousel';
+import Swipable from '../components/Swipable';
+import ArticleCarousel from '../components/ArticleCarousel';
 //import { globalStyles } from '../styles/global';
 //import * as Animatable from 'react-native-animatable';
 //import { useTheme } from '@react-navigation/native';
@@ -22,15 +22,7 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.container}> 
         <StatusBar backgroundColor='#1BA665' barStyle= { theme.dark ? "light-content" : "dark-content" }/>
         <View style={styles.header}>
-          <View style={styles.yellView}>
-            <View style={styles.yellTextView}>
-              <Text style={styles.yellTextOne} >Tip of the day</Text>
-              <Text style={styles.yellTextTwo} >Run at least 500km daily or you are going to die</Text>
-            </View >
-            <View style={styles.yellImageView}>
-              <Image source={require('../home-icons/go.png')} style={styles.yellImage}/>
-            </View>
-          </View>
+        <Swipable />
         </View>
         <View style={[styles.footer, /*{ backgroundColor: colors.background}*/]}>
           <View style={styles.footerOneView}>
@@ -113,59 +105,6 @@ const styles = StyleSheet.create({
         paddingVertical: 50,
         paddingHorizontal: 30,
         justifyContent: 'space-between',
-    },
-    yellView: {
-      marginTop: 30, 
-      marginBottom: 25,     
-      backgroundColor: '#F9B900',
-      width: 390,
-      height: 130,
-      borderRadius: 20,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-evenly' 
-    },
-    yellTextView: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      marginRight: 25
-    },
-    yellTextOne: {
-      color: 'white',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      fontFamily: 'comic-neue',
-      fontSize: 20,
-      marginTop: 1,
-      marginBottom: 10,
-      
-      marginLeft: 60
-    },
-    yellTextTwo: {
-      color: 'white',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      fontSize: 16,
-      fontFamily: 'comic-neue',
-      marginLeft: 60
-    },
-    yellImageView: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-      paddingLeft: 10,
-      //marginRight: 40,
-      
-    },
-    yellImage: {
-      resizeMode: 'cover',
-      width: 90,
-      height: 100,
-      borderTopLeftRadius: 100,
-      borderBottomRightRadius: 30,
-      marginTop: 38,
-      marginRight: 47
     },
     footerOneView: {
       flexDirection: 'row',
