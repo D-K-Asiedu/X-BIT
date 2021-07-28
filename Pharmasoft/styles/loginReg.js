@@ -25,6 +25,9 @@ export const loginRegStyles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: '#fbbc05',
+        padding: 5,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        borderRadius: 10,
       },
       content: {
         justifyContent: 'center',

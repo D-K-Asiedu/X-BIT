@@ -1,7 +1,16 @@
 import React from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 
-const InputField = ({title, placeHolder, focusHandler}) => {
+const InputField = ({
+    title, 
+    placeHolder, 
+    focusHandler, 
+    secure, 
+    type, 
+    onChangeText,
+    value,
+    autoCompleteType
+}) => {
     const placeholder = placeHolder || `Enter your ${title.toLowerCase()}`
 
     return (
@@ -11,6 +20,11 @@ const InputField = ({title, placeHolder, focusHandler}) => {
              placeholder={placeholder}
              style={styles.input}
              onFocus={focusHandler}
+             secureTextEntry={secure}
+             keyboardType={type}
+             onChangeText={onChangeText}
+             value={value}
+             autoCompleteType={autoCompleteType}
              />
         </View>
     )

@@ -14,7 +14,35 @@ import { StatusBar } from 'expo-status-bar';
 import { useUpdateAuth } from '../routes/AuthContext';
 import { globalColours, globalStyles } from '../styles/global';
 import { loginRegStyles } from '../styles/loginReg';
+import { Form, Formik } from 'formik';
+import * as yup from 'yup'
 
+
+const registerSchema = yup.object({
+  name: yup
+    .string()
+    .min(3)
+    .required(),
+  email: yup
+    .string()
+    .email()
+    .required(),
+  phone: yup
+  // Update later motherfucker
+    .string()
+    .min(10)
+    .max(14)
+    .required(),
+  password: yup
+    .string()
+    .min(4)
+    .required(),
+  confirm_password: yup
+    .string()
+    .min(4)
+    .required()
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+})
 
 export default function RegisterScreen({navigation}) {
   const [listDisplay, setListDisplay] = useState(false)
@@ -34,33 +62,72 @@ export default function RegisterScreen({navigation}) {
   return (
     <View style={globalStyles.container}>
 
+
       <View style={loginRegStyles.imgBox}>
          {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{...loginRegStyles.image, width: 275, height: 255}} />}
-        <TouchableOpacity 
-          style={loginRegStyles.skipBtn}
-          onPress={() => authenticate('skip')}
-          >
-            <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
-        </TouchableOpacity>
       </View>
 
       <View style={loginRegStyles.content}>
           <Text style={loginRegStyles.h2}>Create an account</Text>
         
         <View style={loginRegStyles.contentCard}>
-          <InputField title="Name" focusHandler={() => setListDisplay(true)} />
-          <InputField title="E-mail" focusHandler={() => setListDisplay(true)} />
-           {listDisplay && <>
-            <InputField title="Phone number" />
-            <InputField title="Password" />
-            <InputField title="Confirm password" placeHolder="Confirm password" />
-           </>}
-          <Button
-            title="Register"
-            color='#ffffff'
-            bgColor="#1ba665"
-            style={{marginTop: 15,}}
-           />
+          <Formik
+            initialValues={{ name: '', email: '', phone: '', password: '', confirm_password: '' }}
+            validationSchema={registerSchema}
+            onSubmit={values => {
+              console.log(values)
+            }}
+          >
+            {props => (
+              <>
+                <InputField 
+                  title="Name" 
+                  focusHandler={() => setListDisplay(true)}
+                  autoCompleteType='name'
+                  onChangeText={props.handleChange('name')} 
+                  value={props.values.name} 
+                />
+                <InputField 
+                  title="E-mail" 
+                  focusHandler={() => setListDisplay(true)} 
+                  type='email-address'
+                  autoCompleteType='email'
+                  onChangeText={props.handleChange('email')} 
+                  value={props.values.email} 
+                />
+                {listDisplay && <>
+                  <InputField 
+                    title="Phone number" 
+                    type='numeric'
+                    autoCompleteType='tel'
+                    onChangeText={props.handleChange('phone')} 
+                    value={props.values.phone}   
+                  />
+                  <InputField 
+                    title="Password" 
+                    secure 
+                    onChangeText={props.handleChange('password')} 
+                    value={props.values.password}  
+                  />
+                  <InputField 
+                    title="Confirm password" 
+                    placeHolder="Confirm password" 
+                    secure
+                    onChangeText={props.handleChange('confirm_password')} 
+                    value={props.values.confirm_password}   
+                  />
+                </>}
+                <Button
+                  title="Register"
+                  color='#ffffff'
+                  bgColor="#1ba665"
+                  style={{ marginTop: 15, }}
+                  onPress={props.handleSubmit}
+                />
+
+              </>
+            )}
+          </Formik>
           <Button
             title="Register with google"
             color='#1a2e35'
@@ -78,6 +145,13 @@ export default function RegisterScreen({navigation}) {
           </View>
         </View>
       </View>
+
+      <TouchableOpacity 
+          style={loginRegStyles.skipBtn}
+          onPress={() => authenticate('skip')}
+          >
+            <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
+        </TouchableOpacity>
 
       <StatusBar style="light" translucent={true} />
     </View>
