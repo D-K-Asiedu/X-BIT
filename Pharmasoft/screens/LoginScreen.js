@@ -33,13 +33,11 @@ export default function LoginScreen({ navigation }) {
   const [imgDisplay, setImgDisplay] = useState(true)
 
   useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
-    Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
+    let isMounted = true
+    isMounted && Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
+    isMounted && Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
 
-    return () => {
-      Keyboard.removeListener('keyboardDidShow', () => setImgDisplay(false))
-      Keyboard.removeListener('keyboardDidHide', () => setImgDisplay(true))
-    }
+    return () => isMounted = false
   }, [])
 
   return (
@@ -69,6 +67,8 @@ export default function LoginScreen({ navigation }) {
                   autoCompleteType='email'
                   onChangeText={props.handleChange('email')} 
                   value={props.values.email}
+                  errorMsg = {props.touched.email && props.errors.email}
+                  onBlur={props.handleBlur('email')}
                 />
                 <InputField 
                   title="Password" 
@@ -76,6 +76,8 @@ export default function LoginScreen({ navigation }) {
                   autoCompleteType='password'
                   onChangeText={props.handleChange('password')}
                   value={props.values.password} 
+                  errorMsg = {props.touched.password && props.errors.password}
+                  onBlur={props.handleBlur('password')}
                   />
                 <Button
                   title="Login"

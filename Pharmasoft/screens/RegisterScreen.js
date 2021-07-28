@@ -39,8 +39,8 @@ const registerSchema = yup.object({
     .required(),
   confirm_password: yup
     .string()
-    .min(4)
-    .required()
+    .min(4, 'confirm password must be at least 4 characters')
+    .required('confirm password is required')
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 })
 
@@ -50,13 +50,11 @@ export default function RegisterScreen({navigation}) {
   const [imgDisplay, setImgDisplay] = useState(true)
 
   useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
-    Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
+    let isMounted = true
+    isMounted && Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
+    isMounted && Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
 
-    return () => {
-      Keyboard.removeListener('keyboardDidShow', () => setImgDisplay(false))
-      Keyboard.removeListener('keyboardDidHide', () => setImgDisplay(true))  
-    }
+    return () => isMounted = false
   }, [])
 
   return (
@@ -85,7 +83,9 @@ export default function RegisterScreen({navigation}) {
                   focusHandler={() => setListDisplay(true)}
                   autoCompleteType='name'
                   onChangeText={props.handleChange('name')} 
-                  value={props.values.name} 
+                  value={props.values.name}
+                  errorMsg = {props.touched.name && props.errors.name}
+                  onBlur={props.handleBlur('name')} 
                 />
                 <InputField 
                   title="E-mail" 
@@ -94,6 +94,9 @@ export default function RegisterScreen({navigation}) {
                   autoCompleteType='email'
                   onChangeText={props.handleChange('email')} 
                   value={props.values.email} 
+                  errorMsg = {props.touched.email && props.errors.email}
+                  onBlur={props.handleBlur('email')}
+
                 />
                 {listDisplay && <>
                   <InputField 
@@ -101,13 +104,19 @@ export default function RegisterScreen({navigation}) {
                     type='numeric'
                     autoCompleteType='tel'
                     onChangeText={props.handleChange('phone')} 
-                    value={props.values.phone}   
+                    value={props.values.phone}
+                    errorMsg = {props.touched.phone && props.errors.phone}
+                    onBlur={props.handleBlur('phone')}
+     
                   />
                   <InputField 
                     title="Password" 
                     secure 
                     onChangeText={props.handleChange('password')} 
-                    value={props.values.password}  
+                    value={props.values.password}
+                    errorMsg = {props.touched.password && props.errors.password}
+                    onBlur={props.handleBlur('password')}
+    
                   />
                   <InputField 
                     title="Confirm password" 
@@ -115,6 +124,9 @@ export default function RegisterScreen({navigation}) {
                     secure
                     onChangeText={props.handleChange('confirm_password')} 
                     value={props.values.confirm_password}   
+                    errorMsg = {props.touched.confirm_password && props.errors.confirm_password}
+                    onBlur={props.handleBlur('confirm_password')}
+  
                   />
                 </>}
                 <Button

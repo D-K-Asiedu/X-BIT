@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
+import { globalColours } from '../styles/global'
 
 const InputField = ({
     title, 
@@ -9,7 +10,9 @@ const InputField = ({
     type, 
     onChangeText,
     value,
-    autoCompleteType
+    autoCompleteType,
+    errorMsg,
+    onBlur
 }) => {
     const placeholder = placeHolder || `Enter your ${title.toLowerCase()}`
 
@@ -18,14 +21,16 @@ const InputField = ({
             <Text style={styles.label}>{title}</Text>
             <TextInput
              placeholder={placeholder}
-             style={styles.input}
+             style={{...styles.input, borderColor: errorMsg ? 'red' : globalColours.lightGrey }}
              onFocus={focusHandler}
              secureTextEntry={secure}
              keyboardType={type}
              onChangeText={onChangeText}
              value={value}
              autoCompleteType={autoCompleteType}
+             onBlur={onBlur}
              />
+             <Text style={styles.errorMsg}>{errorMsg}</Text>
         </View>
     )
 }
@@ -44,9 +49,14 @@ const styles = StyleSheet.create({
     },
     input:{
         borderWidth: 1,
-        borderColor: '#808080',
         padding: 10,
         fontSize: 16,
         borderRadius: 10,
+    },
+    errorMsg:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: 'tomato',
+        paddingLeft: 10,
     }
 })
