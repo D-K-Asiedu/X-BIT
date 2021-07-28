@@ -12,10 +12,9 @@ import InputField from '../components/InputField';
 import Button from '../components/Button';
 import { StatusBar } from 'expo-status-bar';
 import { useUpdateAuth } from '../routes/AuthContext';
+import { globalColours, globalStyles } from '../styles/global';
+import { loginRegStyles } from '../styles/loginReg';
 
-const mainCol = "#1ba665"
-const lightGrey = "#f2f2f2"
-const darkBlue = "#1a2e35"
 
 export default function RegisterScreen({navigation}) {
   const [listDisplay, setListDisplay] = useState(false)
@@ -26,29 +25,29 @@ export default function RegisterScreen({navigation}) {
     Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
     Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
 
-    // return () => {
-    //   Keyboard.removeListener('keyboardDidShow', () => setImgDisplay(false))
-    //   Keyboard.removeListener('keyboardDidHide', () => setImgDisplay(true))  
-    // }
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', () => setImgDisplay(false))
+      Keyboard.removeListener('keyboardDidHide', () => setImgDisplay(true))  
+    }
   }, [])
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
 
-      <View style={styles.imgBox}>
-         {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={styles.image} />}
+      <View style={loginRegStyles.imgBox}>
+         {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{...loginRegStyles.image, width: 275, height: 255}} />}
         <TouchableOpacity 
-          style={styles.skipBtn}
+          style={loginRegStyles.skipBtn}
           onPress={() => authenticate('skip')}
           >
-            <Text style={styles.skipText}> {"Skip>>"} </Text>
+            <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.content}>
-          <Text style={styles.h2}>Create an account</Text>
+      <View style={loginRegStyles.content}>
+          <Text style={loginRegStyles.h2}>Create an account</Text>
         
-        <View style={styles.contentCard}>
+        <View style={loginRegStyles.contentCard}>
           <InputField title="Name" focusHandler={() => setListDisplay(true)} />
           <InputField title="E-mail" focusHandler={() => setListDisplay(true)} />
            {listDisplay && <>
@@ -71,10 +70,10 @@ export default function RegisterScreen({navigation}) {
             style={{marginTop: 15,}}
            />
           
-          <View style={styles.bottomBox}>
-            <Text style={styles.bottomText}>Already have an account, </Text>
+          <View style={loginRegStyles.bottomBox}>
+            <Text style={loginRegStyles.bottomText}>Already have an account, </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.bottomLink}>Login</Text>
+              <Text style={loginRegStyles.bottomLink}>Login</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -87,61 +86,4 @@ export default function RegisterScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: mainCol,
-  },
-  imgBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 30,
-    flex: 1,
-  },
-  image:{
-    width: 275,
-    height: 255,
-  },
-  skipBtn:{
-    position: 'absolute',
-    top: 40,
-    right: 10,
-  },
-  skipText:{
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#fbbc05',
-  },
-  content: {
-    justifyContent: 'center',
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
-    backgroundColor: lightGrey,
-  },
-  h2: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: darkBlue,
-    paddingVertical: 10,
-    textAlign: 'center',
-  },
-  contentCard: {
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 45,
-    borderTopRightRadius: 45,
-    paddingVertical: 45,
-    paddingHorizontal: 20,
-  },
-  bottomBox:{
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 30,
-  },
-  bottomText:{
-    fontSize: 16,
-  },
-  bottomLink:{
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: mainCol,
-  }
 });
