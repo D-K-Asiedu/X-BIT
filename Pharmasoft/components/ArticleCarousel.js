@@ -21,22 +21,22 @@ const ArticleCarousel = () => {
     }
     return (
         <View style={styles.footerFourView}>
-        <ScrollView showsHorizontalScrollIndicator={false} pagingEnabled onScroll={this.change} horizontal style={styles.srollViewStyles}>  
-            {
-                images.map((image, index) => (
-                    <Image
-                        key={index}
-                        source={require(image)}
-                        style={styles.footerFourView}/>
+            <ScrollView showsHorizontalScrollIndicator={false} pagingEnabled onScroll={this.change} horizontal style={styles.srollViewStyles}>  
+                {
+                    images.map((image, index) => (
+                        <Image
+                            key={index}
+                            source={require(image)}
+                            style={styles.footerFourView}/>
+                    ))
+                }
+            </ScrollView>
+            <View style={styles.dotView}>{
+                images.map((i, k) => (
+                    <Text key={k} style={k==this.state.active ? style.activedot : styles.dot}>⬤</Text>
                 ))
             }
-        </ScrollView>
-        <View style={styles.dotView}>{
-            images.map((i, k) => (
-                <Text key={k} style={k==this.state.active ? style.activedot : styles.dot}>⬤</Text>
-            ))
-        }
-        </View>    
+            </View>    
         </View>
     )
 }

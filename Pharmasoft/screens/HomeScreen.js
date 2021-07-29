@@ -6,25 +6,16 @@ import MedViewLinks from '../components/MedViewLinks';
 import Swipable from '../components/Swipable';
 import ArticleCarousel from '../components/ArticleCarousel';
 //import { globalStyles } from '../styles/global';
-//import * as Animatable from 'react-native-animatable';
-//import { useTheme } from '@react-navigation/native';
-
-
-
 
 const HomeScreen = ({navigation}) => {
 
-  //const { colors } = useTheme();
-
-  //const theme = useTheme();
-  
     return (
       <View style={styles.container}> 
         <StatusBar backgroundColor='#1BA665' barStyle= { theme.dark ? "light-content" : "dark-content" }/>
         <View style={styles.header}>
         <Swipable />
         </View>
-        <ScrollView style={[styles.footer, /*{ backgroundColor: colors.background}*/]}>
+        <ScrollView style={[styles.footer]}>
           <View style={styles.footerOneView}>
             <Text style={styles.boldLeftText}>First Aid</Text>
             <Text style={styles.smallRightText}>See all </Text>

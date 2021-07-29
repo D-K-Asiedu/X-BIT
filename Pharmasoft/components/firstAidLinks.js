@@ -24,7 +24,7 @@ const FirstAidLinks = ({title, image}) => {
 export default FirstAidLinks;
 
 const styles = StyleSheet.create({
-    footerTwoSubView:{
+      footerTwoSubView:{
         flexDirection: 'column'
     },
       smallBoxView:{
