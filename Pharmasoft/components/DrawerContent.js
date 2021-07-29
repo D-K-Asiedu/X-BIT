@@ -18,12 +18,12 @@ import { useUpdateAuth, useAuth } from '../routes/AuthContext';
 
 const DrawerContent = ({navigation}) => {
     const tempLogin = useAuth().isLoggedIn
-    const [isLoggedIn, setLoggedIn] = useState(false)
+    const [isLoggedIn, setLoggedIn] = useState(true)
     const authenticate = useUpdateAuth()
 
-    useEffect(() => {
-        setLoggedIn(tempLogin)
-    }, [tempLogin])
+    // useEffect(() => {
+    //     setLoggedIn(tempLogin)
+    // }, [tempLogin])
 
 
     return (

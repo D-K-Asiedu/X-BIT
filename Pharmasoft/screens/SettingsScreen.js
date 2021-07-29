@@ -60,7 +60,7 @@ const SettingsScreen = ({navigation}) => {
     const [colorTheme, setColorTheme] = useState('green')
 
     return (
-        <View style={{...globalStyles.container, backgroundColor: '#f2f2f2'}}>
+        <View style={{...globalStyles.container}}>
             <View style={{...globalStyles.header, ...styles.header}}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
@@ -97,7 +97,6 @@ const SettingsScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     header: {
         justifyContent: 'flex-start',
-        backgroundColor: globalColours.mainCol,
         borderBottomColor: '#d4d4d4',
         borderBottomWidth: 1,
     },
