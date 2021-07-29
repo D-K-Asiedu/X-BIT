@@ -5,8 +5,8 @@ import LinearGradient from 'react-native-linear-gradient';
 const MedViewLinks = (image, title) => {
 
     const images = {
-        medOne: require('../home-icons/fluxamox.png'),
-        medTwo: require('../home-icons/vitamina.png'),
+        '': require('../home-icons/fluxamox.png'),
+        '': require('../home-icons/vitamina.png'),
         //when medicines are added
     }
     return (

@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Image, View, ScrollView , Text} from 'react-native';
 
 const images = [
-    './home-icons/article.bg.png',
-    './home-icons/article.bg.png',
-    './home-icons/article.bg.png',
-    './home-icons/article.bg.png', 
+    '../home-icons/article-bg.png',
+    '../home-icons/article-bg.png',
+    '../home-icons/article-bg.png',
+    '../home-icons/article-bg.png', 
 ]
 
 const ArticleCarousel = () => {

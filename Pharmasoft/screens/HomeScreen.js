@@ -24,7 +24,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.header}>
         <Swipable />
         </View>
-        <View style={[styles.footer, /*{ backgroundColor: colors.background}*/]}>
+        <ScrollView style={[styles.footer, /*{ backgroundColor: colors.background}*/]}>
           <View style={styles.footerOneView}>
             <Text style={styles.boldLeftText}>First Aid</Text>
             <Text style={styles.smallRightText}>See all </Text>
@@ -37,32 +37,12 @@ const HomeScreen = ({navigation}) => {
             <FirstAidLinks title="asthma" image="lung" />
           </View>
 
-          </View>
-
           <View style={styles.footerThreeView}>
             <Text style={styles.boldLeftText}>Articles</Text>
           </View>
           
           <View>
             <ArticleCarousel />
-          </View>
-          
-          <View style={styles.footerFourView}>
-            <View >
-              <Image source={require('../home-icons/poisons.png')} style={styles.imageOne}/>
-            </View>
-
-            <View >
-              <Image source={require('../home-icons/bleeding.png')} style={styles.imageTwo}/>
-            </View>
-
-            <View >
-              <Image source={require('../home-icons/heart-flat.png')} style={styles.imageThree}/>
-            </View>
-
-            <View >
-              <Image source={require('../home-icons/lung.png')} style={styles.imageFour}/>
-            </View>
           </View>
 
           <View style={styles.footerFiveView}>
@@ -78,7 +58,8 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.lastView}>
             <MedViewLinks title='medOne' image='fluxamox'/>
             <MedViewLinks title='medTwo' image='vitamina'/>
-          </View>
+          </View> 
+        </ScrollView>  
       </View>
 
     );
