@@ -27,11 +27,12 @@ const FirstAidScreen = ({ navigation }) => {
         <TextInput
           style={styles.searchBar}
           placeholder="Search first aid ..."
-          autoFocus={true}
-          underlineColorAndroid="transparent"
-          autoCompleteType="off"
+          // autoFocus={true}
+          // underlineColorAndroid="transparent"
+          // autoCompleteType="off"
           onChangeText = {text => setSearchText(text) }
-          defaultValue={searchText}
+          // defaultValue={searchText}
+          // maxLength={20}
         />
       </View>
     )
@@ -53,15 +54,15 @@ const FirstAidScreen = ({ navigation }) => {
     )
   }
 
-  const searchItem = () => {
-    setFirstAid(firstAidData.filter((item) => (
-      item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-    )))
-  }
+  // const searchItem = () => {
+  //   setFirstAid(firstAidData.filter((item) => (
+  //     item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+  //   )))
+  // }
 
-  useEffect(() => {
-    searchItem()
-  }, [searchText])
+  // useEffect(() => {
+  //   searchItem()
+  // }, [searchText])
 
 
   return (

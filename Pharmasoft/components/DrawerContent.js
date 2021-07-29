@@ -56,7 +56,7 @@ const DrawerContent = ({navigation}) => {
                     <DrawerItem
                         icon={() => (<AntDesign name="user" size={24} color={globalColours.lightGrey} />)}
                         label="Profile"
-                        onPress={() => isLoggedIn && navigation.navigate('Profile')}
+                        onPress={() => isLoggedIn ? navigation.navigate('Profile') : authenticate('logout')}
                     />
                     <DrawerItem
                         icon={() => (<Ionicons name="ios-settings-outline" size={24} color={globalColours.lightGrey} />)}

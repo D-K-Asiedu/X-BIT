@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     errorMsg:{
         fontSize: 14,
         fontWeight: 'bold',
-        color: 'tomato',
+        color: 'red',
         paddingLeft: 10,
     }
 })
