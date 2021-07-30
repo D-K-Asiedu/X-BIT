@@ -15,6 +15,7 @@ import { loginRegStyles } from '../styles/loginReg';
 import { globalStyles, globalColours } from '../styles/global';
 import { Formik } from 'formik';
 import * as yup from 'yup'
+import { useTheme } from '../styles/ThemeContext';
 
 
 const loginSchema = yup.object({
@@ -31,6 +32,27 @@ const loginSchema = yup.object({
 export default function LoginScreen({ navigation }) {
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
+  const [mainColor, setMainColour] = useState('')
+
+  const theme = useTheme()
+
+  useEffect(() => {
+    switch (theme.colortheme) {
+      case 'green':
+        setMainColour(globalColours.mainCol)
+        break;
+      case 'blue':
+        setMainColour(globalColours.mainCol2)
+        break;
+      case 'pink':
+        setMainColour(globalColours.mainCol3)
+        break;
+  
+    
+      default:
+        break;
+    }
+  }, [theme.colortheme])
 
   useEffect(() => {
     let isMounted = true
@@ -41,7 +63,7 @@ export default function LoginScreen({ navigation }) {
   }, [])
 
   return (
-    <View style={globalStyles.container}>
+    <View style={{...globalStyles.container, backgroundColor: mainColor}}>
 
       <View style={loginRegStyles.imgBox}>
         {imgDisplay && <Image source={require('../assets/login.png')} style={loginRegStyles.image} />}
@@ -82,7 +104,7 @@ export default function LoginScreen({ navigation }) {
                 <Button
                   title="Login"
                   color='#ffffff'
-                  bgColor={globalColours.mainCol}
+                  bgColor={mainColor}
                   style={{ marginTop: 15, }}
                   onPress={props.handleSubmit}
                 />
@@ -102,7 +124,7 @@ export default function LoginScreen({ navigation }) {
           <View style={loginRegStyles.bottomBox}>
             <Text style={loginRegStyles.bottomText}>Don't have an account, </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={loginRegStyles.bottomLink}>Register</Text>
+              <Text style={{...loginRegStyles.bottomLink, color: mainColor}}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>

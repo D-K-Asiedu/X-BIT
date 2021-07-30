@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from '../screens/HomeScreen'
 import ShopScreen from '../screens/ShopScreen'
@@ -6,14 +6,38 @@ import ShopScreen from '../screens/ShopScreen'
 import FirstAidScreen from "../screens/FirstAidScreen";
 import { globalColours } from "../styles/global";
 import { Ionicons, Fontisto, FontAwesome5 } from '@expo/vector-icons';
+import { useTheme } from "../styles/ThemeContext";
 
 const Tab = createBottomTabNavigator()
 
 const Tabs = () => {
+    const [mainColor, setMainColour] = useState('')
+
+    const theme = useTheme()
+  
+    useEffect(() => {
+      switch (theme.colortheme) {
+        case 'green':
+          setMainColour(globalColours.mainCol)
+          break;
+        case 'blue':
+          setMainColour(globalColours.mainCol2)
+          break;
+        case 'pink':
+          setMainColour(globalColours.mainCol3)
+          break;
+    
+      
+        default:
+          break;
+      }
+    }, [theme.colortheme])
+
+
     return (
         <Tab.Navigator
             tabBarOptions={{
-                activeTintColor: globalColours.mainCol,
+                activeTintColor: mainColor,
                 inactiveTintColor: globalColours.lightGrey,
                 labelPosition: 'beside-icon',
                 keyboardHidesTabBar: true,

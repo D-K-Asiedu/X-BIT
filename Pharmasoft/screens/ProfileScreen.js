@@ -1,17 +1,41 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Modal } from 'react-native'
 import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import ProfileInfo from '../components/ProfileInfo'
+import { useTheme } from '../styles/ThemeContext'
 
 const ProfileScreen = ({ navigation }) => {
+    const [mainColor, setMainColour] = useState('')
+
+    const theme = useTheme()
+  
+    useEffect(() => {
+      switch (theme.colortheme) {
+        case 'green':
+          setMainColour(globalColours.mainCol)
+          break;
+        case 'blue':
+          setMainColour(globalColours.mainCol2)
+          break;
+        case 'pink':
+          setMainColour(globalColours.mainCol3)
+          break;
+    
+      
+        default:
+          break;
+      }
+    }, [theme.colortheme])
+
+
     const editProfile = (val) => {
         console.log(val);
     }
 
     return (
-        <View style={{ ...globalStyles.container }}>
-            <View style={{ ...globalStyles.header, ...styles.header }}>
+        <View style={{ ...globalStyles.container, backgroundColor: mainColor }}>
+            <View style={{ ...globalStyles.header, ...styles.header, backgroundColor: mainColor, }}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                 >
@@ -24,7 +48,7 @@ const ProfileScreen = ({ navigation }) => {
                 <View style={styles.topBox}>
                     <View style={styles.imageBox}>
                         <Image source={require('../assets/user.jpeg')} style={styles.image} />
-                        <TouchableOpacity style={styles.editBtn}>
+                        <TouchableOpacity style={{...styles.editBtn, backgroundColor: mainColor}}>
                             <FontAwesome name="camera" size={24} color="#ffffff" />
                         </TouchableOpacity>
                     </View>
@@ -46,6 +70,7 @@ const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     header: {
         justifyContent: 'flex-start',
+        
     },
     h2: {
         marginLeft: 30,

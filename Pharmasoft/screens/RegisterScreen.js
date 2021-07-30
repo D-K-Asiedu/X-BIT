@@ -16,6 +16,7 @@ import { globalColours, globalStyles } from '../styles/global';
 import { loginRegStyles } from '../styles/loginReg';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup'
+import { useTheme } from '../styles/ThemeContext';
 
 
 const registerSchema = yup.object({
@@ -48,6 +49,28 @@ export default function RegisterScreen({navigation}) {
   const [listDisplay, setListDisplay] = useState(false)
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
+  const [mainColor, setMainColour] = useState('')
+
+  const theme = useTheme()
+
+  useEffect(() => {
+    switch (theme.colortheme) {
+      case 'green':
+        setMainColour(globalColours.mainCol)
+        break;
+      case 'blue':
+        setMainColour(globalColours.mainCol2)
+        break;
+      case 'pink':
+        setMainColour(globalColours.mainCol3)
+        break;
+  
+    
+      default:
+        break;
+    }
+  }, [theme.colortheme])
+
 
   useEffect(() => {
     let isMounted = true
@@ -58,7 +81,7 @@ export default function RegisterScreen({navigation}) {
   }, [])
 
   return (
-    <View style={globalStyles.container}>
+    <View style={{...globalStyles.container, backgroundColor: mainColor}}>
 
 
       <View style={loginRegStyles.imgBox}>
@@ -132,7 +155,7 @@ export default function RegisterScreen({navigation}) {
                 <Button
                   title="Register"
                   color='#ffffff'
-                  bgColor="#1ba665"
+                  bgColor={mainColor}
                   style={{ marginTop: 15, }}
                   onPress={props.handleSubmit}
                 />
@@ -152,7 +175,7 @@ export default function RegisterScreen({navigation}) {
           <View style={loginRegStyles.bottomBox}>
             <Text style={loginRegStyles.bottomText}>Already have an account, </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={loginRegStyles.bottomLink}>Login</Text>
+              <Text style={{...loginRegStyles.bottomLink, color: mainColor}}>Login</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -5,11 +5,34 @@ import FirstAidCard from '../components/FirstAidCard'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import NavBar from '../components/NavBar';
 import firstAidData from '../data/firstAidData';
+import { useTheme } from '../styles/ThemeContext'
 
 const FirstAidScreen = ({ navigation }) => {
   const [firstAid, setFirstAid] = useState([])
   const [searchActive, setSearchActive] = useState(false)
   const [searchText, setSearchText] = useState('')
+  const [mainColor, setMainColour] = useState('')
+
+  const theme = useTheme()
+
+  useEffect(() => {
+    switch (theme.colortheme) {
+      case 'green':
+        setMainColour(globalColours.mainCol)
+        break;
+      case 'blue':
+        setMainColour(globalColours.mainCol2)
+        break;
+      case 'pink':
+        setMainColour(globalColours.mainCol3)
+        break;
+  
+    
+      default:
+        break;
+    }
+  }, [theme.colortheme])
+
 
   useEffect(() => {
     setFirstAid(firstAidData)
@@ -17,7 +40,7 @@ const FirstAidScreen = ({ navigation }) => {
 
   const SearchHeader = ({navigation}) => {
     return (
-      <View style={{ ...globalStyles.header, ...styles.header }}>
+      <View style={{ ...globalStyles.header, backgroundColor: mainColor }}>
         <TouchableOpacity>
           <Ionicons name="arrow-back" size={25} color="#ffffff" onPress={() => {
             setSearchText('')
@@ -40,7 +63,7 @@ const FirstAidScreen = ({ navigation }) => {
 
   const DefaultHeader = () => {
     return (
-      <View style={globalStyles.header}>
+      <View style={{...globalStyles.header, backgroundColor: mainColor}}>
         <TouchableOpacity
           onPress={() => navigation.openDrawer()}
         >
@@ -66,7 +89,7 @@ const FirstAidScreen = ({ navigation }) => {
 
 
   return (
-    <View style={globalStyles.container}>
+    <View style={{...globalStyles.container, backgroundColor: mainColor}}>
       {searchActive ? <SearchHeader /> : <DefaultHeader />}
 
       <View style={globalStyles.content}>
