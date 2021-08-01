@@ -29,7 +29,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.footer}>
           <View style={styles.footerOneView}>
 
-            <Text style={styles.boldLeftText}>First Aid</Text>
+            <Text style={styles.boldLeftText}>First aid</Text>
             <Text style={styles.smallRightText}>{"See All >>"}</Text>
           </View>
 
