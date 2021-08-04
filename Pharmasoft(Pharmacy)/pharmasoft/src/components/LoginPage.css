@@ -1,0 +1,40 @@
+.logo{
+    color: aliceblue;
+}
+.loginPage{
+    background-color: rgb(248, 248, 247);
+    margin: 50px auto;
+    height: 20rem;
+    width: 25rem;
+    border-radius: 10px;
+}
+.icon{
+    display: flex;
+    box-sizing: border-box;
+    margin: 10px auto ;
+    margin-bottom: -100px;
+    margin-top: 50px;
+    width: 5rem;
+    position: center;
+
+}
+.forgotPassword{
+    display: flex;
+    background-color: rgb(248, 248, 247);
+    margin: 20px auto;
+    margin-left: 20px;
+    color: #1ba665;
+    letter-spacing: .3px;
+    line-height: 1px;
+    cursor: pointer;
+}   
+.signup{
+     background-color: rgb(248, 248, 247); 
+    margin-left: 19rem;
+    margin-top: -20px;
+}
+a{
+    background-color:rgb(248, 248, 247) ;
+    color: red;
+    
+}

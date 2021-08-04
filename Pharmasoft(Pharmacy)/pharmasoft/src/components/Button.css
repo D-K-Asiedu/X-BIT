@@ -1,0 +1,14 @@
+.button{
+    display: flexbox;
+    box-sizing: border-box;
+    color: white;
+    background-color: #1ba665;
+    border-radius: 10px;
+    height: 35px;
+    width: 20rem;
+    margin: auto;
+    margin-left: 37px;
+    
+    position: center;
+    
+}
