@@ -16,7 +16,7 @@ import { globalColours, globalStyles } from '../styles/global';
 import { loginRegStyles } from '../styles/loginReg';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup'
-import { useTheme } from '../styles/ThemeContext';
+import { useTheme, useColor } from '../styles/ThemeContext';
 
 
 const registerSchema = yup.object({
@@ -49,27 +49,28 @@ export default function RegisterScreen({navigation}) {
   const [listDisplay, setListDisplay] = useState(false)
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
-  const [mainColor, setMainColour] = useState('')
+  // const [mainColor, setMainColour] = useState('')
 
   const theme = useTheme()
+  const colors = useColor()
 
-  useEffect(() => {
-    switch (theme.colortheme) {
-      case 'green':
-        setMainColour(globalColours.mainCol)
-        break;
-      case 'blue':
-        setMainColour(globalColours.mainCol2)
-        break;
-      case 'pink':
-        setMainColour(globalColours.mainCol3)
-        break;
+  // useEffect(() => {
+  //   switch (theme.colortheme) {
+  //     case 'green':
+  //       setMainColour(globalColours.mainCol)
+  //       break;
+  //     case 'blue':
+  //       setMainColour(globalColours.mainCol2)
+  //       break;
+  //     case 'pink':
+  //       setMainColour(globalColours.mainCol3)
+  //       break;
   
     
-      default:
-        break;
-    }
-  }, [theme.colortheme])
+  //     default:
+  //       break;
+  //   }
+  // }, [theme.colortheme])
 
 
   useEffect(() => {
@@ -81,17 +82,17 @@ export default function RegisterScreen({navigation}) {
   }, [])
 
   return (
-    <View style={{...globalStyles.container, backgroundColor: mainColor}}>
+    <View style={{...globalStyles.container, backgroundColor:colors.mainColor}}>
 
 
       <View style={loginRegStyles.imgBox}>
          {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{...loginRegStyles.image, width: 275, height: 255}} />}
       </View>
 
-      <View style={loginRegStyles.content}>
-          <Text style={loginRegStyles.h2}>Create an account</Text>
+      <View style={{...loginRegStyles.content, backgroundColor: theme.darkmode? '#222222' : '#f2f2f2'}}>
+          <Text style={{...loginRegStyles.h2, color: colors.tetColor1}}>Create an account</Text>
         
-        <View style={loginRegStyles.contentCard}>
+        <View style={{...loginRegStyles.contentCard, backgroundColor: theme.darkmode? '#333333' : '#ffffff'}}>
           <Formik
             initialValues={{ name: '', email: '', phone: '', password: '', confirm_password: '' }}
             validationSchema={registerSchema}
@@ -155,7 +156,7 @@ export default function RegisterScreen({navigation}) {
                 <Button
                   title="Register"
                   color='#ffffff'
-                  bgColor={mainColor}
+                  bgColor={colors.constant}
                   style={{ marginTop: 15, }}
                   onPress={props.handleSubmit}
                 />
@@ -165,17 +166,17 @@ export default function RegisterScreen({navigation}) {
           </Formik>
           <Button
             title="Register with google"
-            color='#1a2e35'
-            bgColor="#f2f2f2"
-            border1="#c4c4c4"
+            color={colors.tetColor1}
+            bgColor= {theme.darkmode ? "#696969" :"#f2f2f2"} 
+            border1= {theme.darkmode ? "#f2f2f2" :"#c4c4c4"}
             image="google"
             style={{marginTop: 15,}}
            />
           
           <View style={loginRegStyles.bottomBox}>
-            <Text style={loginRegStyles.bottomText}>Already have an account, </Text>
+            <Text style={{...loginRegStyles.bottomText, color: colors.mainTextColor}}>Already have an account, </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={{...loginRegStyles.bottomLink, color: mainColor}}>Login</Text>
+              <Text style={{...loginRegStyles.bottomLink, color: colors.constant}}>Login</Text>
             </TouchableOpacity>
           </View>
         </View>

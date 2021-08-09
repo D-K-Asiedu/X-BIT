@@ -15,7 +15,7 @@ import { loginRegStyles } from '../styles/loginReg';
 import { globalStyles, globalColours } from '../styles/global';
 import { Formik } from 'formik';
 import * as yup from 'yup'
-import { useTheme } from '../styles/ThemeContext';
+import { useTheme, useColor } from '../styles/ThemeContext';
 
 
 const loginSchema = yup.object({
@@ -32,27 +32,28 @@ const loginSchema = yup.object({
 export default function LoginScreen({ navigation }) {
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
-  const [mainColor, setMainColour] = useState('')
+  // const [mainColor, setMainColour] = useState('')
 
   const theme = useTheme()
+  const colors = useColor()
 
-  useEffect(() => {
-    switch (theme.colortheme) {
-      case 'green':
-        setMainColour(globalColours.mainCol)
-        break;
-      case 'blue':
-        setMainColour(globalColours.mainCol2)
-        break;
-      case 'pink':
-        setMainColour(globalColours.mainCol3)
-        break;
+  // useEffect(() => {
+  //   switch (theme.colortheme) {
+  //     case 'green':
+  //       setMainColour(globalColours.mainCol)
+  //       break;
+  //     case 'blue':
+  //       setMainColour(globalColours.mainCol2)
+  //       break;
+  //     case 'pink':
+  //       setMainColour(globalColours.mainCol3)
+  //       break;
   
     
-      default:
-        break;
-    }
-  }, [theme.colortheme])
+  //     default:
+  //       break;
+  //   }
+  // }, [theme.colortheme])
 
   useEffect(() => {
     let isMounted = true
@@ -63,16 +64,16 @@ export default function LoginScreen({ navigation }) {
   }, [])
 
   return (
-    <View style={{...globalStyles.container, backgroundColor: mainColor}}>
+    <View style={{...globalStyles.container, backgroundColor: colors.mainColor}}>
 
       <View style={loginRegStyles.imgBox}>
         {imgDisplay && <Image source={require('../assets/login.png')} style={loginRegStyles.image} />}
       </View>
 
-      <View style={loginRegStyles.content}>
-        <Text style={loginRegStyles.h2}>Log in to your account</Text>
+      <View style={{...loginRegStyles.content, backgroundColor: theme.darkmode? '#222222' : '#f2f2f2'}}>
+        <Text style={{...loginRegStyles.h2, color: colors.tetColor1}}>Log in to your account</Text>
 
-        <View style={loginRegStyles.contentCard}>
+        <View style={{...loginRegStyles.contentCard, backgroundColor: theme.darkmode? '#333333' : '#ffffff'}}>
           <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
@@ -104,7 +105,7 @@ export default function LoginScreen({ navigation }) {
                 <Button
                   title="Login"
                   color='#ffffff'
-                  bgColor={mainColor}
+                  bgColor={colors.constant}
                   style={{ marginTop: 15, }}
                   onPress={props.handleSubmit}
                 />
@@ -114,17 +115,17 @@ export default function LoginScreen({ navigation }) {
 
           <Button
             title="Login with google"
-            color={globalColours.darkBlue}
-            bgColor="#f2f2f2"
-            border1="#c4c4c4"
+            color={colors.tetColor1}
+            bgColor= {theme.darkmode ? "#696969" :"#f2f2f2"} 
+            border1= {theme.darkmode ? "#f2f2f2" :"#c4c4c4"}
             image="google"
             style={{ marginTop: 15, }}
           />
 
           <View style={loginRegStyles.bottomBox}>
-            <Text style={loginRegStyles.bottomText}>Don't have an account, </Text>
+            <Text style={{...loginRegStyles.bottomText, color: colors.mainTextColor}}>Don't have an account, </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={{...loginRegStyles.bottomLink, color: mainColor}}>Register</Text>
+              <Text style={{...loginRegStyles.bottomLink, color: colors.constant}}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>

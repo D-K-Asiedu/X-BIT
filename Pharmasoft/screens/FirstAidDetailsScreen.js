@@ -6,6 +6,7 @@ import FirstAidSteps from '../components/FirstAidSteps';
 import { LinearGradient } from 'expo-linear-gradient';
 import FirstAidDropDown from '../components/FirstAidDropDown';
 import { Linking } from 'react-native';
+import { useColor, useTheme } from '../styles/ThemeContext';
 
 const FirstAidDetailsScreen = ({navigation, route}) => {
     const [activeStep, setActiveStep]  = useState(1)
@@ -15,6 +16,35 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
 
     const phoneNum = "tel:911"
     const item = route.params
+    const colors = useColor()
+    const theme = useTheme()
+
+    const styles = StyleSheet.create({
+        container:{
+            backgroundColor: '#f77612',
+        },
+        header:{
+            alignItems: 'flex-end', 
+            height: 75,
+            backgroundColor: '#f77612',
+        },
+        content:{
+            marginTop: 10,
+            paddingTop: 25,
+            paddingHorizontal: 0,
+            backgroundColor: theme.darkmode? '#222222' : '#f2f2f2'
+        },
+        title:{
+            marginLeft: 25,
+            flexDirection: 'row',
+        },
+        steps:{
+            flex: 1,
+            paddingHorizontal: 25,
+            marginTop: 25,
+            backgroundColor: theme.darkmode? '#333333' : '#ffffff',
+        }
+    })    
 
     useEffect(() => {
         switch (activeStep) {
@@ -66,7 +96,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
             colors={item.gradient}
             start={[0,0]}
             end={[1,0]}             
-            style={{...globalStyles.container, ...styles.container}}>
+            style={{...globalStyles.container,}}>
             <LinearGradient 
                 colors={item.gradient}
                 start={[0,0]}
@@ -87,7 +117,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
                 activeOpacity={item.steps.categories == 1 && 1 }
                 onPress={openDropDown}
                 >
-                    <Text style={globalStyles.h3}>{item.steps.categories > 1? activeBranch.AcTitle: 'Steps'}</Text>
+                    <Text style={{...globalStyles.h3, color: colors.tetColor2}}>{item.steps.categories > 1? activeBranch.AcTitle: 'Steps'}</Text>
                     {item.steps.categories > 1 && <Entypo name="chevron-down" size={20} color={mainColor} />}
                 </TouchableOpacity>
                 <View style={styles.steps}>
@@ -115,29 +145,3 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
 }
 
 export default FirstAidDetailsScreen
-
-const styles = StyleSheet.create({
-    container:{
-        backgroundColor: '#f77612',
-    },
-    header:{
-        alignItems: 'flex-end', 
-        height: 75,
-        backgroundColor: '#f77612',
-    },
-    content:{
-        marginTop: 10,
-        paddingTop: 25,
-        paddingHorizontal: 0,
-    },
-    title:{
-        marginLeft: 25,
-        flexDirection: 'row',
-    },
-    steps:{
-        flex: 1,
-        paddingHorizontal: 25,
-        marginTop: 25,
-        backgroundColor: '#ffffff',
-    }
-})

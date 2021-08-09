@@ -14,6 +14,7 @@ import {
 } from '@expo/vector-icons';
 import { Linking } from 'react-native';
 import { useUpdateAuth, useAuth } from '../routes/AuthContext';
+import { useColor, useTheme } from '../styles/ThemeContext';
 
 
 const DrawerContent = ({navigation}) => {
@@ -21,10 +22,65 @@ const DrawerContent = ({navigation}) => {
     const [isLoggedIn, setLoggedIn] = useState(true)
     const authenticate = useUpdateAuth()
 
+    const colors = useColor()
+    const theme = useTheme()
+
     // useEffect(() => {
     //     setLoggedIn(tempLogin)
     // }, [tempLogin])
 
+    const styles = StyleSheet.create({
+        drawer: {
+            flex: 1,
+            paddingHorizontal: 20,
+            backgroundColor: colors.secBgColor,
+        },
+        section:{
+            paddingBottom: 10,
+            marginBottom: 20,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.darkmode? '#a4a4a4':'#d4d4d4',
+        },
+        sectionTitle:{
+            fontSize: 16,
+            color: colors.secTextColor,
+            paddingLeft: 20,
+            marginBottom: 10,
+        },
+        avatar:{
+            paddingBottom: 20, 
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        avatarImg:{
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+            borderWidth: 1,
+            borderColor: theme.darkmode? '#333333': '#d4d4d4',
+            marginHorizontal: 10,
+        },
+        loginText:{
+            flex: 1,
+            fontSize: 16,
+            color: colors.secTextColor,
+        },
+        loginEm:{
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: globalColours.mainCol,
+        },    
+        name:{
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: colors.tetColor1,
+        },
+        email:{
+            fontSize: 12,
+            color: colors.tetColor2,
+        }
+    })
+    
 
     return (
         <View style={styles.drawer}>
@@ -49,18 +105,21 @@ const DrawerContent = ({navigation}) => {
                 </View>
                 <View style={styles.section}>
                     <DrawerItem
-                        icon={() => (<Ionicons name="ios-home-outline" size={24} color={globalColours.lightGrey} />)}
+                        icon={() => (<Ionicons name="ios-home-outline" size={24} color={colors.secTextColor} />)}
                         label="Home"
+                        labelStyle={{color: colors.mainTextColor}}
                         onPress={() => navigation.navigate('MainTab', {screen: 'Home'})}
                     />
                     <DrawerItem
-                        icon={() => (<AntDesign name="user" size={24} color={globalColours.lightGrey} />)}
+                        icon={() => (<AntDesign name="user" size={24} color={colors.secTextColor} />)}
                         label="Profile"
+                        labelStyle={{color: colors.mainTextColor}}
                         onPress={() => isLoggedIn ? navigation.navigate('Profile') : authenticate('logout')}
                     />
                     <DrawerItem
-                        icon={() => (<Ionicons name="ios-settings-outline" size={24} color={globalColours.lightGrey} />)}
+                        icon={() => (<Ionicons name="ios-settings-outline" size={24} color={colors.secTextColor} />)}
                         label="Settings"
+                        labelStyle={{color: colors.mainTextColor}}
                         onPress={() => navigation.navigate('Settings')}
                     />
                 </View>
@@ -70,17 +129,20 @@ const DrawerContent = ({navigation}) => {
                     <DrawerItem
                         icon={() => (<FontAwesome name="ambulance" size={24} color="red" />)}
                         label="Ambulance"
+                        labelStyle={{color: colors.mainTextColor}}
                         onPress = {() => Linking.openURL('tel:911')}
                     />
                     <DrawerItem
                         icon={() => (<Fontisto name="doctor" size={24} color='#1da665' />)}
                         label="Medical personel"
+                        labelStyle={{color: colors.mainTextColor}}
                     />
                 </View>
             </DrawerContentScrollView>
             {isLoggedIn && <DrawerItem
-                icon={() => (<SimpleLineIcons name="logout" size={24} color={globalColours.lightGrey} />)}
+                icon={() => (<SimpleLineIcons name="logout" size={24} color={colors.secTextColor} />)}
                 label="Logout"
+                labelStyle={{color: colors.mainTextColor}}
                 onPress={() => authenticate('logout')}
             />}
         </View>
@@ -88,54 +150,3 @@ const DrawerContent = ({navigation}) => {
 }
 
 export default DrawerContent
-
-const styles = StyleSheet.create({
-    drawer: {
-        flex: 1,
-        paddingHorizontal: 20,
-    },
-    section:{
-        paddingBottom: 10,
-        marginBottom: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#d4d4d4',
-    },
-    sectionTitle:{
-        fontSize: 16,
-        color: globalColours.lightGrey,
-        paddingLeft: 20,
-        marginBottom: 10,
-    },
-    avatar:{
-        paddingBottom: 20, 
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    avatarImg:{
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: '#d4d4d4',
-        marginHorizontal: 10,
-    },
-    loginText:{
-        flex: 1,
-        fontSize: 16,
-        color: globalColours.lightGrey,
-    },
-    loginEm:{
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: globalColours.mainCol,
-    },    
-    name:{
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: globalColours.darkBlue,
-    },
-    email:{
-        fontSize: 12,
-        color: globalColours.greyBlue,
-    }
-})
