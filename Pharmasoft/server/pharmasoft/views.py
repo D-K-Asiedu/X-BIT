@@ -54,9 +54,35 @@ def logout():
     logout_user()
     return  redirect(url_for("home"))
 
-@app.route("/add-cart")
-def add_cart():
-    return "<h1>Add Cart</h1>"
+@app.route("/add-cart/<id>")
+def add_cart(id):
+    cur = mysql.connection.cursor()
+    cart_results = cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
+
+    if cart_results == 0:
+        cur.execute("INSERT INTO cart(Customer_id) VALUES(%s)",(current_user.id,))
+        mysql.connection.commit()
+
+        cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
+        cart = cur.fetchall()[0]
+
+    else:
+        cart = cur.fetchall()[0]
+
+    cart_item_results = cur.execute("SELECT * FROM cart_item WHERE Cart_id=%s AND Product_id=%s",(cart[0], id,))
+    if cart_item_results > 0:
+        cart_item = cur.fetchall()[0]
+        quantity = int(cart_item[1]) +1
+
+        cur.execute("UPDATE cart_item SET Quantity=%s WHERE Cart_id=%s AND Product_id=%s", (quantity, cart[0], id))
+        mysql.connection.commit()
+
+    else:
+        cur.execute("INSERT INTO cart_item(Quantity, Cart_id, Product_id) VALUES(1, %s, %s)", (cart[0], id))
+        mysql.connection.commit()
+
+    print("Product Added Successfully")
+    return redirect(url_for("home"))
 
 @app.route("/cart")
 def cart():
