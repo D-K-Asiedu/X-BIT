@@ -1,12 +1,34 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Modal } from 'react-native'
+import { 
+    View, 
+    Text, 
+    TouchableOpacity, 
+    StyleSheet, 
+    Image, 
+    ScrollView, 
+    Modal,
+    TextInput,
+    TouchableWithoutFeedback
+} from 'react-native'
 import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import ProfileInfo from '../components/ProfileInfo'
 import { useTheme } from '../styles/ThemeContext'
+import Button from '../components/Button'
 
 const ProfileScreen = ({ navigation }) => {
     const [mainColor, setMainColour] = useState('')
+    const [modalOpen, setModalOpen] = useState(false)
+    const [infoTitle, setInfoTitle] = useState('')
+    const [infoValue, setInfoValue] = useState('')
+    const [user, setUser] = useState({
+        name: 'John Doe',
+        email: 'example@xbit.com',
+        tel: '+119923456',
+        dob: '',
+        allergies: [],
+        password: 'helloworld'
+    })
 
     const theme = useTheme()
   
@@ -30,7 +52,24 @@ const ProfileScreen = ({ navigation }) => {
 
 
     const editProfile = (val) => {
-        console.log(val);
+        let valRef = ''
+        if(['name', 'email', 'phone number', 'password'].indexOf(val.toLowerCase()) != -1){
+            valRef = val.toLowerCase() == 'name' ? 'name' :
+                val.toLowerCase() == 'email' ? 'email' :
+                val.toLowerCase() == 'phone number' ? 'tel' : 'password'
+
+            setInfoTitle(val.toLowerCase())
+            setInfoValue(user[valRef])
+            setModalOpen(true)    
+        }
+    }
+
+    const saveEdit = () => {
+        console.log(infoValue);
+        setUser(prevUser => (
+            {...prevUser,} 
+        ))
+        setModalOpen(false)
     }
 
     return (
@@ -54,14 +93,53 @@ const ProfileScreen = ({ navigation }) => {
                     </View>
                 </View>
                 <View>
-                    <ProfileInfo icon="name" title="Name" profile="John Doe" editProfile={editProfile} />
-                    <ProfileInfo icon="email" title="Email" profile="example@xbit.com" editProfile={editProfile} />
-                    <ProfileInfo icon="phone" title="Phone number" profile="+20020012002" editProfile={editProfile} />
-                    <ProfileInfo icon="date" title="Date of birth" editProfile={editProfile} />
+                    <ProfileInfo icon="name" title="Name" profile={user.name} editProfile={editProfile} />
+                    <ProfileInfo icon="email" title="Email" profile={user.email} editProfile={editProfile} />
+                    <ProfileInfo icon="phone" title="Phone number" profile={user.tel} editProfile={editProfile} />
+                    <ProfileInfo icon="date" title="Date of birth" profile={user.dob} editProfile={editProfile} />
                     <ProfileInfo icon="allergies" title="Allergies" editProfile={editProfile} />
-                    <ProfileInfo icon="password" title="Password" profile="helloHello" editProfile={editProfile} />
+                    <ProfileInfo icon="password" title="Password" profile={user.password} editProfile={editProfile} />
                 </View>
             </View>
+
+            <Modal
+                visible={modalOpen}
+                transparent={true}
+                animationType='fade'
+                onRequestClose={() => setModalOpen(false)}
+            >
+                <View style={styles.modalBg}>
+                    <View style={styles.modalBox}>
+                        <Text style={{
+                            fontSize: 16,
+                            color: globalColours.greyBlue,
+                            fontWeight: 'bold'
+                        }}>Enter your {infoTitle}</Text>
+                        <TextInput 
+                            autoFocus={true}
+                            value={infoValue}
+                            onChangeText={text => setInfoValue(text)}
+                            underlineColorAndroid="transparent"
+                            autoCompleteType="off"
+                            // value='Hello'
+                            style={{
+                                paddingHorizontal: 10,
+                                fontSize: 16,
+                                color: globalColours.lightGrey,
+                                borderBottomWidth: 2,
+                                borderColor: mainColor,
+                                marginVertical: 30,    
+                                fontSize: 16,                        
+                            }}
+
+                        />
+                        <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20,}}>
+                            <TouchableOpacity onPress={() => setModalOpen(false)}><Text style={styles.linkText}>Cancel</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={saveEdit}><Text style={styles.linkText}>Save</Text></TouchableOpacity>                    
+                        </View>
+                    </View>
+                </View>
+            </Modal>
                         
         </View>
     )
@@ -103,6 +181,22 @@ const styles = StyleSheet.create({
         borderColor: '#f2f2f2',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    modalBg:{
+        flex: 1,
+        backgroundColor: '#000000aa',
+        justifyContent: 'flex-end'
+    },
+    modalBox:{
+        paddingVertical: 20,
+        paddingHorizontal: 30,
+        backgroundColor: '#ffffff'
+    },
+    linkText:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: globalColours.mainCol,
+        marginLeft: 50,
     }
 })
 

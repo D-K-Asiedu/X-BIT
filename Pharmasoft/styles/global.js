@@ -14,6 +14,7 @@ export const globalColours = {
     lightGrey: '#808080',
     darkGrey: '#333333',
     grey: '#696969',
+    yellow: '#fbbc05',
     firstAid:{
         'plaster':'#f7e0b5',
         'heart':'#b7dbfd',

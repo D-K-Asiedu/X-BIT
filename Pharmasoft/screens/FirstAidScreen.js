@@ -5,33 +5,34 @@ import FirstAidCard from '../components/FirstAidCard'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import NavBar from '../components/NavBar';
 import firstAidData from '../data/firstAidData';
-import { useTheme } from '../styles/ThemeContext'
+import { useTheme, useColor } from '../styles/ThemeContext'
 
 const FirstAidScreen = ({ navigation }) => {
   const [firstAid, setFirstAid] = useState([])
   const [searchActive, setSearchActive] = useState(false)
   const [searchText, setSearchText] = useState('')
-  const [mainColor, setMainColour] = useState('')
+  // const [mainColor, setMainColour] = useState('')
 
   const theme = useTheme()
+  const colors = useColor()
 
-  useEffect(() => {
-    switch (theme.colortheme) {
-      case 'green':
-        setMainColour(globalColours.mainCol)
-        break;
-      case 'blue':
-        setMainColour(globalColours.mainCol2)
-        break;
-      case 'pink':
-        setMainColour(globalColours.mainCol3)
-        break;
+  // useEffect(() => {
+  //   switch (theme.colortheme) {
+  //     case 'green':
+  //       setMainColour(globalColours.mainCol)
+  //       break;
+  //     case 'blue':
+  //       setMainColour(globalColours.mainCol2)
+  //       break;
+  //     case 'pink':
+  //       setMainColour(globalColours.mainCol3)
+  //       break;
   
     
-      default:
-        break;
-    }
-  }, [theme.colortheme])
+  //     default:
+  //       break;
+  //   }
+  // }, [theme.colortheme])
 
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const FirstAidScreen = ({ navigation }) => {
 
   const SearchHeader = ({navigation}) => {
     return (
-      <View style={{ ...globalStyles.header, backgroundColor: mainColor }}>
+      <View style={{ ...globalStyles.header, backgroundColor: colors.mainColor }}>
         <TouchableOpacity>
           <Ionicons name="arrow-back" size={25} color="#ffffff" onPress={() => {
             setSearchText('')
@@ -63,15 +64,15 @@ const FirstAidScreen = ({ navigation }) => {
 
   const DefaultHeader = () => {
     return (
-      <View style={{...globalStyles.header, backgroundColor: mainColor}}>
+      <View style={{...globalStyles.header, backgroundColor: colors.mainColor}}>
         <TouchableOpacity
           onPress={() => navigation.openDrawer()}
         >
-          <Feather name="menu" size={30} color='white' />
+          <Feather name="menu" size={30} color='#ffffff' />
         </TouchableOpacity>
         <Text style={globalStyles.h2}>First aid guide</Text>
         <TouchableOpacity>
-          <Ionicons name="search" size={24} color='white' onPress={() => setSearchActive(true)} />
+          <Ionicons name="search" size={24} color='#ffffff' onPress={() => setSearchActive(true)} />
         </TouchableOpacity>
       </View>
     )
@@ -89,10 +90,10 @@ const FirstAidScreen = ({ navigation }) => {
 
 
   return (
-    <View style={{...globalStyles.container, backgroundColor: mainColor}}>
+    <View style={{...globalStyles.container, backgroundColor: colors.mainColor}}>
       {searchActive ? <SearchHeader /> : <DefaultHeader />}
 
-      <View style={globalStyles.content}>
+      <View style={{...globalStyles.content, backgroundColor: colors.mainBgColor}}>
       {firstAid.length == 0 && searchActive && <Text style={styles.errText}>No results</Text>}
         <FlatList
           data={firstAid}

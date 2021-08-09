@@ -2,59 +2,94 @@ import React, {useState, useEffect} from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
 import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons } from '@expo/vector-icons'
-import { useTheme, useUpdateTheme } from '../styles/ThemeContext'
+import { useTheme, useUpdateTheme, useColor } from '../styles/ThemeContext'
 
-const Section = ({title, options, state, setState}) => (
-    <View>
-        <Text style={styles.sectionTitle}>{title}</Text>
-        <FlatList 
-            data={options}
-            renderItem={({item}) => (
-                <Selection 
-                    title={item} 
-                    active={item.toLowerCase() == state}
-                    setActive = {setState} 
-                />
-            )}
-            keyExtractor={() => (Math.random()*1000).toString()}
-        />
-    </View>
-)
+const Section = ({title, options, state, setState}) => {  
+    const colors = useColor() 
+    const theme = useTheme()
+
+    const sectionTitle = {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: colors.secTextColor,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.darkmode? '#a4a4a4':'#d4d4d4',
+        backgroundColor: theme.darkmode? '#666666': '#e8e8e8',
+    }
+
+    return(
+        <View>
+            <Text style={sectionTitle}>{title}</Text>
+            <FlatList
+                data={options}
+                renderItem={({ item }) => (
+                    <Selection
+                        title={item}
+                        active={item.toLowerCase() == state}
+                        setActive={setState}
+                    />
+                )}
+                keyExtractor={() => (Math.random() * 1000).toString()}
+            />
+        </View>
+    )
+}
 
 const Selection = ({title, active, setActive}) => {
+    const colors = useColor() 
+    const theme = useTheme()
+
+    const selection = {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 20,
+        paddingHorizontal: 25,
+        borderBottomWidth: 1,
+        borderBottomColor: '#d4d4d4'
+    }
+
+    const titleStyle = {
+        fontSize: 18,
+        color: colors.mainTextColor,
+    }
+
     return(
         <TouchableOpacity 
-            style={styles.selection}
+            style={selection}
             onPress = {() => setActive(title.toLowerCase())}
         >
-            <Text style={styles.title}>{title}</Text>
+            <Text style={titleStyle}>{title}</Text>
             <Radio active={active} />
         </TouchableOpacity>
     )
 }
 
 const Radio =  ({active, size, color}) => {
-    const [mainColor, setMainColour] = useState('')
+    // const [mainColor, setMainColour] = useState('')
 
     const theme = useTheme()
+    const colors = useColor()
   
-    useEffect(() => {
-      switch (theme.colortheme) {
-        case 'green':
-          setMainColour(globalColours.mainCol)
-          break;
-        case 'blue':
-          setMainColour(globalColours.mainCol2)
-          break;
-        case 'pink':
-          setMainColour(globalColours.mainCol3)
-          break;
+    // useEffect(() => {
+    //   switch (theme.colortheme) {
+    //     case 'green':
+    //       setMainColour(globalColours.mainCol)
+    //       break;
+    //     case 'blue':
+    //       setMainColour(globalColours.mainCol2)
+    //       break;
+    //     case 'pink':
+    //       setMainColour(globalColours.mainCol3)
+    //       break;
     
       
-        default:
-          break;
-      }
-    }, [theme.colortheme])  
+    //     default:
+    //       break;
+    //   }
+    // }, [theme.colortheme])  
 
     return(
         <View style={{
@@ -62,14 +97,14 @@ const Radio =  ({active, size, color}) => {
             height: size || 20,
             // borderRadius: size/2 || 10,
             borderWidth: 2,
-            borderColor: color || mainColor,
+            borderColor: color || colors.mainColor,
             padding: 3,
             justifyContent: 'center',
         }}>
             <View style={{
                 flex: 1,
                 // borderRadius: size/2 || 10,
-                backgroundColor: active && (color || mainColor),
+                backgroundColor: active && (color || colors.mainColor),
             }}>
 
             </View>
@@ -78,41 +113,54 @@ const Radio =  ({active, size, color}) => {
 }
 
 const SettingsScreen = ({navigation}) => {
+    const theme = useTheme()
+    const colors = useColor()
+    const updateTheme = useUpdateTheme()
+
     const [darkMode, setDarkMode] = useState('off')
     const [darkTheme, setDarkTheme] = useState('dim')
-    const [colorTheme, setColorTheme] = useState('green')
-    const [mainColor, setMainColour] = useState('')
+    const [colorTheme, setColorTheme] = useState(theme.colortheme)
+    // const [mainColor, setMainColour] = useState('')
 
-    const theme = useTheme()
-    const updateTheme = useUpdateTheme()
   
-    useEffect(() => {
-      switch (theme.colortheme) {
-        case 'green':
-          setMainColour(globalColours.mainCol)
-          break;
-        case 'blue':
-          setMainColour(globalColours.mainCol2)
-          break;
-        case 'pink':
-          setMainColour(globalColours.mainCol3)
-          break;
+    // useEffect(() => {
+    //   switch (theme.colortheme) {
+    //     case 'green':
+    //       setMainColour(globalColours.mainCol)
+    //       break;
+    //     case 'blue':
+    //       setMainColour(globalColours.mainCol2)
+    //       break;
+    //     case 'pink':
+    //       setMainColour(globalColours.mainCol3)
+    //       break;
     
       
-        default:
-          break;
-      }
-    }, [theme.colortheme])
+    //     default:
+    //       break;
+    //   }
+    // }, [theme.colortheme])
 
     const updateColorTheme = (val) => {
-        setColorTheme(val)
         updateTheme('colorTheme', val)
+        setColorTheme(val)
+    }
+
+    const updateDarkMode = (val) => {
+        updateTheme('darkMode', val)
+        setDarkMode(val)
+    }
+
+    const header = {
+        justifyContent: 'flex-start',
+        borderBottomColor: theme.darkmode? '#666666':'#d4d4d4',
+        borderBottomWidth: 1,
     }
   
 
     return (
-        <View style={{...globalStyles.container, backgroundColor: mainColor}}>
-            <View style={{...globalStyles.header, ...styles.header, backgroundColor: mainColor}}>
+        <View style={{...globalStyles.container, backgroundColor: colors.mainColor}}>
+            <View style={{...globalStyles.header, ...header, backgroundColor: colors.mainColor}}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                 >
@@ -121,12 +169,12 @@ const SettingsScreen = ({navigation}) => {
                 <Text style={{...globalStyles.h2, ...styles.h2}}>Settings</Text>
             </View>
 
-            <View style={{...globalStyles.content, paddingHorizontal: 0, paddingTop: 0}}>
+            <View style={{...globalStyles.content, paddingHorizontal: 0, paddingTop: 0, backgroundColor: colors.secBgColor}}>
                 <Section 
                     title="Dark mode" 
                     options={['Off', 'On', 'System']} 
                     state={darkMode}
-                    setState={setDarkMode} 
+                    setState={updateDarkMode} 
                 />
                 <Section 
                     title="Dark theme" 
@@ -146,36 +194,8 @@ const SettingsScreen = ({navigation}) => {
 )}
 
 const styles = StyleSheet.create({
-    header: {
-        justifyContent: 'flex-start',
-        borderBottomColor: '#d4d4d4',
-        borderBottomWidth: 1,
-    },
     h2:{
         marginLeft: 30,
-    },
-    selection:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingVertical: 20,
-        paddingHorizontal: 25,
-        borderBottomWidth: 1,
-        borderBottomColor: '#d4d4d4'
-    },
-    sectionTitle:{
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: globalColours.lightGrey,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#d4d4d4',
-        backgroundColor: '#e8e8e8',
-    },
-    title:{
-        fontSize: 18,
-        color: globalColours.darkGrey,
     },
     status:{
         fontSize: 14,
