@@ -1,10 +1,12 @@
+{% extends 'base.html' %}
 
+{% block body %}
 <h1> PRODUCT DETAILS </h1>
-<a href="/register">Register</a>
 {%for product in product_details %}
-
 
  <h2>{{product[1]}}</h2>
  {{product[2]}}
   <hr>
 {% endfor %}
+{% endblock %}
+

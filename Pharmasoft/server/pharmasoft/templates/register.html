@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1 class="text-center">Register</h1>
+    <hr>
+
+    <form method="POST">
+        <div>
+            <input type="text" placeholder="Name" name="name" class="form-control mb-3">
+            <input type="text" placeholder="Email" name="email" class="form-control mb-3">
+            <input type="text" placeholder="Contact" name="contact" class="form-control mb-3">
+            <input type="text" placeholder="Password" name="password" class="form-control mb-3">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+    <hr>
+{% endblock %}

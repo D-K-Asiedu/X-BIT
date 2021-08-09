@@ -54,10 +54,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Pharmasoft`.`Product` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `product_name` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
   `price` INT NOT NULL,
   `image` VARCHAR(45) NULL,
-  `prescride` TINYINT NOT NULL DEFAULT 0,
+  `prescribe` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
 ENGINE = InnoDB;
