@@ -1,13 +1,37 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Feather, FontAwesome } from '@expo/vector-icons'
-import { globalStyles } from '../styles/global'
+import { globalStyles, globalColours } from '../styles/global'
 import ErrorPageCard from '../components/ErrorPageCard'
+import { useTheme } from '../styles/ThemeContext'
 
 const HomeScreen = ({navigation}) => {
+    const [mainColor, setMainColour] = useState('')
+
+    const theme = useTheme()
+  
+    useEffect(() => {
+      switch (theme.colortheme) {
+        case 'green':
+          setMainColour(globalColours.mainCol)
+          break;
+        case 'blue':
+          setMainColour(globalColours.mainCol2)
+          break;
+        case 'pink':
+          setMainColour(globalColours.mainCol3)
+          break;
+    
+      
+        default:
+          break;
+      }
+    }, [theme.colortheme])
+  
+
     return (
-        <View style={globalStyles.container}>
-            <View style={globalStyles.header}>
+        <View style={{...globalStyles.container, backgroundColor: mainColor}}>
+            <View style={{...globalStyles.header, backgroundColor: mainColor}}>
                 <TouchableOpacity
                     onPress={() => navigation.openDrawer()}
                 >

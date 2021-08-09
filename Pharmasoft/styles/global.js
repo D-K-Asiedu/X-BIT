@@ -7,6 +7,8 @@ const darkBlueBuffer = '#1a2e35'
 
 export const globalColours = {
     mainCol: '#1ba665',
+    mainCol2: '#0c88fc',
+    mainCol3: '#ec008c',
     darkBlue: darkBlueBuffer,
     greyBlue: '#375a64',
     lightGrey: '#808080',

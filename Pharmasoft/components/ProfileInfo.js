@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { 
     Entypo, 
@@ -9,6 +9,7 @@ import {
     AntDesign,
 } from '@expo/vector-icons';
 import { globalColours } from '../styles/global';
+import { useTheme } from '../styles/ThemeContext';
 
 const icons = {
     "email": <Entypo name="email" size={15} color={globalColours.lightGrey} />,
@@ -20,6 +21,29 @@ const icons = {
 }
 
 const ProfileInfo = (props) => {
+    const [mainColor, setMainColour] = useState('')
+
+    const theme = useTheme()
+  
+    useEffect(() => {
+      switch (theme.colortheme) {
+        case 'green':
+          setMainColour(globalColours.mainCol)
+          break;
+        case 'blue':
+          setMainColour(globalColours.mainCol2)
+          break;
+        case 'pink':
+          setMainColour(globalColours.mainCol3)
+          break;
+    
+      
+        default:
+          break;
+      }
+    }, [theme.colortheme])
+  
+
     return (
         <TouchableOpacity style={styles.infoCard} onPress={() => props.editProfile(props.title)}>
             <View>
@@ -30,12 +54,12 @@ const ProfileInfo = (props) => {
             <Text 
                 style={{
                     ...styles.profile,
-                     color: !props.profile ? globalColours.mainCol: globalColours.darkGrey
+                     color: !props.profile ? mainColor: globalColours.darkGrey
                      }}>
                          {props.profile || `Add ${props.title.toLowerCase()}`}
                         </Text>
             </View>
-            <MaterialIcons name={props.profile ? "edit" : "add"} size={24} color={globalColours.mainCol} />
+            <MaterialIcons name={props.profile ? "edit" : "add"} size={24} color={mainColor} />
         </TouchableOpacity>
     )
 }

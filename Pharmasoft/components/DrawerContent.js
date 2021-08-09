@@ -41,7 +41,7 @@ const DrawerContent = ({navigation}) => {
                         <>
                             <Image source={require('../assets/no-user.jpg')} style={styles.avatarImg} />
                             <Text style={styles.loginText}>
-                                <Text style={styles.loginEm} onPress={() => authenticate('logout')}>Login</Text> to access your profile
+                                <Text style={styles.loginEm} onPress={() => authenticate('logout')}>Login</Text> to access all features of the app
                             </Text>
                         </>
                     }
@@ -73,7 +73,7 @@ const DrawerContent = ({navigation}) => {
                         onPress = {() => Linking.openURL('tel:911')}
                     />
                     <DrawerItem
-                        icon={() => (<Fontisto name="doctor" size={24} color={globalColours.mainCol} />)}
+                        icon={() => (<Fontisto name="doctor" size={24} color='#1da665' />)}
                         label="Medical personel"
                     />
                 </View>

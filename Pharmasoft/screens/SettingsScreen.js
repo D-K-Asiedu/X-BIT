@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native'
 import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons } from '@expo/vector-icons'
+import { useTheme, useUpdateTheme } from '../styles/ThemeContext'
 
 const Section = ({title, options, state, setState}) => (
     <View>
@@ -33,20 +34,42 @@ const Selection = ({title, active, setActive}) => {
 }
 
 const Radio =  ({active, size, color}) => {
+    const [mainColor, setMainColour] = useState('')
+
+    const theme = useTheme()
+  
+    useEffect(() => {
+      switch (theme.colortheme) {
+        case 'green':
+          setMainColour(globalColours.mainCol)
+          break;
+        case 'blue':
+          setMainColour(globalColours.mainCol2)
+          break;
+        case 'pink':
+          setMainColour(globalColours.mainCol3)
+          break;
+    
+      
+        default:
+          break;
+      }
+    }, [theme.colortheme])  
+
     return(
         <View style={{
             width: size || 20,
             height: size || 20,
-            borderRadius: size/2 || 10,
+            // borderRadius: size/2 || 10,
             borderWidth: 2,
-            borderColor: color || globalColours.mainCol,
+            borderColor: color || mainColor,
             padding: 3,
             justifyContent: 'center',
         }}>
             <View style={{
                 flex: 1,
-                borderRadius: size/2 || 10,
-                backgroundColor: active && (color || globalColours.mainCol),
+                // borderRadius: size/2 || 10,
+                backgroundColor: active && (color || mainColor),
             }}>
 
             </View>
@@ -58,10 +81,38 @@ const SettingsScreen = ({navigation}) => {
     const [darkMode, setDarkMode] = useState('off')
     const [darkTheme, setDarkTheme] = useState('dim')
     const [colorTheme, setColorTheme] = useState('green')
+    const [mainColor, setMainColour] = useState('')
+
+    const theme = useTheme()
+    const updateTheme = useUpdateTheme()
+  
+    useEffect(() => {
+      switch (theme.colortheme) {
+        case 'green':
+          setMainColour(globalColours.mainCol)
+          break;
+        case 'blue':
+          setMainColour(globalColours.mainCol2)
+          break;
+        case 'pink':
+          setMainColour(globalColours.mainCol3)
+          break;
+    
+      
+        default:
+          break;
+      }
+    }, [theme.colortheme])
+
+    const updateColorTheme = (val) => {
+        setColorTheme(val)
+        updateTheme('colorTheme', val)
+    }
+  
 
     return (
-        <View style={{...globalStyles.container}}>
-            <View style={{...globalStyles.header, ...styles.header}}>
+        <View style={{...globalStyles.container, backgroundColor: mainColor}}>
+            <View style={{...globalStyles.header, ...styles.header, backgroundColor: mainColor}}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                 >
@@ -87,7 +138,7 @@ const SettingsScreen = ({navigation}) => {
                     title="Color theme" 
                     options={['Green', 'Blue', 'Pink']} 
                     state={colorTheme} 
-                    setState={setColorTheme} 
+                    setState={updateColorTheme} 
                 />
             </View>
 
