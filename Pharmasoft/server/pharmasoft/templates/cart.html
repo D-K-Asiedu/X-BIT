@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1> PRODUCT DETAILS </h1>
+{%for product in order %}
+ <h2>{{product[0]}}</h2>
+ <h3>{{product[1]}}</h3>
+ <h3>{{product[2]}} GHC</h3>
+ <a href="/update-cart/add/{{ product[3] }}">Increase</a>
+ <br>
+ <a href="/update-cart/remove/{{ product[3] }}">Decrease</a>
+  <hr>
+{% endfor %}
+{% endblock %}
+

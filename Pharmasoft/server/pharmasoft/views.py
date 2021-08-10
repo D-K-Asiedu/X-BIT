@@ -3,6 +3,8 @@ from pharmasoft import app, mysql
 from flask import render_template, redirect, request, url_for
 from pharmasoft import User
 
+from pharmasoft import func
+
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def home(path):
@@ -86,7 +88,32 @@ def add_cart(id):
 
 @app.route("/cart")
 def cart():
-    return "<h1>Cart</h1>"
+    order = func.get_order()
+    return render_template("cart.html", order=order)
+
+@app.route("/update-cart/<action>/<id>")
+def update_cart(action, id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
+    cart = cur.fetchall()[0]
+
+    cur.execute("SELECT * FROM cart_item WHERE Cart_id=%s AND Product_id=%s",(cart[0], id,))
+    cart_item = cur.fetchall()[0]
+
+    if action == "add":
+        quantity = int(cart_item[1]) +1
+    else:
+        quantity = int(cart_item[1]) -1
+        if quantity == 0:
+            cur.execute("DELETE FROM cart_item WHERE id=%s",(cart_item[0],))
+            mysql.connection.commit()
+            return redirect(url_for("cart"))
+
+
+    cur.execute("UPDATE cart_item SET Quantity=%s WHERE Cart_id=%s AND Product_id=%s", (quantity, cart[0], id))
+    mysql.connection.commit()
+
+    return redirect(url_for("cart"))
 
 @app.route("/checkout")
 def checkout():
