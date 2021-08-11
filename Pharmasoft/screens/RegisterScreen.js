@@ -89,10 +89,10 @@ export default function RegisterScreen({navigation}) {
          {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{...loginRegStyles.image, width: 275, height: 255}} />}
       </View>
 
-      <View style={{...loginRegStyles.content, backgroundColor: theme.darkmode? '#222222' : '#f2f2f2'}}>
+      <View style={{...loginRegStyles.content, backgroundColor: colors.mainBgColor}}>
           <Text style={{...loginRegStyles.h2, color: colors.tetColor1}}>Create an account</Text>
         
-        <View style={{...loginRegStyles.contentCard, backgroundColor: theme.darkmode? '#333333' : '#ffffff'}}>
+        <View style={{...loginRegStyles.contentCard, backgroundColor: colors.secBgColor}}>
           <Formik
             initialValues={{ name: '', email: '', phone: '', password: '', confirm_password: '' }}
             validationSchema={registerSchema}
@@ -167,7 +167,7 @@ export default function RegisterScreen({navigation}) {
           <Button
             title="Register with google"
             color={colors.tetColor1}
-            bgColor= {theme.darkmode ? "#696969" :"#f2f2f2"} 
+            bgColor= {theme.darkmode ? "#69696969" :"#f2f2f2"} 
             border1= {theme.darkmode ? "#f2f2f2" :"#c4c4c4"}
             image="google"
             style={{marginTop: 15,}}

@@ -15,8 +15,8 @@ const Section = ({title, options, state, setState}) => {
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderBottomWidth: 1,
-        borderBottomColor: theme.darkmode? '#a4a4a4':'#d4d4d4',
-        backgroundColor: theme.darkmode? '#666666': '#e8e8e8',
+        borderBottomColor: theme.darkmode? theme.darktheme == 'dim'? '#a4a4a4': '#999999':'#d4d4d4',
+        backgroundColor: theme.darkmode? theme.darktheme == 'dim'? '#666666': '#454545': '#e8e8e8',
     }
 
     return(
@@ -97,14 +97,14 @@ const Radio =  ({active, size, color}) => {
             height: size || 20,
             // borderRadius: size/2 || 10,
             borderWidth: 2,
-            borderColor: color || colors.mainColor,
+            borderColor: color || colors.constant,
             padding: 3,
             justifyContent: 'center',
         }}>
             <View style={{
                 flex: 1,
                 // borderRadius: size/2 || 10,
-                backgroundColor: active && (color || colors.mainColor),
+                backgroundColor: active && (color || colors.constant),
             }}>
 
             </View>
@@ -117,8 +117,8 @@ const SettingsScreen = ({navigation}) => {
     const colors = useColor()
     const updateTheme = useUpdateTheme()
 
-    const [darkMode, setDarkMode] = useState('off')
-    const [darkTheme, setDarkTheme] = useState('dim')
+    const [darkMode, setDarkMode] = useState(theme.darkmodeBuff)
+    const [darkTheme, setDarkTheme] = useState(theme.darktheme)
     const [colorTheme, setColorTheme] = useState(theme.colortheme)
     // const [mainColor, setMainColour] = useState('')
 
@@ -151,6 +151,12 @@ const SettingsScreen = ({navigation}) => {
         setDarkMode(val)
     }
 
+    const updateDarkTheme = (val) => {
+        updateTheme('darkTheme', val)
+        setDarkTheme(val)
+    }
+
+
     const header = {
         justifyContent: 'flex-start',
         borderBottomColor: theme.darkmode? '#666666':'#d4d4d4',
@@ -180,7 +186,7 @@ const SettingsScreen = ({navigation}) => {
                     title="Dark theme" 
                     options={['Dim', 'Lights out']} 
                     state={darkTheme} 
-                    setState={setDarkTheme} 
+                    setState={updateDarkTheme} 
                 />
                 <Section 
                     title="Color theme" 

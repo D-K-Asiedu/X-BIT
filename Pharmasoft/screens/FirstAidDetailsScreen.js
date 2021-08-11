@@ -32,7 +32,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
             marginTop: 10,
             paddingTop: 25,
             paddingHorizontal: 0,
-            backgroundColor: theme.darkmode? '#222222' : '#f2f2f2'
+            backgroundColor: colors.mainBgColor
         },
         title:{
             marginLeft: 25,
@@ -42,7 +42,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
             flex: 1,
             paddingHorizontal: 25,
             marginTop: 25,
-            backgroundColor: theme.darkmode? '#333333' : '#ffffff',
+            backgroundColor: colors.secBgColor,
         }
     })    
 
@@ -90,15 +90,16 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
     }
 
     const mainColor = item.gradient[0] || globalColours.mainCol
+    const headerColor = theme.darkmode && theme.darktheme == 'dim' ? item.gradient : [colors.mainColor, colors.mainColor]
 
     return (
         <LinearGradient
-            colors={item.gradient}
+            colors={headerColor}
             start={[0,0]}
             end={[1,0]}             
             style={{...globalStyles.container,}}>
             <LinearGradient 
-                colors={item.gradient}
+                colors={headerColor}
                 start={[0,0]}
                 end={[1,0]} 
                 style={{...globalStyles.header, ...styles.header}}>

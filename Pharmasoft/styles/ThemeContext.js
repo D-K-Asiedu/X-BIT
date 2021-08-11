@@ -109,17 +109,17 @@ export const ThemeProvider = ({ children }) => {
 
     const blackColors = {
         constant: mainColour,
-        mainColor: mainColour,
+        mainColor: '#333333',
         secColor1: '',
         secColor2: '',
-        tetColor1: globalColours.darkBlue,
+        tetColor1: '#ffffff',
         tetColor2: '#d4d4d4',
-        tetColor2: globalColours.yellow,
-        mainBgColor: '#f2f2f2',
-        secBgColor: '#ffffff',
-        mainTextColor: globalColours.darkGrey,
-        secTextColor: globalColours.lightGrey,
-        tetTextColor: globalColours.grey,
+        tetColor3: globalColours.yellow,
+        mainBgColor: '#222222',
+        secBgColor: '#000000',
+        mainTextColor: '#f2f2f2',
+        secTextColor: '#ffffff',
+        tetTextColor: globalColours.lightGrey,
     }
 
 
@@ -127,10 +127,11 @@ export const ThemeProvider = ({ children }) => {
         <ThemeUpdateContext.Provider value={toggleDisplay} >
             <ThemeContext.Provider value={{
                 darkmode: darkMode,
+                darkmodeBuff: darkModeBuffer,
                 darktheme: darkTheme,
                 colortheme: colorTheme,
             }}>
-                <ColorContext.Provider value={darkMode ? dimColors: lightColors}>
+                <ColorContext.Provider value={darkMode ? darkTheme == 'dim' ? dimColors: blackColors: lightColors}>
                     {children}
                 </ColorContext.Provider>
             </ThemeContext.Provider>
