@@ -43,73 +43,70 @@ const Swipable = () => {
 export default Swipable;
 
 const styles = StyleSheet.create({
-    swi:{
+    swi: {
       justifyContent: 'center',
       alignItems: 'center',
       height: 205
     },
     yellView: {
-        marginTop: 30,
-        marginLeft: 22, 
-        marginBottom: 25,     
-        backgroundColor: '#F9B900',
-        width: 390,
-        height: 130,
-        borderRadius: 20,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-evenly' 
+      marginTop: 30,
+      marginLeft: 22, 
+      marginBottom: 25,     
+      backgroundColor: '#F9B900',
+      width: 390,
+      height: 130,
+      borderRadius: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-evenly' 
       },
-      yellTextView: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        marginRight: 25
+    yellTextView: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      marginRight: 25
       },
-      yellTextOne: {
-        color: 'white',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        fontFamily: 'comic-neue',
-        fontSize: 20,
-        marginTop: 1,
-        marginBottom: 10,
-        
-        marginLeft: 60
+    yellTextOne: {
+      color: 'white',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      fontFamily: 'comic-neue',
+      fontSize: 20,
+      marginTop: 1,
+      marginBottom: 10,
+      marginLeft: 60
       },
-      yellTextTwo: {
-        color: 'white',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-        fontSize: 16,
-        fontFamily: 'comic-neue',
-        marginLeft: 60
+    yellTextTwo: {
+      color: 'white',
+      alignItems: 'flex-start',
+      justifyContent: 'space-between',
+      fontSize: 16,
+      fontFamily: 'comic-neue',
+      marginLeft: 60
       },
-      yellImageView: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        paddingLeft: 10,
-        //marginRight: 40,
-        
+    yellImageView: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      paddingLeft: 10
       },
-      yellImage: {
-        resizeMode: 'cover',
-        width: 90,
-        height: 100,
-        borderTopLeftRadius: 100,
-        borderBottomRightRadius: 30,
-        marginTop: 38,
-        marginRight: 47
+    yellImage: {
+      resizeMode: 'cover',
+      width: 90,
+      height: 100,
+      borderTopLeftRadius: 100,
+      borderBottomRightRadius: 30,
+      marginTop: 38,
+      marginRight: 47
       },
-      yellImageThree: {
-        resizeMode: 'cover',
-        width: 90,
-        height: 100,
-        borderTopLeftRadius: 100,
-        borderBottomRightRadius: 30,
-        marginTop: 38,
-        marginRight: 43
+    yellImageThree: {
+      resizeMode: 'cover',
+      width: 90,
+      height: 100,
+      borderTopLeftRadius: 100,
+      borderBottomRightRadius: 30,
+      marginTop: 38,
+      marginRight: 43
       },
 });
 //npm install react-native-swiper

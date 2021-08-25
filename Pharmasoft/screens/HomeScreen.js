@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Button, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView, View } from 'react-native';
+import { Text, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView, View } from 'react-native';
 
 import Swipable from '../components/Swipable';
 import ArticleCarousel from '../components/ArticleCarousel';
@@ -184,9 +184,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 2,
         justifyContent: 'center',
-        alignItems: 'center',
-        //height: 200
-
+        alignItems: 'center'
     },
     footer: {
         flex: 5,
@@ -194,8 +192,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingVertical: 50,
-        paddingHorizontal: 30,
-        //justifyContent: 'space-between',
+        paddingHorizontal: 30
     },
     yellView: {
       marginTop: 30,
@@ -223,7 +220,6 @@ const styles = StyleSheet.create({
       fontSize: 20,
       marginTop: 1,
       marginBottom: 10,
-      
       marginLeft: 60
     },
     yellTextTwo: {
@@ -239,7 +235,6 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
       justifyContent: 'center',
       paddingLeft: 10,
-      
     },
     yellImage: {
       resizeMode: 'cover',
@@ -289,11 +284,9 @@ const styles = StyleSheet.create({
       marginLeft: 10,
       marginRight: 10
     },
-
     smallBoxImage:{
       resizeMode: 'center'
     },
-
     smallBoxText:{
       fontSize: 17,
       fontWeight: 'bold',
@@ -305,7 +298,6 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       marginBottom: 80
     },
-
     footerFourView:{
       flexDirection: 'row',
       marginTop: -60,
@@ -318,16 +310,13 @@ const styles = StyleSheet.create({
     },
     footerFourImage:{
       resizeMode: 'cover',
-      borderRadius: 10,
-
+      borderRadius: 10
     },
-
     footerFiveView:{
       flexDirection: 'row',
       marginTop: -30,
       marginBottom: 15
     },
-
     footerSixView:{
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -338,10 +327,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       width: 180,
       height: 245,
-      borderRadius: 20,
-
-
-      
+      borderRadius: 20
     },
     secondMedicineView:{
       flexDirection: 'column' ,
@@ -351,12 +337,10 @@ const styles = StyleSheet.create({
       marginLeft: 10,
       marginTop: 10
     },
-
     medicineImage:{
       resizeMode: 'contain',
       width: 150,
       height: 148
-
     },
     medicineTextOne:{
       fontSize: 16,
@@ -377,13 +361,11 @@ const styles = StyleSheet.create({
       alignItems: 'flex-end',
       justifyContent: 'center',
     },
-
     buttonText:{
       color: 'white',
       fontWeight: 'bold',
       fontSize: 13
     },
-
     buttonIn:{
       width: 100,
       height: 30,

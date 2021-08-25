@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 
 const ArticleCarousel = () => {
@@ -30,17 +30,17 @@ const ArticleCarousel = () => {
 export default ArticleCarousel;
 
 const styles = StyleSheet.create({
-    footerFourImage:{
-        resizeMode: 'cover',
-        borderRadius: 10,
-        width: 380,
-        height: 250,
-        marginLeft: 10,
-        marginRight: 10
+  footerFourImage:{
+    resizeMode: 'cover',
+    borderRadius: 10,
+    width: 380,
+    height: 250,
+    marginLeft: 10,
+    marginRight: 10
     },
 
-    caro:{
-        height: 250
+  caro:{
+    height: 250
     },
     
 });
