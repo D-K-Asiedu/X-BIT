@@ -37,28 +37,28 @@ const HomeScreen = ({navigation}) => {
 
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/poisons.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../assets/home-icons/poisons.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}>Poisoning</Text>
             </View>
 
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/bleeding.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../assets/home-icons/bleeding.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}>Bleeding</Text>
             </View>
 
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/heart-flat.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../assets/home-icons/heart-flat.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}>Resusitation</Text>
             </View>
 
             <View style={styles.footerTwoSubView}>
               <View style={styles.smallBoxView}>
-                <Image source={require('../home-icons/lung.png')} style={styles.smallBoxImage}/>
+                <Image source={require('../assets/home-icons/lung.png')} style={styles.smallBoxImage}/>
               </View>
               <Text style={styles.smallBoxText}>Asthma</Text>
             </View>

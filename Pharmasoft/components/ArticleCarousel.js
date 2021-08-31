@@ -7,19 +7,19 @@ const ArticleCarousel = () => {
         <Swiper style={styles.caro}>
 
               <View>
-                <Image source={require('../home-icons/article-bg.png')} style={styles.footerFourImage}/>
+                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
               </View>
 
               <View>
-                <Image source={require('../home-icons/article-bg.png')} style={styles.footerFourImage}/>
+                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
               </View>
 
               <View>
-                <Image source={require('../home-icons/article-bg.png')} style={styles.footerFourImage}/>
+                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
               </View>
 
               <View>
-                <Image source={require('../home-icons/article-bg.png')} style={styles.footerFourImage}/>
+                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
               </View>
             
 

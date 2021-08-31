@@ -11,7 +11,7 @@ const Swipable = () => {
                 <Text style={styles.yellTextTwo} >Run at least 500km daily or you are going to die</Text>
               </View >
               <View style={styles.yellImageView}>
-                <Image source={require('../home-icons/ok.png')} style={styles.yellImage}/>
+                <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImage}/>
               </View>
             </View>
 
@@ -21,7 +21,7 @@ const Swipable = () => {
                 <Text style={styles.yellTextTwo} >Run at least 5km daily or you are going to burn out</Text>
               </View >
               <View style={styles.yellImageView}>
-                <Image source={require('../home-icons/ok.png')} style={styles.yellImage}/>
+                <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImage}/>
               </View>
             </View>
 
@@ -31,7 +31,7 @@ const Swipable = () => {
                 <Text style={styles.yellTextTwo} >Run at least 2m daily or you are going to enter depression</Text>
               </View >
               <View style={styles.yellImageView}>
-                <Image source={require('../home-icons/ok.png')} style={styles.yellImageThree}/>
+                <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImageThree}/>
               </View>
             </View>
         </Swiper>
