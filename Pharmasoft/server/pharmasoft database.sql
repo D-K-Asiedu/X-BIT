@@ -5,37 +5,39 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema Pharmasoft
+-- Schema pharmasoft
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema Pharmasoft
+-- Schema pharmasoft
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Pharmasoft` DEFAULT CHARACTER SET utf8 ;
-USE `Pharmasoft` ;
+CREATE SCHEMA IF NOT EXISTS `pharmasoft` DEFAULT CHARACTER SET utf8 ;
+USE `pharmasoft` ;
 
 -- -----------------------------------------------------
--- Table `Pharmasoft`.`Customer`
+-- Table `pharmasoft`.`customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Pharmasoft`.`Customer` (
+CREATE TABLE IF NOT EXISTS `pharmasoft`.`customer` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(45) NOT NULL,
   `Email` VARCHAR(45) NOT NULL,
-  `Contact` VARCHAR(15) NULL,
+  `Contact` VARCHAR(15) NULL DEFAULT NULL,
   `Password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `Email_UNIQUE` (`Email` ASC) VISIBLE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `Pharmasoft`.`Cart`
+-- Table `pharmasoft`.`cart`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Pharmasoft`.`Cart` (
+CREATE TABLE IF NOT EXISTS `pharmasoft`.`cart` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `complete` TINYINT NOT NULL DEFAULT 0,
-  `Transaction_id` VARCHAR(100) NULL,
+  `complete` TINYINT NOT NULL DEFAULT '0',
+  `Transaction_id` VARCHAR(100) NULL DEFAULT NULL,
   `Customer_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
@@ -43,32 +45,62 @@ CREATE TABLE IF NOT EXISTS `Pharmasoft`.`Cart` (
   INDEX `fk_Cart_Customer_idx` (`Customer_id` ASC) VISIBLE,
   CONSTRAINT `fk_Cart_Customer`
     FOREIGN KEY (`Customer_id`)
-    REFERENCES `Pharmasoft`.`Customer` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `pharmasoft`.`customer` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `pharmasoft`.`pharmacy`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pharmasoft`.`pharmacy` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `pharmacy code` VARCHAR(45) NULL,
+  `location` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `pharmacy code_UNIQUE` (`pharmacy code` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Pharmasoft`.`Product`
+-- Table `pharmasoft`.`product`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Pharmasoft`.`Product` (
+CREATE TABLE IF NOT EXISTS `pharmasoft`.`product` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `price` INT NOT NULL,
-  `image` VARCHAR(45) NULL,
-  `prescribe` TINYINT NOT NULL DEFAULT 0,
+  `image` VARCHAR(45) NULL DEFAULT NULL,
+  `prescribe` TINYINT NOT NULL DEFAULT '0',
+  `pharmacy_id` INT NOT NULL,
+  `pharmacy_id1` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
-ENGINE = InnoDB;
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  INDEX `fk_product_pharmacy1_idx` (`pharmacy_id` ASC) VISIBLE,
+  INDEX `fk_product_pharmacy2_idx` (`pharmacy_id1` ASC) VISIBLE,
+  CONSTRAINT `fk_product_pharmacy1`
+    FOREIGN KEY (`pharmacy_id`)
+    REFERENCES `mydb`.`pharmacy` (`id`),
+  CONSTRAINT `fk_product_pharmacy2`
+    FOREIGN KEY (`pharmacy_id1`)
+    REFERENCES `pharmasoft`.`pharmacy` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `Pharmasoft`.`Cart_item`
+-- Table `pharmasoft`.`cart_item`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Pharmasoft`.`Cart_item` (
+CREATE TABLE IF NOT EXISTS `pharmasoft`.`cart_item` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `Quantity` INT NULL DEFAULT 0,
+  `Quantity` INT NULL DEFAULT '0',
   `Cart_id` INT NOT NULL,
   `Product_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -77,15 +109,13 @@ CREATE TABLE IF NOT EXISTS `Pharmasoft`.`Cart_item` (
   INDEX `fk_Cart_item_Product1_idx` (`Product_id` ASC) VISIBLE,
   CONSTRAINT `fk_Cart_item_Cart1`
     FOREIGN KEY (`Cart_id`)
-    REFERENCES `Pharmasoft`.`Cart` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `pharmasoft`.`cart` (`id`),
   CONSTRAINT `fk_Cart_item_Product1`
     FOREIGN KEY (`Product_id`)
-    REFERENCES `Pharmasoft`.`Product` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `pharmasoft`.`product` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

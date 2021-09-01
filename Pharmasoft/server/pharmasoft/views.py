@@ -1,3 +1,4 @@
+from Pharmasoft.server.pharmasoft.func import get_order
 from flask_login.utils import login_user, logout_user, current_user
 from pharmasoft import app, mysql
 from flask import render_template, redirect, request, url_for
@@ -117,4 +118,10 @@ def update_cart(action, id):
 
 @app.route("/checkout")
 def checkout():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
+    customer = cur.fetchall()[0]
+    order = func.get_order()
+
+    
     return "<h1>checkout</h1>"
