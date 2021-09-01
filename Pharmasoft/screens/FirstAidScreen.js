@@ -45,16 +45,18 @@ const FirstAidScreen = ({ navigation }) => {
         <TouchableOpacity>
           <Ionicons name="arrow-back" size={25} color="#ffffff" onPress={() => {
             setSearchText('')
+            setFirstAid(firstAidData)
             setSearchActive(false)
             }} />
         </TouchableOpacity>
         <TextInput
           style={styles.searchBar}
           placeholder="Search first aid ..."
-          // autoFocus={true}
-          // underlineColorAndroid="transparent"
-          // autoCompleteType="off"
-          onChangeText = {text => setSearchText(text) }
+          autoFocus={true}
+          underlineColorAndroid="transparent"
+          autoCompleteType="off"
+          onChangeText = {text => searchItem(text) }
+          value={searchText}
           // defaultValue={searchText}
           // maxLength={20}
         />
@@ -78,11 +80,16 @@ const FirstAidScreen = ({ navigation }) => {
     )
   }
 
-  // const searchItem = () => {
-  //   setFirstAid(firstAidData.filter((item) => (
-  //     item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-  //   )))
-  // }
+  const searchItem = (text) => {
+    const tempText = text.toLowerCase()
+    const tempItems = firstAidData.filter((item) => (
+      item.title.toLowerCase().indexOf(tempText) != -1
+    ))
+
+    setSearchText(text)
+    setFirstAid(tempItems)
+
+  }
 
   // useEffect(() => {
   //   searchItem()
