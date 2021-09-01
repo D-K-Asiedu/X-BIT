@@ -8,12 +8,14 @@ import {
     ScrollView, 
     Modal,
     TextInput,
+    FLatlist,
     TouchableWithoutFeedback
 } from 'react-native'
 import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import ProfileInfo from '../components/ProfileInfo'
 import { useTheme } from '../styles/ThemeContext'
+
 
 const ProfileScreen = ({ navigation }) => {
     const [mainColor, setMainColour] = useState('')
@@ -172,8 +174,20 @@ const ProfileScreen = ({ navigation }) => {
 
 
                                 </View>
+                            :infoTitle == 'allergies' ?
+                                    <View>
+                                        {/* <FLatlist 
+                                            data={user.allergies}
+                                            renderItem={({ item }) => (
+                                                <Text>{item}</Text>
+                                            )}
+                                            keyExtractor={() => (Math.random() * 1000).toString()}
+
+                                        /> */}
+                                    </View>
                             :
                             <View></View>
+
 
                         }
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20,}}>
