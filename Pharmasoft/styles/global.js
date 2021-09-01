@@ -1,14 +1,14 @@
 import {StyleSheet, Dimensions, StatusBar} from 'react-native'
 
 
-const height = Platform.OS === 'android' ? Dimensions.get('screen').height - StatusBar.currentHeight : Dimensions.get("window").height;
+// const height = Platform.OS === 'android' ? Dimensions.get('screen').height - StatusBar.currentHeight : Dimensions.get("window").height;
 
 const darkBlueBuffer = '#1a2e35'
 
 export const globalColours = {
     mainCol: '#1ba665',
-    mainCol2: '#0c88fc',
-    mainCol3: '#ec008c',
+    mainCol2: '#20A0D8',
+    mainCol3: '#F279BC',
     darkBlue: darkBlueBuffer,
     greyBlue: '#375a64',
     lightGrey: '#808080',

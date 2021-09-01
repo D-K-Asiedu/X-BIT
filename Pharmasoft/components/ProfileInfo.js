@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native'
 import { 
     Entypo, 
     FontAwesome, 
@@ -47,19 +47,41 @@ const ProfileInfo = (props) => {
     return (
         <TouchableOpacity style={styles.infoCard} onPress={() => props.editProfile(props.title)}>
             <View>
-            <View style={styles.title}>
-                {icons[props.icon]}
-                <Text style={styles.titleText}>{props.title}</Text>
+                <View style={styles.title}>
+                    {icons[props.icon]}
+                    <Text style={styles.titleText}>{props.title}</Text>
+                </View>
+                {Array.isArray(props.profile)?
+                    <View style={styles.array}>
+                        {/* <Text style={styles.textBox}>Fuck off</Text>
+                        <Text style={styles.textBox}>Fuck off</Text>
+                        <Text style={styles.textBox}>Fuck off</Text>
+                        <Text style={styles.textBox}>Fuck off</Text>
+                        <Text style={styles.textBox}>Fuck off</Text>
+                        <Text style={styles.textBox}>Fuck off</Text>
+                        <Text style={styles.textBox}>Fuck off</Text>
+                        <Text style={styles.textBox}>Fuck off</Text> */}
+                        <FlatList
+                            data={props.profile} 
+                            horizontal = {true}
+                            renderItem = {({item}) => (
+                                <Text style={styles.textBox}>{item}</Text>
+                            )}
+                            keyExtractor = {() => (Math.random() * 1000).toString()}
+                            />
+                        {props.profile.length == 0 && <Text style={{...styles.profile, color: mainColor}}>Add alleries</Text>}
+                    </View>
+                    :
+                    <Text
+                    style={{
+                        ...styles.profile,
+                        color: !props.profile ? mainColor : globalColours.darkGrey
+                    }}>
+                    {props.profile || `Add ${props.title.toLowerCase()}`}
+                </Text>
+                }
             </View>
-            <Text 
-                style={{
-                    ...styles.profile,
-                     color: !props.profile ? mainColor: globalColours.darkGrey
-                     }}>
-                         {props.profile || `Add ${props.title.toLowerCase()}`}
-                        </Text>
-            </View>
-            <MaterialIcons name={props.profile ? "edit" : "add"} size={24} color={mainColor} />
+            <MaterialIcons name={props.profile.length != 0 ? "edit" : "add"} size={24} color={mainColor} />
         </TouchableOpacity>
     )
 }
@@ -93,5 +115,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         letterSpacing: 1,
         color: globalColours.darkGrey,
+    },
+    array:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    textBox:{
+        paddingHorizontal: 7,
+        paddingVertical: 5,
+        margin: 2,
+        borderRadius: 10,
+        backgroundColor: '#00000033',
+        fontSize: 16,
     }
 })

@@ -95,7 +95,7 @@ const Radio =  ({active, size, color}) => {
         <View style={{
             width: size || 20,
             height: size || 20,
-            // borderRadius: size/2 || 10,
+            borderRadius: size/2 || 10,
             borderWidth: 2,
             borderColor: color || colors.constant,
             padding: 3,
@@ -103,7 +103,7 @@ const Radio =  ({active, size, color}) => {
         }}>
             <View style={{
                 flex: 1,
-                // borderRadius: size/2 || 10,
+                borderRadius: size/2 || 10,
                 backgroundColor: active && (color || colors.constant),
             }}>
 

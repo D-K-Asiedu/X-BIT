@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { useColorScheme } from 'react-native'
 import { globalColours } from './global'
 
 
@@ -16,6 +17,8 @@ export const ThemeProvider = ({ children }) => {
     const [darkTheme, setDarkTheme] = useState('dim')
     const [colorTheme, setColorTheme] = useState('green')
     const [mainColour, setMainColour] = useState('')
+
+    const colorScheme = useColorScheme()
 
     const toggleDisplay = (mode, value) => {
         switch (mode) {
@@ -48,7 +51,8 @@ export const ThemeProvider = ({ children }) => {
                 break;
 
             case 'system':
-                setDarkMode(true)
+                // console.log(colorScheme == 'dark');
+                setDarkMode(colorScheme == 'dark')
                 break;
 
 

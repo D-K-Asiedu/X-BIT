@@ -14,19 +14,19 @@ import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import ProfileInfo from '../components/ProfileInfo'
 import { useTheme } from '../styles/ThemeContext'
-import Button from '../components/Button'
 
 const ProfileScreen = ({ navigation }) => {
     const [mainColor, setMainColour] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
     const [infoTitle, setInfoTitle] = useState('')
     const [infoValue, setInfoValue] = useState('')
+    // const [infoValueRef, setInfoValueRef] = useState('')
     const [user, setUser] = useState({
         name: 'John Doe',
         email: 'example@xbit.com',
-        tel: '+119923456',
-        dob: '',
-        allergies: [],
+        'phone number': '+119923456',
+        'date of birth': '',
+        allergies: ['Peanut butter', 'Milk', 'Water', 'Miiiiiiiiiiilk', 'Kooooooool'],
         password: 'helloworld'
     })
 
@@ -52,24 +52,39 @@ const ProfileScreen = ({ navigation }) => {
 
 
     const editProfile = (val) => {
-        let valRef = ''
-        if(['name', 'email', 'phone number', 'password'].indexOf(val.toLowerCase()) != -1){
-            valRef = val.toLowerCase() == 'name' ? 'name' :
-                val.toLowerCase() == 'email' ? 'email' :
-                val.toLowerCase() == 'phone number' ? 'tel' : 'password'
-
             setInfoTitle(val.toLowerCase())
-            setInfoValue(user[valRef])
+            setInfoValue(user[val.toLowerCase()])
+
             setModalOpen(true)    
-        }
     }
 
     const saveEdit = () => {
+        console.log(infoTitle);
         console.log(infoValue);
+        
+        var tempUser = user
+        tempUser[infoTitle] = infoValue
         setUser(prevUser => (
-            {...prevUser,} 
+            {...prevUser, tempUser} 
         ))
         setModalOpen(false)
+    }
+
+
+    const editTitle = {
+        fontSize: 16,
+        color: globalColours.greyBlue,
+        fontWeight: 'bold'
+    }
+
+    const editInput = {
+        paddingHorizontal: 10,
+        fontSize: 16,
+        color: globalColours.lightGrey,
+        borderBottomWidth: 2,
+        borderColor: mainColor,
+        marginVertical: 30,
+        fontSize: 16,
     }
 
     return (
@@ -83,7 +98,7 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={{ ...globalStyles.h2, ...styles.h2 }}>Profile</Text>
             </View>
 
-            <View style={{ ...globalStyles.content }}>
+            <ScrollView style={{ ...globalStyles.content }}>
                 <View style={styles.topBox}>
                     <View style={styles.imageBox}>
                         <Image source={require('../assets/user.jpeg')} style={styles.image} />
@@ -95,12 +110,12 @@ const ProfileScreen = ({ navigation }) => {
                 <View>
                     <ProfileInfo icon="name" title="Name" profile={user.name} editProfile={editProfile} />
                     <ProfileInfo icon="email" title="Email" profile={user.email} editProfile={editProfile} />
-                    <ProfileInfo icon="phone" title="Phone number" profile={user.tel} editProfile={editProfile} />
-                    <ProfileInfo icon="date" title="Date of birth" profile={user.dob} editProfile={editProfile} />
-                    <ProfileInfo icon="allergies" title="Allergies" editProfile={editProfile} />
+                    <ProfileInfo icon="phone" title="Phone number" profile={user['phone number']} editProfile={editProfile} />
+                    <ProfileInfo icon="date" title="Date of birth" profile={user['date of birth']} editProfile={editProfile} />
+                    <ProfileInfo icon="allergies" title="Allergies" profile={user.allergies} editProfile={editProfile} />
                     <ProfileInfo icon="password" title="Password" profile={user.password} editProfile={editProfile} />
                 </View>
-            </View>
+            </ScrollView>
 
             <Modal
                 visible={modalOpen}
@@ -110,29 +125,57 @@ const ProfileScreen = ({ navigation }) => {
             >
                 <View style={styles.modalBg}>
                     <View style={styles.modalBox}>
-                        <Text style={{
-                            fontSize: 16,
-                            color: globalColours.greyBlue,
-                            fontWeight: 'bold'
-                        }}>Enter your {infoTitle}</Text>
-                        <TextInput 
-                            autoFocus={true}
-                            value={infoValue}
-                            onChangeText={text => setInfoValue(text)}
-                            underlineColorAndroid="transparent"
-                            autoCompleteType="off"
-                            // value='Hello'
-                            style={{
-                                paddingHorizontal: 10,
-                                fontSize: 16,
-                                color: globalColours.lightGrey,
-                                borderBottomWidth: 2,
-                                borderColor: mainColor,
-                                marginVertical: 30,    
-                                fontSize: 16,                        
-                            }}
+                        {['name', 'email', 'phone number'].indexOf(infoTitle) != -1 ?
+                            <View>
+                                <Text style={editTitle}>Enter your {infoTitle}</Text>
+                                <TextInput
+                                    autoFocus={true}
+                                    value={infoValue}
+                                    onChangeText={text => setInfoValue(text)}
+                                    underlineColorAndroid="transparent"
+                                    autoCompleteType="off"
+                                    // value='Hello'
+                                    style={editInput}
 
-                        />
+                                />
+                            </View>
+                            : infoTitle == 'password' ?
+                                <View>
+                                    <Text style={editTitle}>Enter your old password</Text>
+                                    <TextInput
+                                        secureTextEntry={true}
+                                        autoFocus={true}
+                                        underlineColorAndroid="transparent"
+                                        autoCompleteType="off"
+                                        // value='Hello'
+                                        style={editInput}
+                                    />
+
+                                    <Text style={editTitle}>Enter a new password</Text>
+                                    <TextInput
+                                        secureTextEntry={true}
+                                        underlineColorAndroid="transparent"
+                                        autoCompleteType="off"
+                                        onChangeText={text => setInfoValue(text)}
+                                        // value='Hello'
+                                        style={editInput}
+                                    />
+
+                                    <Text style={editTitle}>Confirm your new password</Text>
+                                    <TextInput
+                                        secureTextEntry={true}
+                                        underlineColorAndroid="transparent"
+                                        autoCompleteType="off"
+                                        // value='Hello'
+                                        style={editInput}
+                                    />
+
+
+                                </View>
+                            :
+                            <View></View>
+
+                        }
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20,}}>
                             <TouchableOpacity onPress={() => setModalOpen(false)}><Text style={styles.linkText}>Cancel</Text></TouchableOpacity>
                             <TouchableOpacity onPress={saveEdit}><Text style={styles.linkText}>Save</Text></TouchableOpacity>                    

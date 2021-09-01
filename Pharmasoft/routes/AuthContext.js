@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 
 
 const AuthContext = React.createContext()
-export const AuthUpdateContext = React.createContext()
+const AuthUpdateContext = React.createContext()
 
 export const useAuth = () => useContext(AuthContext)
 export const useUpdateAuth = () => useContext(AuthUpdateContext)
