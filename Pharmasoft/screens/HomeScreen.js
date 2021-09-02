@@ -90,7 +90,7 @@ const HomeScreen = ({navigation}) => {
 
           <View style={styles.medicineView}>
           <View style={styles.secondMedicineView}>
-          <Image source={require('../home-icons/fluxamox.png')} style={styles.medicineImage}/>
+          <Image source={require('../assets/home-icons/fluxamox.png')} style={styles.medicineImage}/>
           <Text style={styles.medicineTextOne}>Fluxamox 250</Text>
           <Text style={styles.medicineTextTwo}>Small Description here</Text>
             <View  style={styles.button}>          
@@ -109,7 +109,7 @@ const HomeScreen = ({navigation}) => {
 
           <View style={styles.medicineView}>
           <View style={styles.secondMedicineView}>
-          <Image source={require('../home-icons/vitamina.png')} style={styles.medicineImage}/>
+          <Image source={require('../assets/home-icons/vitamina.png')} style={styles.medicineImage}/>
           <Text style={styles.medicineTextOne}>Vitamin A</Text>
           <Text style={styles.medicineTextTwo}>Small Description here</Text>
             <View  style={styles.button}> 
@@ -130,7 +130,7 @@ const HomeScreen = ({navigation}) => {
 
           <View style={styles.medicineView}>
           <View style={styles.secondMedicineView}>
-          <Image source={require('../home-icons/fluxamox.png')} style={styles.medicineImage}/>
+          <Image source={require('../assets/home-icons/fluxamox.png')} style={styles.medicineImage}/>
           <Text style={styles.medicineTextOne}>Fluxamox 250</Text>
           <Text style={styles.medicineTextTwo}>Small Description here</Text>
             <View  style={styles.button}> 
@@ -148,7 +148,7 @@ const HomeScreen = ({navigation}) => {
 
           <View style={styles.medicineView}>
           <View style={styles.secondMedicineView}>
-          <Image source={require('../home-icons/vitamina.png')} style={styles.medicineImage}/>
+          <Image source={require('../assets/home-icons/vitamina.png')} style={styles.medicineImage}/>
           <Text style={styles.medicineTextOne}>Vitamin A</Text>
           <Text style={styles.medicineTextTwo}>Small Description here</Text>
             <View style={styles.button}> 
