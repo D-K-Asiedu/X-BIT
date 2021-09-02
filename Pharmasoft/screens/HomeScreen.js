@@ -4,7 +4,7 @@ import { Text, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, Scrol
 import Swipable from '../components/Swipable';
 import ArticleCarousel from '../components/ArticleCarousel';
 
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradient from 'expo-linear-gradient';
 
 //import { useTheme } from '@react-navigation/native';
 
