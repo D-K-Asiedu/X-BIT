@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
       color: 'white',
       alignItems: 'flex-start',
       justifyContent: 'space-between',
-      fontFamily: 'comic-neue',
+      //fontFamily: 'comic-neue',
       fontSize: 20,
       marginTop: 1,
       marginBottom: 10,
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
       justifyContent: 'space-between',
       fontSize: 16,
-      fontFamily: 'comic-neue',
+      //fontFamily: 'comic-neue',
       marginLeft: 60
     },
     yellImageView: {
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
       marginBottom: 10
     },
     boldLeftText: {
-      fontFamily: 'roboto',
+      //fontFamily: 'roboto',
       fontWeight: 'bold',
       color: '#1A2E35',
       textAlign: 'left',
