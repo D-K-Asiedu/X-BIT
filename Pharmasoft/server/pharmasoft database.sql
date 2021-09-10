@@ -5,6 +5,9 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema pharmasoft
 -- -----------------------------------------------------
 
@@ -58,13 +61,15 @@ CREATE TABLE IF NOT EXISTS `pharmasoft`.`pharmacy` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `pharmacy code` VARCHAR(45) NULL,
-  `location` VARCHAR(45) NOT NULL,
+  `pharmacycode` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `pharmacy code_UNIQUE` (`pharmacy code` ASC) VISIBLE)
-ENGINE = InnoDB;
+  UNIQUE INDEX `pharmacycode_UNIQUE` (`pharmacycode` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
@@ -77,21 +82,16 @@ CREATE TABLE IF NOT EXISTS `pharmasoft`.`product` (
   `image` VARCHAR(45) NULL DEFAULT NULL,
   `prescribe` TINYINT NOT NULL DEFAULT '0',
   `pharmacy_id` INT NOT NULL,
-  `pharmacy_id1` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   INDEX `fk_product_pharmacy1_idx` (`pharmacy_id` ASC) VISIBLE,
-  INDEX `fk_product_pharmacy2_idx` (`pharmacy_id1` ASC) VISIBLE,
   CONSTRAINT `fk_product_pharmacy1`
     FOREIGN KEY (`pharmacy_id`)
-    REFERENCES `mydb`.`pharmacy` (`id`),
-  CONSTRAINT `fk_product_pharmacy2`
-    FOREIGN KEY (`pharmacy_id1`)
     REFERENCES `pharmasoft`.`pharmacy` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb3;
 
 

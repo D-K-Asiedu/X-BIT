@@ -72,6 +72,26 @@ export default function RegisterScreen({navigation}) {
   //   }
   // }, [theme.colortheme])
 
+  // Register account
+  const registerAccount = async (user) => {
+    const res = await fetch('http://100.119.8.18:5000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+
+    try{
+      const accReg = await res.json()
+      console.log(accReg);  
+    } catch(e){
+      console.log(e);  
+    }
+
+    authenticate('login', {email:user.email, password:user.password})
+  }
+
 
   useEffect(() => {
     let isMounted = true
@@ -98,6 +118,7 @@ export default function RegisterScreen({navigation}) {
             validationSchema={registerSchema}
             onSubmit={values => {
               console.log(values)
+              registerAccount(values)
             }}
           >
             {props => (

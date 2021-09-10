@@ -79,7 +79,7 @@ export default function LoginScreen({ navigation }) {
             validationSchema={loginSchema}
             onSubmit={values => {
               console.log(values)
-
+              authenticate('login', values)
             }}
           >
             {props => (

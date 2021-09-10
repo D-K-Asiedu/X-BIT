@@ -1,8 +1,8 @@
-from Pharmasoft.server.pharmasoft.func import get_order
 from flask_login.utils import login_user, logout_user, current_user
 from pharmasoft import app, mysql
 from flask import render_template, redirect, request, url_for
 from pharmasoft import User
+from flask import jsonify
 
 from pharmasoft import func
 
@@ -20,10 +20,16 @@ def home(path):
 def register():
     cur = mysql.connection.cursor()
     if request.method == "POST":
-        name = request.form["name"]
-        email = request.form["email"]
-        contact = request.form["contact"]
-        password = request.form["password"]
+        # name = request.form["name"]
+        # email = request.form["email"]
+        # contact = request.form["contact"]
+        # password = request.form["password"]
+
+        data = request.json
+        name = data["name"]
+        email= data["email"]
+        contact = data["phone"]
+        password = data["password"]
 
         cur.execute("INSERT INTO  customer(Name, Email, Contact, Password) VALUES(%s, %s, %s, %s)", (name, email, contact, password,))
         mysql.connection.commit()
@@ -31,14 +37,19 @@ def register():
 
         print("Registration Succesful")
 
-    return render_template("register.html")
+    # return render_template("register.html")
+    return jsonify({"msg": "Registration complete"})
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
     cur = mysql.connection.cursor()
     if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
+        # email = request.form["email"]
+        # password = request.form["password"]
+
+        data = request.json
+        email = data["email"]
+        password = data["password"]
 
         cur.execute("SELECT * FROM customer WHERE email=%s", (email,))
         user = cur.fetchall()[0]
@@ -49,13 +60,34 @@ def login():
             login_user(user_model)
 
             print(current_user.id)
-            return redirect(url_for("home"))
-    return render_template("login.html")
+            # return redirect(url_for("home")) 
+            return jsonify({"login": True})
+    # return render_template("login.html")
+    return jsonify({"login": False})
 
-@app.route("/logout")
+@app.route("/logout", methods=["POST"])
 def logout():
     logout_user()
-    return  redirect(url_for("home"))
+    # return  redirect(url_for("home")) 
+    return jsonify({"login": False})
+
+@app.route("/profile", methods=["GET"])
+def profile():
+    if current_user.is_authenticated:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
+        profile = cur.fetchall()[0]
+        return jsonify({
+            "id": profile[0],
+            "name": profile[1],
+            "email": profile[2],
+            "contact": profile[3],
+            "password": profile[4],
+
+        })
+
+    else:
+        return jsonify({"msg": "User not logged in"})
 
 @app.route("/add-cart/<id>")
 def add_cart(id):
@@ -118,10 +150,10 @@ def update_cart(action, id):
 
 @app.route("/checkout")
 def checkout():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
-    customer = cur.fetchall()[0]
-    order = func.get_order()
+    # cur = mysql.connection.cursor()
+    # cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
+    # customer = cur.fetchall()[0]
+    # order = func.get_order()
 
     
     return "<h1>checkout</h1>"
