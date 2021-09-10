@@ -1,46 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image} from 'react-native';
 import Swiper from 'react-native-swiper';
 
-const Swipable = () => {
+export default class Swipable extends Component {
+  render() {
     return (
-        <Swiper style={styles.swi} >
-            <View style={styles.yellView}>
-              <View style={styles.yellTextView}>
-                <Text style={styles.yellTextOne} >Tip of the day</Text>
-                <Text style={styles.yellTextTwo} >Run at least 500km daily or you are going to die</Text>
-              </View >
-              <View style={styles.yellImageView}>
-                <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImage}/>
-              </View>
-            </View>
+      <Swiper style={styles.swi} >
+      <View style={styles.yellView}>
+        <View style={styles.yellTextView}>
+          <Text style={styles.yellTextOne} >Tip of the day</Text>
+          <Text style={styles.yellTextTwo} >Run at least 500km daily or you are going to die</Text>
+        </View >
+        <View style={styles.yellImageView}>
+          <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImage}/>
+        </View>
+      </View>
 
-            <View style={styles.yellView}>
-              <View style={styles.yellTextView}>
-                <Text style={styles.yellTextOne} >Tip of the day</Text>
-                <Text style={styles.yellTextTwo} >Run at least 5km daily or you are going to burn out</Text>
-              </View >
-              <View style={styles.yellImageView}>
-                <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImage}/>
-              </View>
-            </View>
+      <View style={styles.yellView}>
+        <View style={styles.yellTextView}>
+          <Text style={styles.yellTextOne} >Tip of the day</Text>
+          <Text style={styles.yellTextTwo} >Run at least 5km daily or you are going to burn out</Text>
+        </View >
+        <View style={styles.yellImageView}>
+          <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImage}/>
+        </View>
+      </View>
 
-            <View style={styles.yellView}>
-              <View style={styles.yellTextView}>
-                <Text style={styles.yellTextOne} >Tip of the day</Text>
-                <Text style={styles.yellTextTwo} >Run at least 2m daily or you are going to enter depression</Text>
-              </View >
-              <View style={styles.yellImageView}>
-                <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImageThree}/>
-              </View>
-            </View>
-        </Swiper>
-            
-        
+      <View style={styles.yellView}>
+        <View style={styles.yellTextView}>
+          <Text style={styles.yellTextOne} >Tip of the day</Text>
+          <Text style={styles.yellTextTwo} >Run at least 2m daily or you are going to enter depression</Text>
+        </View >
+        <View style={styles.yellImageView}>
+          <Image source={require('../assets/home-icons/ok.png')} style={styles.yellImageThree}/>
+        </View>
+      </View>
+  </Swiper>
+      
+  
     )
-}
-
-export default Swipable;
+  }
+};
 
 const styles = StyleSheet.create({
     swi: {
@@ -110,3 +110,8 @@ const styles = StyleSheet.create({
       },
 });
 //npm install react-native-swiper
+
+
+
+
+

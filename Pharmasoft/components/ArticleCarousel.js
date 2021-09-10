@@ -1,33 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-const ArticleCarousel = () => {
+export default class ArticleCarousel extends Component {
+  render() {
     return (
-        <Swiper style={styles.caro}>
+      <Swiper style={styles.caro}>
 
-              <View>
-                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
-              </View>
+      <View>
+        <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
+      </View>
 
-              <View>
-                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
-              </View>
+      <View>
+        <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
+      </View>
 
-              <View>
-                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
-              </View>
+      <View>
+        <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
+      </View>
 
-              <View>
-                <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
-              </View>
-            
+      <View>
+        <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
+      </View>
+    
 
-        </Swiper>
+     </Swiper>
     )
-}
-
-export default ArticleCarousel;
+  }
+};
 
 const styles = StyleSheet.create({
   footerFourImage:{
@@ -45,3 +45,5 @@ const styles = StyleSheet.create({
     
 });
 //npm install react-native-swiper
+
+
