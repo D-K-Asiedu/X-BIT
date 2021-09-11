@@ -43,7 +43,7 @@ def register():
     # return render_template("register.html")
     return jsonify({"msg": "Register Here"})
 
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login", methods=["POST"])
 def login():
     cur = mysql.connection.cursor()
     if request.method == "POST":
@@ -54,8 +54,17 @@ def login():
         email = data["email"]
         password = data["password"]
 
-        cur.execute("SELECT * FROM customer WHERE email=%s", (email,))
-        user = cur.fetchall()[0]
+        try:
+            cur.execute("SELECT * FROM customer WHERE email=%s", (email,))
+            user = cur.fetchall()[0]
+
+        except:
+            return jsonify({
+                "login": False,
+                "msg": "User not found"
+            })
+
+
 
         if user[2] == email and user[4] == password:
             user_model = User()
@@ -65,10 +74,16 @@ def login():
             print(current_user.id)
             # return redirect(url_for("home")) 
             return jsonify({"login": True})
-    # return render_template("login.html")
-    return jsonify({"login": False})
 
-@app.route("/logout", methods=["POST"])
+        else:
+            return jsonify({
+                "login": False,
+                "msg": "Invalid Password"
+                })
+    # return render_template("login.html")
+
+
+@app.route("/logout")
 @login_required
 def logout():
     logout_user()
