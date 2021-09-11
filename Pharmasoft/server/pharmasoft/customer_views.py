@@ -1,4 +1,4 @@
-from flask_login.utils import login_user, logout_user, current_user
+from flask_login.utils import login_user, logout_user, current_user, login_required
 from pharmasoft import app, mysql
 from flask import render_template, redirect, request, url_for
 from pharmasoft import User
@@ -13,7 +13,9 @@ def home(path):
     return_results = cur.execute('''SELECT * FROM product''')
     if return_results > 0:
         product_details = cur.fetchall()
-        return render_template('products.html' , product_details= product_details)
+        products = func.get_products(product_details)
+        # return render_template('products.html' , product_details= product_details)
+        return jsonify(products)
     return "<h1>No Products Available</h1>"
 
 @app.route("/register", methods=["POST", "GET"])
@@ -36,9 +38,10 @@ def register():
         cur.close()
 
         print("Registration Succesful")
+        return jsonify({"msg": "Registration complete"})
 
     # return render_template("register.html")
-    return jsonify({"msg": "Registration complete"})
+    return jsonify({"msg": "Register Here"})
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -66,12 +69,14 @@ def login():
     return jsonify({"login": False})
 
 @app.route("/logout", methods=["POST"])
+@login_required
 def logout():
     logout_user()
     # return  redirect(url_for("home")) 
     return jsonify({"login": False})
 
 @app.route("/profile", methods=["GET"])
+@login_required
 def profile():
     if current_user.is_authenticated:
         cur = mysql.connection.cursor()
@@ -90,6 +95,7 @@ def profile():
         return jsonify({"msg": "User not logged in"})
 
 @app.route("/add-cart/<id>")
+@login_required
 def add_cart(id):
     cur = mysql.connection.cursor()
     cart_results = cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
@@ -120,11 +126,13 @@ def add_cart(id):
     return redirect(url_for("home"))
 
 @app.route("/cart")
+@login_required
 def cart():
     order = func.get_order()
     return render_template("cart.html", order=order)
 
 @app.route("/update-cart/<action>/<id>")
+@login_required
 def update_cart(action, id):
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
@@ -149,6 +157,7 @@ def update_cart(action, id):
     return redirect(url_for("cart"))
 
 @app.route("/checkout")
+@login_required
 def checkout():
     # cur = mysql.connection.cursor()
     # cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))

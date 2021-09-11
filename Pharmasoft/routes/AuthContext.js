@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 const AuthContext = React.createContext()
@@ -38,12 +39,52 @@ export const AuthProvider = ({ children }) => {
             body: JSON.stringify(data),
         })
 
-        try{
+        try {
             const userLogin = await res.json()
             setLoggedIn(userLogin["login"])
-        } catch(e){
+
+            // Login succesful alert
+            showMessage({
+                message: "Login successful",
+                type: "success",
+                floating: true,
+                icon: 'auto',
+                duration: 1500,
+                position: {
+                    top: 30,
+                },
+                titleStyle: {
+                    fontSize: 16,
+                },
+                style: {
+
+                }
+            });
+
+        } catch (e) {
             console.log(e);
+
+            // Login unsuccessful alert
+            !loggedIn && showMessage({
+                message: "Invalid username or password",
+                type: "danger",
+                floating: true,
+                icon: 'auto',
+                duration: 1500,
+                position: {
+                    top: 30,
+                },
+                titleStyle: {
+                    fontSize: 16,
+                },
+                style: {
+
+                }
+            });
+
         }
+
+
         loggedIn && setUser(await fetchUser())
     }
 

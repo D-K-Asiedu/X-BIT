@@ -1,5 +1,6 @@
 from pharmasoft import mysql
 from flask_login import current_user
+from flask import url_for
 
 import smtplib
 from email.message import EmailMessage
@@ -24,6 +25,22 @@ def get_order():
         order.append([item_name, item_quantity, item_price, product[0]])
     print(order)
     return order
+
+def get_products(product_list):
+    products = []
+    for product in product_list:
+        product_detail ={
+            "id": product[0],
+            "name": product[1],
+            "price": product[2],
+            "image": url_for("checkout"),
+            "prescribe": product[4]
+        }
+
+        products.append(product_detail)
+
+    return products
+
 
 # def send_email():
 #     email = "alvisfinnegan@gmail.com"

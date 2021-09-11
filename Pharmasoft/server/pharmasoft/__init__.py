@@ -27,4 +27,5 @@ def user_loader(id):
 
     return user_model
 
-from pharmasoft import views
+from pharmasoft import customer_views
+from pharmasoft import pharmacy_views
