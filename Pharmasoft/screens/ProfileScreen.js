@@ -14,11 +14,11 @@ import {
 import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import ProfileInfo from '../components/ProfileInfo'
-import { useTheme } from '../styles/ThemeContext'
+import { useTheme, useColor } from '../styles/ThemeContext'
 
 
 const ProfileScreen = ({ navigation }) => {
-    const [mainColor, setMainColour] = useState('')
+    // const [mainColor, setMainColour] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
     const [infoTitle, setInfoTitle] = useState('')
     const [infoValue, setInfoValue] = useState('')
@@ -33,24 +33,25 @@ const ProfileScreen = ({ navigation }) => {
     })
 
     const theme = useTheme()
+    const colors = useColor()
   
-    useEffect(() => {
-      switch (theme.colortheme) {
-        case 'green':
-          setMainColour(globalColours.mainCol)
-          break;
-        case 'blue':
-          setMainColour(globalColours.mainCol2)
-          break;
-        case 'pink':
-          setMainColour(globalColours.mainCol3)
-          break;
+    // useEffect(() => {
+    //   switch (theme.colortheme) {
+    //     case 'green':
+    //       setMainColour(globalColours.mainCol)
+    //       break;
+    //     case 'blue':
+    //       setMainColour(globalColours.mainCol2)
+    //       break;
+    //     case 'pink':
+    //       setMainColour(globalColours.mainCol3)
+    //       break;
     
       
-        default:
-          break;
-      }
-    }, [theme.colortheme])
+    //     default:
+    //       break;
+    //   }
+    // }, [theme.colortheme])
 
 
     const editProfile = (val) => {
@@ -73,25 +74,81 @@ const ProfileScreen = ({ navigation }) => {
     }
 
 
+    // Styles
     const editTitle = {
         fontSize: 16,
-        color: globalColours.greyBlue,
+        color: colors.tetColor2,
         fontWeight: 'bold'
     }
 
     const editInput = {
         paddingHorizontal: 10,
         fontSize: 16,
-        color: globalColours.lightGrey,
+        color: colors.secTextColor,
         borderBottomWidth: 2,
-        borderColor: mainColor,
+        borderColor: colors.constant,
         marginVertical: 30,
         fontSize: 16,
     }
 
+    const styles = StyleSheet.create({
+        header: {
+            justifyContent: 'flex-start',
+            
+        },
+        h2: {
+            marginLeft: 30,
+        },
+        topBox: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingVertical: 30,
+        },
+        image: {
+            width: 150,
+            height: 150,
+            borderRadius: 75,
+            borderWidth: 3,
+            borderColor: globalColours.lightGrey,
+        },
+        imageBox:{
+            width: 150,
+            height: 150,
+        },
+        editBtn:{
+            width: 50,
+            height: 50,
+            backgroundColor: colors.constant,
+            borderRadius: 25,
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            borderWidth: 3,
+            borderColor: colors.mainBgColor,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        modalBg:{
+            flex: 1,
+            backgroundColor: '#000000aa',
+            justifyContent: 'flex-end'
+        },
+        modalBox:{
+            paddingVertical: 20,
+            paddingHorizontal: 30,
+            backgroundColor: colors.secBgColor
+        },
+        linkText:{
+            fontSize: 14,
+            fontWeight: 'bold',
+            color: colors.constant,
+            marginLeft: 50,
+        }
+    })    
+
     return (
-        <View style={{ ...globalStyles.container, backgroundColor: mainColor }}>
-            <View style={{ ...globalStyles.header, ...styles.header, backgroundColor: mainColor, }}>
+        <View style={{ ...globalStyles.container, backgroundColor: colors.mainColor }}>
+            <View style={{ ...globalStyles.header, ...styles.header, backgroundColor: colors.mainColor, }}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                 >
@@ -100,11 +157,11 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={{ ...globalStyles.h2, ...styles.h2 }}>Profile</Text>
             </View>
 
-            <ScrollView style={{ ...globalStyles.content }}>
+            <ScrollView style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
                 <View style={styles.topBox}>
                     <View style={styles.imageBox}>
                         <Image source={require('../assets/user.jpeg')} style={styles.image} />
-                        <TouchableOpacity style={{...styles.editBtn, backgroundColor: mainColor}}>
+                        <TouchableOpacity style={{...styles.editBtn, backgroundColor: colors.constant}}>
                             <FontAwesome name="camera" size={24} color="#ffffff" />
                         </TouchableOpacity>
                     </View>
@@ -113,9 +170,9 @@ const ProfileScreen = ({ navigation }) => {
                     <ProfileInfo icon="name" title="Name" profile={user.name} editProfile={editProfile} />
                     <ProfileInfo icon="email" title="Email" profile={user.email} editProfile={editProfile} />
                     <ProfileInfo icon="phone" title="Phone number" profile={user['phone number']} editProfile={editProfile} />
-                    <ProfileInfo icon="date" title="Date of birth" profile={user['date of birth']} editProfile={editProfile} />
-                    <ProfileInfo icon="allergies" title="Allergies" profile={user.allergies} editProfile={editProfile} />
-                    <ProfileInfo icon="password" title="Password" profile={user.password} editProfile={editProfile} />
+                    {/* <ProfileInfo icon="date" title="Date of birth" profile={user['date of birth']} editProfile={editProfile} /> */}
+                    {/* <ProfileInfo icon="allergies" title="Allergies" profile={user.allergies} editProfile={editProfile} /> */}
+                    <ProfileInfo icon="password" title="Password" profile="**********" editProfile={editProfile} />
                 </View>
             </ScrollView>
 
@@ -202,59 +259,5 @@ const ProfileScreen = ({ navigation }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    header: {
-        justifyContent: 'flex-start',
-        
-    },
-    h2: {
-        marginLeft: 30,
-    },
-    topBox: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 30,
-    },
-    image: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        borderWidth: 3,
-        borderColor: globalColours.lightGrey,
-    },
-    imageBox:{
-        width: 150,
-        height: 150,
-    },
-    editBtn:{
-        width: 50,
-        height: 50,
-        backgroundColor: globalColours.mainCol,
-        borderRadius: 25,
-        position: 'absolute',
-        bottom: 0,
-        right: 0,
-        borderWidth: 3,
-        borderColor: '#f2f2f2',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    modalBg:{
-        flex: 1,
-        backgroundColor: '#000000aa',
-        justifyContent: 'flex-end'
-    },
-    modalBox:{
-        paddingVertical: 20,
-        paddingHorizontal: 30,
-        backgroundColor: '#ffffff'
-    },
-    linkText:{
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: globalColours.mainCol,
-        marginLeft: 50,
-    }
-})
 
 export default ProfileScreen

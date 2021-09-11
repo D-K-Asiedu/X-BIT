@@ -178,7 +178,7 @@ const SettingsScreen = ({navigation}) => {
             <View style={{...globalStyles.content, paddingHorizontal: 0, paddingTop: 0, backgroundColor: colors.secBgColor}}>
                 <Section 
                     title="Dark mode" 
-                    options={['Off', 'On', 'System']} 
+                    options={['Off', 'On']} 
                     state={darkMode}
                     setState={updateDarkMode} 
                 />

@@ -11,7 +11,7 @@ export const useUpdateAuth = () => useContext(AuthUpdateContext)
 export const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [skipped, setSkipped] = useState(false)
-    const [user, setUser] = useState()
+    const [user, setUser] = useState({})
 
     // useEffect(() => {
     //     // If logged in
@@ -66,7 +66,8 @@ export const AuthProvider = ({ children }) => {
 
             // Login unsuccessful alert
             !loggedIn && showMessage({
-                message: "Invalid username or password",
+                message: "Login failed",
+                description: "Invalid username or password",
                 type: "danger",
                 floating: true,
                 icon: 'auto',
@@ -85,11 +86,25 @@ export const AuthProvider = ({ children }) => {
         }
 
 
+        loggedIn && console.log(await fetchUser())
         loggedIn && setUser(await fetchUser())
     }
 
     // Register account
 
+    // Logout
+    const logout = async () => {
+        // const res = await fetch('http://100.119.8.18:5000/login', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         },
+        //     body: JSON.stringify(data),
+        // })
+
+        setSkipped(false)
+        setLoggedIn(false)
+    }
 
     const toggleAuth = (value, data) => {
         switch (value) {
@@ -102,8 +117,7 @@ export const AuthProvider = ({ children }) => {
                 break;
 
             case 'logout':
-                setSkipped(false)
-                setLoggedIn(false)
+                logout()
                 break;
 
 
@@ -116,7 +130,8 @@ export const AuthProvider = ({ children }) => {
         <AuthUpdateContext.Provider value = {toggleAuth} >
         <AuthContext.Provider value={{
             isLoggedIn: loggedIn,
-            isSkipped: skipped
+            isSkipped: skipped,
+            user: user,
         }}>
             {children}      
         </AuthContext.Provider>

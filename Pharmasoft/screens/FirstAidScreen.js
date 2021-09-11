@@ -108,7 +108,7 @@ const FirstAidScreen = ({ navigation }) => {
             <FirstAidCard
               id={item.id}
               title={item.title}
-              bgColor={globalColours.firstAid[item.image]}
+              bgColor={theme.darkmode && theme.darktheme != 'dim' ? colors.mainBgColor: globalColours.firstAid[item.image]}
               image={item.image}
               description={item.description}
               viewDetails={() => {

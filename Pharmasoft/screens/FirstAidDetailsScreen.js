@@ -90,7 +90,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
     }
 
     const mainColor = item.gradient[0] || globalColours.mainCol
-    const headerColor = theme.darkmode && theme.darktheme == 'dim' ? item.gradient : [colors.mainColor, colors.mainColor]
+    const headerColor = theme.darkmode && theme.darktheme != 'dim' ? [colors.mainColor, colors.mainColor] : item.gradient 
 
     return (
         <LinearGradient

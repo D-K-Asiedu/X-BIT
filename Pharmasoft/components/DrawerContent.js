@@ -19,15 +19,16 @@ import { useColor, useTheme } from '../styles/ThemeContext';
 
 const DrawerContent = ({navigation}) => {
     const tempLogin = useAuth().isLoggedIn
+    const userInfo = useAuth().user
     const [isLoggedIn, setLoggedIn] = useState(true)
     const authenticate = useUpdateAuth()
 
     const colors = useColor()
     const theme = useTheme()
 
-    // useEffect(() => {
-    //     setLoggedIn(tempLogin)
-    // }, [tempLogin])
+    useEffect(() => {
+        setLoggedIn(tempLogin)
+    }, [tempLogin])
 
     const styles = StyleSheet.create({
         drawer: {
@@ -88,10 +89,10 @@ const DrawerContent = ({navigation}) => {
                 <View style={{...styles.section, ...styles.avatar}}>
                     {isLoggedIn ?
                         <>
-                            <Image source={require('../assets/user.jpeg')} style={styles.avatarImg} /> 
+                            <Image source={require('../assets/no-user.jpg')} style={styles.avatarImg} /> 
                             <View>
-                                <Text style={styles.name}>John Doe</Text>
-                                <Text style={styles.email}>example@xbit.com</Text>
+                                <Text style={styles.name}>{userInfo.name}</Text>
+                                <Text style={styles.email}>{userInfo.email}</Text>
                             </View>
                         </>:
                         <>
