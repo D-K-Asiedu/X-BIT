@@ -4,8 +4,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 const ProductCard = () => {
     return (
         <View style={styles.card}>
-            {/* <Image /> */}
-            <View style={{width: 150, height: 150,}}></View>
+            <Image style={{width: 150, height: 150,}} source={require('../assets/home-images/fluxamox.png')} />
+            {/* <View style={{width: 150, height: 150,}}></View> */}
             <View style={styles.textBox}>
                 <Text style={styles.title}>Medicine</Text>
                 <Text style={styles.desc}>Small Description here</Text>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         borderColor: '#999999',
         borderRadius: 15,
         marginVertical: 10, 
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#ffffff',
 
         elevation: 2,
 

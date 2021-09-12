@@ -10,18 +10,18 @@ import {
   View 
 } from 'react-native';
 
-import { globalColours, globalStyles } from '../styles/global';
+import { globalColours, globalStyles, images } from '../styles/global';
 import { 
   Feather,
   FontAwesome 
 } from '@expo/vector-icons';
-
+6
+import firstAid from '../data/firstAidData'
 import Swipable from '../components/Swipable';
 import Swiper from 'react-native-swiper';
 import ArticleCarousel from '../components/ArticleCarousel';
 import ProductCard from '../components/ProductCard';
 
-import {LinearGradient} from 'expo-linear-gradient';
 
 //import { useTheme } from '@react-navigation/native';
 
@@ -39,9 +39,9 @@ const HomeScreen = ({navigation}) => {
 
   const LinkCard = ({title, image}) => {
     return(
-      <TouchableOpacity style={styles.linkCard}>
+      <TouchableOpacity style={styles.linkCard} activeOpacity={0.7}>
         <View style={styles.linkImageBox}>
-          <Image />
+          <Image source={images.firstAid[image]}  style = {{width: 40, height: 40}}/>
         </View>
         <Text style={styles.linkCardText}>{title}</Text>
       </TouchableOpacity>
@@ -52,7 +52,7 @@ const HomeScreen = ({navigation}) => {
       <View style={{...globalStyles.container, backgroundColor: colors.mainColor}}>
         <View style={{ ...globalStyles.header, backgroundColor: colors.mainColor }}>
           <TouchableOpacity
-            // onPress={() => navigation.openDrawer()}
+            onPress={() => navigation.openDrawer()}
           >
             <Feather name="menu" size={30} color='#ffffff' />
           </TouchableOpacity>
@@ -64,7 +64,6 @@ const HomeScreen = ({navigation}) => {
 
         <ScrollView>
           <View style={styles.hero}>
-            {/* <Swipable /> */}
             <Swiper 
               loop={false}
               activeDotStyle={
@@ -84,14 +83,16 @@ const HomeScreen = ({navigation}) => {
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
                 <Text style={styles.titleText}>First aid</Text>
-                <TouchableOpacity><Text style={styles.linkText}>{"See all>>"}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('First-aid')}>
+                  <Text style={styles.linkText}>{"See all>>"}</Text>
+                </TouchableOpacity>
               </View>
 
-              <View style={{...styles.sectionContent, justifyContent: 'space-around'}}>
-                <LinkCard title="CPR" image="" />
-                <LinkCard title="Resuscitation" image="" />
-                <LinkCard title="Burns" image="" />
-                <LinkCard title="Asthma" image="" />
+              <View style={{...styles.sectionContent, justifyContent: 'space-between'}}>
+                <LinkCard title="Poison" image="poison" />
+                <LinkCard title="Bruises" image="plaster" />
+                <LinkCard title="Burns" image="fire" />
+                <LinkCard title="Asthma" image="lung" />
 
               </View>
             </View>
@@ -102,7 +103,8 @@ const HomeScreen = ({navigation}) => {
               </View>
               <View style={{...styles.sectionContent, ...styles.articleBox}}>
                 <Swiper
-                  autoplay={false}
+                  autoplay={true}
+                  autoplayTimeout={10}
                   activeDotStyle={
                     {width: 10, height:10, backgroundColor: '#1ba665', borderRadius: 5, elevation: 2}
                   }
@@ -121,7 +123,9 @@ const HomeScreen = ({navigation}) => {
             <View style={styles.section}>
             <View style={styles.sectionHeader}>
                 <Text style={styles.titleText}>Products</Text>
-                <TouchableOpacity><Text style={styles.linkText}>{"See all>>"}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
+                  <Text style={styles.linkText}>{"See all>>"}</Text>
+                </TouchableOpacity>
               </View>
 
               <View style={{...styles.sectionContent, ...styles.products}}>
@@ -312,7 +316,7 @@ const styles = StyleSheet.create({
     //   marginBottom: 10
     // },
     section:{
-      paddingVertical: 20,
+      paddingVertical: 15,
     },
     sectionHeader:{
       flexDirection: 'row',
@@ -349,7 +353,10 @@ const styles = StyleSheet.create({
       width: 60,
       height: 60,
       borderRadius: 15,
-      backgroundColor: '#f2f2f2',
+      backgroundColor: '#ffffff',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
       // borderWidth: 1,
       // borderColor: 'red',
       elevation: 3

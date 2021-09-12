@@ -23,7 +23,7 @@ export default class Swipable extends Component {
         </View >
          
         <View style={styles.imageView}>
-          <Image source={require('../assets/home-icons/ok.png')} style={styles.image}/>
+          <Image source={require('../assets/home-images/ok.png')} style={styles.image}/>
         </View>
       </View>
   // </Swiper>
