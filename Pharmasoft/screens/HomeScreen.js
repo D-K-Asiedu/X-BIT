@@ -1,8 +1,25 @@
 import React from 'react';
-import { Text, StyleSheet, StatusBar, Dimensions, Image, TouchableOpacity, ScrollView, View } from 'react-native';
+import { 
+  Text, 
+  StyleSheet, 
+  StatusBar, 
+  Dimensions, 
+  Image, 
+  TouchableOpacity, 
+  ScrollView, 
+  View 
+} from 'react-native';
+
+import { globalColours, globalStyles } from '../styles/global';
+import { 
+  Feather,
+  FontAwesome 
+} from '@expo/vector-icons';
 
 import Swipable from '../components/Swipable';
+import Swiper from 'react-native-swiper';
 import ArticleCarousel from '../components/ArticleCarousel';
+import ProductCard from '../components/ProductCard';
 
 import {LinearGradient} from 'expo-linear-gradient';
 
@@ -15,17 +32,110 @@ const HomeScreen = ({navigation}) => {
   //const { colors } = useTheme();
 
   //const theme = useTheme();
+  const colors = {
+    mainColor: '#1ba665',
+    mainBgColor: '#f2f2f2'
+  }
+
+  const LinkCard = ({title, image}) => {
+    return(
+      <TouchableOpacity style={styles.linkCard}>
+        <View style={styles.linkImageBox}>
+          <Image />
+        </View>
+        <Text style={styles.linkCardText}>{title}</Text>
+      </TouchableOpacity>
+    )
+  }
   
     return (
-      
-      <ScrollView>
-      <View style={styles.container}>  
-        
-        <View style={styles.header}>
-        <Swipable />
+      <View style={{...globalStyles.container, backgroundColor: colors.mainColor}}>
+        <View style={{ ...globalStyles.header, backgroundColor: colors.mainColor }}>
+          <TouchableOpacity
+            // onPress={() => navigation.openDrawer()}
+          >
+            <Feather name="menu" size={30} color='#ffffff' />
+          </TouchableOpacity>
+          <Text style={globalStyles.h2}>Home</Text>
+          <TouchableOpacity>
+            <FontAwesome name="bell" size={20} color="#ffffff" />
+          </TouchableOpacity>
         </View>
 
-        
+        <ScrollView>
+          <View style={styles.hero}>
+            {/* <Swipable /> */}
+            <Swiper 
+              loop={false}
+              activeDotStyle={
+                {width: 10, height:10, backgroundColor: '#f9b900', borderRadius: 5, elevation: 2}
+              }
+              dotStyle={
+                {width: 8, height:8, backgroundColor: '#f9b90066', borderRadius: 5,}
+              }
+            >
+              <Swipable />
+              <Swipable />
+            </Swiper>
+          </View>
+
+
+      <View style={{...globalStyles.content, backgroundColor: colors.mainBgColor}}>
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.titleText}>First aid</Text>
+                <TouchableOpacity><Text style={styles.linkText}>{"See all>>"}</Text></TouchableOpacity>
+              </View>
+
+              <View style={{...styles.sectionContent, justifyContent: 'space-around'}}>
+                <LinkCard title="CPR" image="" />
+                <LinkCard title="Resuscitation" image="" />
+                <LinkCard title="Burns" image="" />
+                <LinkCard title="Asthma" image="" />
+
+              </View>
+            </View>
+
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.titleText}>Articles</Text>
+              </View>
+              <View style={{...styles.sectionContent, ...styles.articleBox}}>
+                <Swiper
+                  autoplay={false}
+                  activeDotStyle={
+                    {width: 10, height:10, backgroundColor: '#1ba665', borderRadius: 5, elevation: 2}
+                  }
+                  dotStyle={
+                    {width: 8, height:8, backgroundColor: '#1ba66566', borderRadius: 5,}
+                  }
+                >
+              <ArticleCarousel />
+              <ArticleCarousel />
+              <ArticleCarousel />
+              <ArticleCarousel />
+              </Swiper>
+              </View>
+            </View>
+
+            <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+                <Text style={styles.titleText}>Products</Text>
+                <TouchableOpacity><Text style={styles.linkText}>{"See all>>"}</Text></TouchableOpacity>
+              </View>
+
+              <View style={{...styles.sectionContent, ...styles.products}}>
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+                <ProductCard />
+
+              </View>
+
+            </View>
+
+
+        {/*
         <View style={styles.footer}>
           <View style={styles.footerOneView}>
 
@@ -168,210 +278,204 @@ const HomeScreen = ({navigation}) => {
 
           </View> 
           </View>
-          
-      </View>
+          */}
+      </View> 
       </ScrollView>
+      </View>
     );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    container: {
-    flex: 1, 
-    backgroundColor: '#1BA665'
-    },
-    header: {
-        flex: 2,
+    // container: {
+    // flex: 1, 
+    // backgroundColor: '#1BA665'
+    // },
+    hero: {
+        // flex: 1,
+        height: 175,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    footer: {
-        flex: 5,
-        backgroundColor: '#f4f4f4',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        paddingVertical: 50,
-        paddingHorizontal: 30
+    // footer: {
+    //     flex: 5,
+    //     backgroundColor: '#f4f4f4',
+    //     borderTopLeftRadius: 30,
+    //     borderTopRightRadius: 30,
+    //     paddingVertical: 50,
+    //     paddingHorizontal: 30
+    // },
+    // footerOneView: {
+    //   flexDirection: 'row',
+    //   marginTop: -30,
+    //   marginBottom: 10
+    // },
+    section:{
+      paddingVertical: 20,
     },
-    yellView: {
-      marginTop: 30,
-      marginLeft: 90, 
-      marginBottom: 25,     
-      backgroundColor: '#F9B900',
-      width: 390,
-      height: 130,
-      borderRadius: 20,
+    sectionHeader:{
       flexDirection: 'row',
-      alignItems: 'flex-end',
-      justifyContent: 'space-evenly' 
-    },
-    yellTextView: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
       justifyContent: 'space-between',
-      marginRight: 25
-    },
-    yellTextOne: {
-      color: 'white',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      //fontFamily: 'comic-neue',
-      fontSize: 20,
-      marginTop: 1,
       marginBottom: 10,
-      marginLeft: 60
     },
-    yellTextTwo: {
-      color: 'white',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      fontSize: 16,
-      //fontFamily: 'comic-neue',
-      marginLeft: 60
-    },
-    yellImageView: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
-      paddingLeft: 10,
-    },
-    yellImage: {
-      resizeMode: 'cover',
-      width: 90,
-      height: 100,
-      borderTopLeftRadius: 100,
-      borderBottomRightRadius: 30,
-      marginTop: 38,
-      marginRight: 47
-    },
-    footerOneView: {
-      flexDirection: 'row',
-      marginTop: -30,
-      marginBottom: 10
-    },
-    boldLeftText: {
-      //fontFamily: 'roboto',
+    titleText: {
       fontWeight: 'bold',
       color: '#1A2E35',
-      textAlign: 'left',
+      // textAlign: 'left',
       fontSize: 24,
-      marginLeft: 0
+      // marginLeft: 0
     },
-    smallRightText:{
+    linkText:{
       fontSize: 16,
       fontWeight: 'bold',
       color: '#1BA665',
-      textAlign: 'right',
-      marginLeft: 210,
-      marginTop: 10
+      // textAlign: 'right',
+      // marginLeft: 210,
+      // marginTop: 10
     },
-    footerTwoView:{
-      marginTop: 1,
+    sectionContent:{
       flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 18
-    },
-    footerTwoSubView:{
-      flexDirection: 'column'
-    },
-    smallBoxView:{
-      flexDirection: 'column',
-      backgroundColor: 'white',
-      borderRadius: 22,
-      width: 75,
-      height: 75,
-      marginLeft: 10,
-      marginRight: 10
-    },
-    smallBoxImage:{
-      resizeMode: 'center'
-    },
-    smallBoxText:{
-      fontSize: 17,
-      fontWeight: 'bold',
-      color: '#375A64',
-      textAlign: 'center'
-    },
-
-    footerThreeView:{
-      flexDirection: 'column',
-      marginBottom: 80
-    },
-    footerFourView:{
-      flexDirection: 'row',
-      marginTop: -60,
-      marginBottom: 15,
-      marginLeft: -15,
-      marginRight: 5,
-      width: 390,
-      height: 300,
       justifyContent: 'space-between'
     },
-    footerFourImage:{
-      resizeMode: 'cover',
-      borderRadius: 10
-    },
-    footerFiveView:{
-      flexDirection: 'row',
-      marginTop: -30,
-      marginBottom: 15
-    },
-    footerSixView:{
-      flexDirection: 'row',
+    linkCard:{
+      // paddingHorizontal: 10,
+      // borderWidth: 1,
+      // borderColor: 'red',
       justifyContent: 'space-between',
-      marginBottom: 20
+      alignItems: 'center',
     },
-    medicineView:{
-      flexDirection: 'column' ,
-      backgroundColor: '#fff',
-      width: 180,
-      height: 245,
-      borderRadius: 20
+    linkImageBox:{
+      width: 60,
+      height: 60,
+      borderRadius: 15,
+      backgroundColor: '#f2f2f2',
+      // borderWidth: 1,
+      // borderColor: 'red',
+      elevation: 3
     },
-    secondMedicineView:{
-      flexDirection: 'column' ,
-      backgroundColor: '#fff',
-      width: 160,
-      height: 225,
-      marginLeft: 10,
-      marginTop: 10
-    },
-    medicineImage:{
-      resizeMode: 'contain',
-      width: 150,
-      height: 148
-    },
-    medicineTextOne:{
+    linkCardText:{
       fontSize: 16,
       fontWeight: 'bold',
-      color:'#1A2E35',
-      textAlign: 'left',
-      marginLeft: 15
+      color: globalColours.lightGrey,
+      textAlign: 'center',
+      marginTop: 5,
     },
-    medicineTextTwo:{
-      fontSize: 12,
-      fontWeight: 'normal',
-      color:'#808080',
-      textAlign: 'left',
-      marginLeft: 15,
-      marginBottom: 10
+    articleBox:{
+      height: 260,
     },
-    button:{
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-    },
-    buttonText:{
-      color: 'white',
-      fontWeight: 'bold',
-      fontSize: 13
-    },
-    buttonIn:{
-      width: 100,
-      height: 30,
-      justifyContent: 'center',
-      borderRadius: 5,
-      alignItems: 'center',
-      flexDirection: 'row'
-    },
+    products:{
+      // flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+    }
+
+    // footerTwoView:{
+    //   marginTop: 1,
+    //   flexDirection: 'row',
+    //   justifyContent: 'space-between',
+    //   marginBottom: 18
+    // },
+    // footerTwoSubView:{
+    //   flexDirection: 'column'
+    // },
+    // smallBoxView:{
+    //   flexDirection: 'column',
+    //   backgroundColor: 'white',
+    //   borderRadius: 22,
+    //   width: 75,
+    //   height: 75,
+    //   marginLeft: 10,
+    //   marginRight: 10
+    // },
+    // smallBoxImage:{
+    //   resizeMode: 'center'
+    // },
+    // smallBoxText:{
+    //   fontSize: 17,
+    //   fontWeight: 'bold',
+    //   color: '#375A64',
+    //   textAlign: 'center'
+    // },
+
+    // footerThreeView:{
+    //   flexDirection: 'column',
+    //   marginBottom: 80
+    // },
+    // footerFourView:{
+    //   flexDirection: 'row',
+    //   marginTop: -60,
+    //   marginBottom: 15,
+    //   marginLeft: -15,
+    //   marginRight: 5,
+    //   width: 390,
+    //   height: 300,
+    //   justifyContent: 'space-between'
+    // },
+    // footerFourImage:{
+    //   resizeMode: 'cover',
+    //   borderRadius: 10
+    // },
+    // footerFiveView:{
+    //   flexDirection: 'row',
+    //   marginTop: -30,
+    //   marginBottom: 15
+    // },
+    // footerSixView:{
+    //   flexDirection: 'row',
+    //   justifyContent: 'space-between',
+    //   marginBottom: 20
+    // },
+    // medicineView:{
+    //   flexDirection: 'column' ,
+    //   backgroundColor: '#fff',
+    //   width: 180,
+    //   height: 245,
+    //   borderRadius: 20
+    // },
+    // secondMedicineView:{
+    //   flexDirection: 'column' ,
+    //   backgroundColor: '#fff',
+    //   width: 160,
+    //   height: 225,
+    //   marginLeft: 10,
+    //   marginTop: 10
+    // },
+    // medicineImage:{
+    //   resizeMode: 'contain',
+    //   width: 150,
+    //   height: 148
+    // },
+    // medicineTextOne:{
+    //   fontSize: 16,
+    //   fontWeight: 'bold',
+    //   color:'#1A2E35',
+    //   textAlign: 'left',
+    //   marginLeft: 15
+    // },
+    // medicineTextTwo:{
+    //   fontSize: 12,
+    //   fontWeight: 'normal',
+    //   color:'#808080',
+    //   textAlign: 'left',
+    //   marginLeft: 15,
+    //   marginBottom: 10
+    // },
+    // button:{
+    //   alignItems: 'flex-end',
+    //   justifyContent: 'center',
+    // },
+    // buttonText:{
+    //   color: 'white',
+    //   fontWeight: 'bold',
+    //   fontSize: 13
+    // },
+    // buttonIn:{
+    //   width: 100,
+    //   height: 30,
+    //   justifyContent: 'center',
+    //   borderRadius: 5,
+    //   alignItems: 'center',
+    //   flexDirection: 'row'
+    // },
 });
