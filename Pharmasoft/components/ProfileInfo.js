@@ -89,7 +89,7 @@ const ProfileInfo = (props) => {
   
 
     return (
-        <TouchableOpacity style={styles.infoCard} onPress={() => props.editProfile(props.title)}>
+        <TouchableOpacity style={styles.infoCard} onPress={() => props.editProfile(props.title, props.profile)}>
             <View>
                 <View style={styles.title}>
                     {icons[props.icon]}
@@ -125,7 +125,7 @@ const ProfileInfo = (props) => {
                 </Text>
                 }
             </View>
-            <MaterialIcons name={props.profile.length != 0 ? "edit" : "add"} size={24} color={colors.constant} />
+            <MaterialIcons name={props.profile ? "edit" : "add"} size={24} color={colors.constant} />
         </TouchableOpacity>
     )
 }

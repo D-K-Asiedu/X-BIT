@@ -10,6 +10,9 @@ app.config["MYSQL_USER"] = 'root'
 app.config["MYSQL_PASSWORD"] = 'goodmorning'
 app.config["MYSQL_DB"] = 'pharmasoft'
 
+app.config["IMAGE_UPLOADS"] = r"F:\Projects\Python\X-bit\Pharmasoft\server\pharmasoft\static\images"
+
+
 mysql = MySQL(app)
 login_manager = LoginManager(app)
 

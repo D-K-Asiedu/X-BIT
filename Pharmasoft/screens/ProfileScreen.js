@@ -15,6 +15,7 @@ import { globalStyles, globalColours } from '../styles/global'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import ProfileInfo from '../components/ProfileInfo'
 import { useTheme, useColor } from '../styles/ThemeContext'
+import { useUpdateAuth, useAuth } from '../routes/AuthContext';
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -23,14 +24,16 @@ const ProfileScreen = ({ navigation }) => {
     const [infoTitle, setInfoTitle] = useState('')
     const [infoValue, setInfoValue] = useState('')
     // const [infoValueRef, setInfoValueRef] = useState('')
-    const [user, setUser] = useState({
-        name: 'John Doe',
-        email: 'example@xbit.com',
-        'phone number': '+119923456',
-        'date of birth': '',
-        allergies: ['Peanut butter', 'Milk', 'Water', 'Miiiiiiiiiiilk', 'Kooooooool'],
-        password: 'helloworld'
-    })
+    // const [user, setUser] = useState({
+    //     name: 'John Doe',
+    //     email: 'example@xbit.com',
+    //     'phone number': '+119923456',
+    //     'date of birth': '',
+    //     allergies: ['Peanut butter', 'Milk', 'Water', 'Miiiiiiiiiiilk', 'Kooooooool'],
+    //     password: 'helloworld'
+    // })
+
+    const userInfo = useAuth().user
 
     const theme = useTheme()
     const colors = useColor()
@@ -54,22 +57,30 @@ const ProfileScreen = ({ navigation }) => {
     // }, [theme.colortheme])
 
 
-    const editProfile = (val) => {
+    const editProfile = (val, data) => {
             setInfoTitle(val.toLowerCase())
-            setInfoValue(user[val.toLowerCase()])
+            setInfoValue(data)
 
             setModalOpen(true)    
     }
 
     const saveEdit = () => {
-        console.log(infoTitle);
-        console.log(infoValue);
+        // console.log(infoTitle);
+        // console.log(infoValue);
         
-        var tempUser = user
+        var tempUser = userInfo
         tempUser[infoTitle] = infoValue
-        setUser(prevUser => (
-            {...prevUser, tempUser} 
-        ))
+        // setUser(prevUser => (
+        //     {...prevUser, tempUser} 
+        // ))
+        // const res = await fetch(`${server}/login`, {
+        //     method: 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         },
+        //     body: JSON.stringify(data),
+        // })
+        user = tempUser
         setModalOpen(false)
     }
 
@@ -108,8 +119,9 @@ const ProfileScreen = ({ navigation }) => {
             width: 150,
             height: 150,
             borderRadius: 75,
-            borderWidth: 3,
+            borderWidth: 1,
             borderColor: globalColours.lightGrey,
+            opacity: 0.5,
         },
         imageBox:{
             width: 150,
@@ -160,18 +172,18 @@ const ProfileScreen = ({ navigation }) => {
             <ScrollView style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
                 <View style={styles.topBox}>
                     <View style={styles.imageBox}>
-                        <Image source={require('../assets/user.jpeg')} style={styles.image} />
+                        <Image source={require('../assets/userprofile.png')} style={styles.image} />
                         <TouchableOpacity style={{...styles.editBtn, backgroundColor: colors.constant}}>
                             <FontAwesome name="camera" size={24} color="#ffffff" />
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View>
-                    <ProfileInfo icon="name" title="Name" profile={user.name} editProfile={editProfile} />
-                    <ProfileInfo icon="email" title="Email" profile={user.email} editProfile={editProfile} />
-                    <ProfileInfo icon="phone" title="Phone number" profile={user['phone number']} editProfile={editProfile} />
-                    {/* <ProfileInfo icon="date" title="Date of birth" profile={user['date of birth']} editProfile={editProfile} /> */}
-                    {/* <ProfileInfo icon="allergies" title="Allergies" profile={user.allergies} editProfile={editProfile} /> */}
+                    <ProfileInfo icon="name" title="Name" profile={userInfo.name} editProfile={editProfile} />
+                    <ProfileInfo icon="email" title="Email" profile={userInfo.email} editProfile={editProfile} />
+                    <ProfileInfo icon="phone" title="Phone number" profile={userInfo['contact']} editProfile={editProfile} />
+                    {/* <ProfileInfo icon="date" title="Date of birth" profile={userInfo['date of birth']} editProfile={editProfile} /> */}
+                    {/* <ProfileInfo icon="allergies" title="Allergies" profile={userInfo.allergies} editProfile={editProfile} /> */}
                     <ProfileInfo icon="password" title="Password" profile="**********" editProfile={editProfile} />
                 </View>
             </ScrollView>

@@ -1,11 +1,56 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { useTheme, useColor } from '../styles/ThemeContext'
+
 
 const ProductCard = () => {
+    const colors = useColor()
+    const theme = useTheme()
+
+    // Styles
+    const styles = StyleSheet.create({
+        card:{
+            width: '45%',
+            // height: 230,
+            padding: 10,
+            // borderColor: '#999999',
+            borderRadius: 15,
+            marginVertical: 10, 
+            backgroundColor: colors.secBgColor,
+    
+            elevation: 2,
+    
+        },
+        textBox:{
+            marginVertical: 5,
+        },
+        title:{
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: colors.mainTextColor
+        },
+        desc:{
+            fontSize: 14,
+            color: colors.tetTextColor
+        },
+        btn:{
+            backgroundColor: colors.constant,
+            padding: 7,
+            borderRadius: 5,
+            alignSelf: 'flex-end',
+        },
+        btnText:{
+            color: '#ffffff',
+            fontWeight: 'bold'  
+        }
+    
+    })    
+
     return (
         <View style={styles.card}>
-            <Image style={{width: 150, height: 150,}} source={require('../assets/home-images/fluxamox.png')} />
-            {/* <View style={{width: 150, height: 150,}}></View> */}
+            <View style={{width: 150, height: 150, justifyContent: 'center', alignItems: 'center'}}>
+            <Image style={{width: 75, height: 75,}} source={require('../assets/home-images/medicine.png')} />
+            </View>
             <View style={styles.textBox}>
                 <Text style={styles.title}>Medicine</Text>
                 <Text style={styles.desc}>Small Description here</Text>
@@ -18,39 +63,3 @@ const ProductCard = () => {
 }
 
 export default ProductCard
-
-const styles = StyleSheet.create({
-    card:{
-        padding: 10,
-        borderColor: '#999999',
-        borderRadius: 15,
-        marginVertical: 10, 
-        backgroundColor: '#ffffff',
-
-        elevation: 2,
-
-    },
-    textBox:{
-        marginVertical: 5,
-    },
-    title:{
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#333333'
-    },
-    desc:{
-        fontSize: 14,
-        color: '#696969'
-    },
-    btn:{
-        backgroundColor: '#1ba665',
-        padding: 7,
-        borderRadius: 5,
-        alignSelf: 'flex-end',
-    },
-    btnText:{
-        color: '#ffffff',
-        fontWeight: 'bold'  
-    }
-
-})

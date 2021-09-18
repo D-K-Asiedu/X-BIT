@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
-import { Feather, Ionicons } from '@expo/vector-icons'
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { globalStyles, globalColours } from '../styles/global'
 import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
+import ProductCard from '../components/ProductCard'
 
 const ShopScreen = ({navigation}) => {
     // const [mainColor, setMainColour] = useState('')
@@ -40,12 +41,27 @@ const ShopScreen = ({navigation}) => {
                 </TouchableOpacity>
                 <Text style={globalStyles.h2}>Shop</Text>
                 <TouchableOpacity>
-                    <Ionicons name="search" size={24} color='#ffffff' />
+                    <FontAwesome5 name="cart-plus" size={22} color="#ffffff" />
                 </TouchableOpacity>
             </View>
 
             <View style={{...globalStyles.content, backgroundColor: colors.mainBgColor}}>
-                <ErrorPageCard />
+                <ScrollView>
+                    <View style={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-around'
+                    }}>
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    </View>
+                </ScrollView>
             </View>
 
         </View>

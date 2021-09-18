@@ -17,6 +17,7 @@ import { loginRegStyles } from '../styles/loginReg';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup'
 import { useTheme, useColor } from '../styles/ThemeContext';
+import { useAuth } from '../routes/AuthContext';
 
 
 const registerSchema = yup.object({
@@ -73,8 +74,10 @@ export default function RegisterScreen({navigation}) {
   // }, [theme.colortheme])
 
   // Register account
+  const server = useAuth().server
+
   const registerAccount = async (user) => {
-    const res = await fetch('http://100.119.8.18:5000/register', {
+    const res = await fetch(`${server}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +92,7 @@ export default function RegisterScreen({navigation}) {
       console.log(e);  
     }
 
-    authenticate('login', {email:user.email, password:user.password})
+    authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'})
   }
 
 

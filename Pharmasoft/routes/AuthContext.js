@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { showMessage, hideMessage } from "react-native-flash-message";
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { useColor } from '../styles/ThemeContext';
 
 
 const AuthContext = React.createContext()
@@ -12,17 +14,19 @@ export const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [skipped, setSkipped] = useState(false)
     const [user, setUser] = useState({})
+    const server = 'http://100.119.11.78:5000'
 
     // useEffect(() => {
     //     // If logged in
     //     fetchUser().name && setLoggedIn(true)
     // }, [])
 
+    const colors = useColor()
 
 
     // Fetch user
     const fetchUser = async () => {
-        const res = await fetch('http://100.119.8.18:5000/profile', {
+        const res = await fetch(`${server}/profile`, {
             method: 'GET',
         }) 
         const data = await res.json()
@@ -31,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
     // Login to system
     const login = async(data) => {
-        const res = await fetch('http://100.119.8.18:5000/login', {
+        const res = await fetch(`${server}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,11 +49,12 @@ export const AuthProvider = ({ children }) => {
 
             // Login succesful alert
             showMessage({
-                message: "Login successful",
-                type: "success",
+                message: userLogin["login"]? "Login successful": "Login Failed",
+                description: data.msg || userLogin["msg"],
+                type: userLogin["login"]? "success": "danger",
                 floating: true,
                 icon: 'auto',
-                duration: 1500,
+                duration: 2000,
                 position: {
                     top: 30,
                 },
@@ -57,9 +62,13 @@ export const AuthProvider = ({ children }) => {
                     fontSize: 16,
                 },
                 style: {
-
+                    borderWidth: 1,
+                    borderColor: '#ffffff33'
                 }
             });
+
+            console.log(await fetchUser())
+            setUser(await fetchUser())    
 
         } catch (e) {
             console.log(e);
@@ -79,28 +88,18 @@ export const AuthProvider = ({ children }) => {
                     fontSize: 16,
                 },
                 style: {
-
                 }
             });
 
         }
 
-
-        loggedIn && console.log(await fetchUser())
-        loggedIn && setUser(await fetchUser())
     }
-
-    // Register account
 
     // Logout
     const logout = async () => {
-        // const res = await fetch('http://100.119.8.18:5000/login', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         },
-        //     body: JSON.stringify(data),
-        // })
+        const res = await fetch(`${server}/logout`, {
+            method: 'GET',
+        })
 
         setSkipped(false)
         setLoggedIn(false)
@@ -132,6 +131,7 @@ export const AuthProvider = ({ children }) => {
             isLoggedIn: loggedIn,
             isSkipped: skipped,
             user: user,
+            server: server,
         }}>
             {children}      
         </AuthContext.Provider>

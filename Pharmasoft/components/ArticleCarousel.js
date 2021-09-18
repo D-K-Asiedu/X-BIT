@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, ImageBackground, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Linking } from 'react-native';
 
 export default class ArticleCarousel extends Component {
   render() {
     return (
 
-      <TouchableOpacity activeOpacity={0.7}>
+      <TouchableOpacity 
+        activeOpacity={0.7}
+        onPress={() => {Linking.openURL('https://www.google.com')}}
+        >
       <ImageBackground 
         style={styles.card}
         source={require('../assets/home-images/go.png')}
