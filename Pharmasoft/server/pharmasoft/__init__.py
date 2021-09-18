@@ -2,6 +2,8 @@ from flask import Flask
 from flask_mysqldb import MySQL
 from flask_login import LoginManager, UserMixin, login_user, logout_user
 
+import os
+
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "coded"
@@ -10,7 +12,8 @@ app.config["MYSQL_USER"] = 'root'
 app.config["MYSQL_PASSWORD"] = 'goodmorning'
 app.config["MYSQL_DB"] = 'pharmasoft'
 
-app.config["IMAGE_UPLOADS"] = r"F:\Projects\Python\X-bit\Pharmasoft\server\pharmasoft\static\images"
+# app.config["IMAGE_UPLOADS"] = r"F:\Projects\Python\X-bit\Pharmasoft\server\pharmasoft\static\images"
+app.config["IMAGE_UPLOADS"] = os.getcwd()
 
 
 mysql = MySQL(app)

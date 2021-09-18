@@ -1,4 +1,5 @@
 from flask.json import jsonify
+from werkzeug.utils import secure_filename
 from pharmasoft import app, mysql
 from flask import request, session, redirect, url_for, render_template, flash
 
@@ -143,7 +144,22 @@ def add_product():
     #     return redirect(url_for("pharmacy_home"))
 
     if form.validate_on_submit():
-        ...
+        name = form.name.data
+        price = form.price.data
+        description = form.description.data
+        prescribe = form.prescribed.data
+
+        filename = secure_filename(form.file.data.filename)
+        form.file.data.save(os.path.join(app.config["IMAGE_UPLOADS"]+"/server/pharmasoft/static/images/"+filename))
+        
+        cur.execute("INSERT INTO product(name, price,pharmacy_id) VALUES(%s, %s, %s)", (name, price, str(pharmacy[0]),))
+        # mysql.connection.commit()
+        cur.close()
+
+        print(name, price, description, prescribe)
+        flash(f"{name} added successfully", "success")
+        return redirect(url_for("pharmacy_home"))
+
     return render_template("pharmacy/add_product.html", form=form )
 
 

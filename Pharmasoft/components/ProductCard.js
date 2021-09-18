@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
 
 
-const ProductCard = () => {
+const ProductCard = ({link}) => {
     const colors = useColor()
     const theme = useTheme()
 
@@ -47,6 +47,7 @@ const ProductCard = () => {
     })    
 
     return (
+        <TouchableWithoutFeedback onPress={() => link()}>
         <View style={styles.card}>
             <View style={{width: 150, height: 150, justifyContent: 'center', alignItems: 'center'}}>
             <Image style={{width: 75, height: 75,}} source={require('../assets/home-images/medicine.png')} />
@@ -59,6 +60,7 @@ const ProductCard = () => {
                 <Text style={styles.btnText}>Add to cart</Text>
             </TouchableOpacity>
         </View>
+        </TouchableWithoutFeedback>
     )
 }
 

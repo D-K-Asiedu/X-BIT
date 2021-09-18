@@ -89,7 +89,7 @@ const FirstAidDetailsScreen = ({navigation, route}) => {
         setDropDownVisible(false)
     }
 
-    const mainColor = item.gradient[0] || globalColours.mainCol
+    const mainColor = item.gradient[0] || colors.mainColor
     const headerColor = theme.darkmode && theme.darktheme != 'dim' ? [colors.mainColor, colors.mainColor] : item.gradient 
 
     return (

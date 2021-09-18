@@ -4,6 +4,9 @@ import FirstAidDetailsScreen from '../screens/FirstAidDetailsScreen'
 import MainDrawer from './MainDrawer';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import CartScreen from '../screens/CartScreen';
+import CheckoutScreen from '../screens/CheckoutScreen';
+import ProductDetailScreen from '../screens/ProductDetailScreen';
 import { useAuth } from './AuthContext';
 
 const Stack = createStackNavigator();
@@ -22,6 +25,9 @@ function MainStack() {
         <>
           <Stack.Screen name="MainDrawer" component={MainDrawer} />
           <Stack.Screen name="FirstAidDetails" component={FirstAidDetailsScreen} />
+          <Stack.Screen name="Cart" component={CartScreen} />
+          <Stack.Screen name="Checkout" component={CheckoutScreen} />
+          <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
         </> :
         <>
           <Stack.Screen name="Login" component={LoginScreen} />
