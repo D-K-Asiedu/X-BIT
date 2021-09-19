@@ -33,6 +33,15 @@ def register():
         contact = data["phone"]
         password = data["password"]
 
+        try:
+            user_result = cur.execute("SELECT * FROM customer WHERE email=%s", (email,))
+            if user_result:
+                return jsonify({"msg": "Acount Already Exists"})
+
+        except:
+            ...
+
+
         cur.execute("INSERT INTO  customer(Name, Email, Contact, Password) VALUES(%s, %s, %s, %s)", (name, email, contact, password,))
         mysql.connection.commit()
         cur.close()
