@@ -75,7 +75,7 @@ def login():
 
 
 
-        if user[2] == email and user[4] == password:
+        if user[2] == email and user[5] == password:
             user_model = User()
             user_model.id = user[0]
             login_user(user_model)
@@ -111,7 +111,7 @@ def profile():
             "name": profile[1],
             "email": profile[2],
             "contact": profile[3],
-            "password": profile[4],
+            "password": profile[5],
 
         })
 
