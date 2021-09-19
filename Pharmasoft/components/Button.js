@@ -5,7 +5,7 @@ const images = {
     "google": require('../assets/google.png')
 }
 
-const Button = ({title, color, bgColor, border1, image, style, onPress}) => {
+const Button = ({title, color, bgColor, border1, image, style, onPress, textStyle}) => {
     const border = border1 && {borderWidth: 1}
 
     return (
@@ -14,7 +14,7 @@ const Button = ({title, color, bgColor, border1, image, style, onPress}) => {
             onPress = {onPress}
         >
             {image && <Image source={images[image]} style={styles.img} />}
-            <Text style={{...styles.text, color: color}}>{title}</Text>
+            <Text style={{...styles.text, ...textStyle,  color: color}}>{title}</Text>
         </TouchableOpacity>
     )
 }

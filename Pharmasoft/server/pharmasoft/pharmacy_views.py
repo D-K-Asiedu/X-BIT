@@ -36,9 +36,11 @@ def pharmacy_register():
     if form.validate_on_submit():
         name = form.name.data
         email = form.email.data
-        pharmacy_code = form.password.data
+        pharmacy_code = form.pharmacy_code.data
+        location = form.location.data
+        password = form.password.data
 
-        cur.execute("INSERT INTO  pharmacy(name, email, pharmacycode) VALUES(%s, %s, %s)", (name, email, pharmacy_code,))
+        cur.execute("INSERT INTO  pharmacy(name, email, pharmacy_code, location, password) VALUES(%s, %s, %s, %s, %s)", (name, email, pharmacy_code, location, password,))
         mysql.connection.commit()
         cur.close()
 

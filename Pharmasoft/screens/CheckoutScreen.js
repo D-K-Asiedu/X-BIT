@@ -31,24 +31,34 @@ const CheckoutScreen = ({navigation}) => {
 
     //Styles
     const styles = StyleSheet.create({
+        header:{
+            backgroundColor: colors.mainColor,
+            justifyContent: 'flex-start',
+        },
+        pageTitle:{
+            marginLeft: 30,
+        },
+        mainCard:{
+            
+        }
     })
 
 
     return (
         <View style={{...globalStyles.container, backgroundColor: colors.mainColor}}>
-            <View style={{...globalStyles.header, backgroundColor: colors.mainColor}}>
+            <View style={{...globalStyles.header, ...styles.header}}>
             <TouchableOpacity
                     onPress={() => navigation.goBack()}
                 >
                     <Ionicons name="arrow-back" size={30} color="#ffffff"/>
                 </TouchableOpacity>
-                <Text style={globalStyles.h2}>Checkout</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('MainDrawer')}>
-                    <FontAwesome5 name="cart-plus" size={22} color="#ffffff" />
-                </TouchableOpacity>
+                <Text style={{...globalStyles.h2, ...styles.pageTitle}}>Checkout</Text>
             </View>
 
             <View style={{...globalStyles.content, backgroundColor: colors.mainBgColor}}>
+                <View style={styles.mainCard}>
+
+                </View>
             </View>
 
         </View>
