@@ -1,6 +1,5 @@
-from re import L
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FileField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FileField, FloatField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
@@ -21,8 +20,9 @@ class LoginForm(FlaskForm):
 
 class Add_Product(FlaskForm):
     name = StringField("Product Name", validators=[DataRequired(), Length(min=2, max=100)])
-    price = IntegerField("Product Price", validators=[DataRequired()])
+    price = FloatField("Product Price", validators=[DataRequired()])
     description = StringField("Product Description", validators=[DataRequired(), Length(min=2, max=100)])
-    file = FileField("Product Image", validators=[DataRequired()])
+    file = FileField("Product Image")
     prescribed = BooleanField("Prescribed")
+    quantity = IntegerField("Quantity", validators=[DataRequired()])
     submit = SubmitField('Submit')

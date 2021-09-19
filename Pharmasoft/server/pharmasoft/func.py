@@ -33,8 +33,9 @@ def get_products(product_list):
             "id": product[0],
             "name": product[1],
             "price": product[2],
-            "image": url_for("checkout"),
-            "prescribe": product[4]
+            "prescribe": product[3],
+            "description": product[4],
+            "image": url_for("product_image", image=product[5]),
         }
 
         products.append(product_detail)
