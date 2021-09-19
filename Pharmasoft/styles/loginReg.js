@@ -60,6 +60,5 @@ export const loginRegStyles = StyleSheet.create({
       bottomLink:{
         fontSize: 18,
         fontWeight: 'bold',
-        color: globalColours.mainCol,
       }    
 })

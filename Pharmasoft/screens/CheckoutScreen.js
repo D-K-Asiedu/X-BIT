@@ -148,6 +148,7 @@ const CheckoutScreen = ({ navigation }) => {
                         textStyle={{
                             fontSize: 16,
                         }}
+                        onPress={() => navigation.navigate('MainDrawer')}
                     //   style={{ marginTop: 15, }}
                     //   onPress={props.handleSubmit}
                     />
