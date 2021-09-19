@@ -71,7 +71,7 @@ def pharmacy_login():
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
-        pharmacy_code = form.password.data
+        password = form.password.data
 
         try:
             cur.execute("SELECT * FROM pharmacy WHERE email=%s", (email,))
@@ -81,7 +81,7 @@ def pharmacy_login():
             flash(f"Account does not exist!", "danger")
             return redirect(url_for("pharmacy_login"))
 
-        if pharmacy[2] == email and pharmacy[3] == pharmacy_code:
+        if pharmacy[2] == email and pharmacy[5] == password:
             session["pharmacy"] = pharmacy
             flash("Login Successfull", "success")
             return redirect(url_for("pharmacy_home"))
