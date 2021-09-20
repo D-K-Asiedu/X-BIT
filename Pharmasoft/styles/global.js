@@ -73,6 +73,21 @@ export const globalStyles = StyleSheet.create({
         borderTopStartRadius: 30,
         borderTopEndRadius: 30, 
     },
+    modalBg:{
+        flex: 1,
+        backgroundColor: '#00000066',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    modalBox:{
+        width: 100,
+        height: 100,
+        backgroundColor: '#ffffff',
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
+
+    }
 })
 
 export const images = {

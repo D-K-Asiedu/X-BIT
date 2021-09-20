@@ -76,7 +76,7 @@ def login():
             })
 
 
-        if bcrypt.check_password_hash(user[5], password):
+        if bcrypt.check_password_hash(user[4], password):
         # if user[2] == email and user[5] == password:
             user_model = User()
             user_model.id = user[0]
@@ -114,8 +114,6 @@ def profile():
                 "name": profile[1],
                 "email": profile[2],
                 "contact": profile[3],
-                "image": profile[4],
-                "password": profile[5],
 
             })
     else:
@@ -130,7 +128,7 @@ def validate_password():
     cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
     user = cur.fetchall()[0]
 
-    if bcrypt.check_password_hash(user[5], password):
+    if bcrypt.check_password_hash(user[4], password):
         return jsonify({"validate": True})
 
     else:

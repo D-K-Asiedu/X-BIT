@@ -19,6 +19,7 @@ import { useUpdateAuth, useAuth, } from '../routes/AuthContext';
 import Button from '../components/Button'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import Avatar from '../components/Avatar'
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -110,10 +111,10 @@ const ProfileScreen = ({ navigation }) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                },
+            },
             body: JSON.stringify(update),
-        })  
-        
+        })
+
         const updateMsg = await res.json()
         console.log(updateMsg.msg);
 
@@ -141,7 +142,6 @@ const ProfileScreen = ({ navigation }) => {
             borderRadius: 75,
             borderWidth: 1,
             borderColor: globalColours.lightGrey,
-            opacity: 0.5,
         },
         imageBox: {
             width: 150,
@@ -213,7 +213,10 @@ const ProfileScreen = ({ navigation }) => {
             <ScrollView style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
                 <View style={styles.topBox}>
                     <View style={styles.imageBox}>
-                        <Image source={require('../assets/userprofile.png')} style={styles.image} />
+                        {true ?
+                            <Image source={require('../assets/no-user.jpg')} style={styles.image} />
+                            :
+                            <Avatar name={userInfo.name} style={styles.image} />}
                         {/* <TouchableOpacity style={{...styles.editBtn, backgroundColor: colors.constant}}>
                             <FontAwesome name="camera" size={24} color="#ffffff" />
                         </TouchableOpacity> */}
@@ -330,7 +333,7 @@ const ProfileScreen = ({ navigation }) => {
                     }
                     onSubmit={values => {
                         // console.log(values)
-                        
+
                         const update = {
                             ...userInfo,
                             password: values.new_password,
