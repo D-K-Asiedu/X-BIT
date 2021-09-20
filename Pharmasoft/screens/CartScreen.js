@@ -69,7 +69,7 @@ const CartScreen = ({ navigation }) => {
                         renderItem={({item, index}) => (
                             <CartItem/>
                         )}
-                        keyExtractor={(item) => item}
+                        keyExtractor={(item) => item.toString()}
                     />
                 </View>
 

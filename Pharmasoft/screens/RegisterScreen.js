@@ -149,7 +149,7 @@ export default function RegisterScreen({navigation}) {
                 {listDisplay && <>
                   <InputField 
                     title="Phone number" 
-                    type='numeric'
+                    type='phone-pad'
                     autoCompleteType='tel'
                     onChangeText={props.handleChange('phone')} 
                     value={props.values.phone}

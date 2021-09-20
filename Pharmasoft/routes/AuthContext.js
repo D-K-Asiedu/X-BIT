@@ -13,6 +13,7 @@ export const useUpdateAuth = () => useContext(AuthUpdateContext)
 export const AuthProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [skipped, setSkipped] = useState(false)
+    const [validated, setValidated] = useState(false)
     const [user, setUser] = useState({})
     const server = 'http://100.119.11.78:5000'
 
@@ -28,18 +29,18 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
         const res = await fetch(`${server}/profile`, {
             method: 'GET',
-        }) 
+        })
         const data = await res.json()
         return data
     }
 
     // Login to system
-    const login = async(data) => {
+    const login = async (data) => {
         const res = await fetch(`${server}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                },
+            },
             body: JSON.stringify(data),
         })
 
@@ -49,9 +50,9 @@ export const AuthProvider = ({ children }) => {
 
             // Login succesful alert
             showMessage({
-                message: userLogin["login"]? "Login successful": "Login Failed",
+                message: userLogin["login"] ? "Login successful" : "Login Failed",
                 description: data.msg || userLogin["msg"],
-                type: userLogin["login"]? "success": "danger",
+                type: userLogin["login"] ? "success" : "danger",
                 floating: true,
                 icon: 'auto',
                 duration: 2000,
@@ -68,7 +69,7 @@ export const AuthProvider = ({ children }) => {
             });
 
             console.log(await fetchUser())
-            setUser(await fetchUser())    
+            setUser(await fetchUser())
 
         } catch (e) {
             console.log(e);
@@ -105,6 +106,66 @@ export const AuthProvider = ({ children }) => {
         setLoggedIn(false)
     }
 
+    // Validate password
+    const validatePassword = async (data) => {
+        console.log(data)
+        
+        const res = await fetch(`${server}/validate-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        try {
+            const pass = await res.json()
+            setValidated(pass.validate)
+
+            // Login succesful alert
+            !pass.validate && showMessage({
+                message: "Invalid password",
+                type: "danger",
+                floating: true,
+                icon: 'auto',
+                duration: 2000,
+                position: {
+                    top: 30,
+                },
+                titleStyle: {
+                    fontSize: 16,
+                },
+                style: {
+                    borderWidth: 1,
+                    borderColor: '#ffffff33'
+                }
+            });
+
+            console.log(await fetchUser())
+            setUser(await fetchUser())
+
+        } catch (e) {
+            console.log(e);
+
+            // Login unsuccessful alert
+            showMessage({
+                message: "Validation failed",
+                description: "Unknown technical error",
+                type: "danger",
+                floating: true,
+                icon: 'auto',
+                duration: 1500,
+                position: {
+                    top: 30,
+                },
+                titleStyle: {
+                    fontSize: 16,
+                },
+                style: {
+                }
+            });
+        }
+    }
+
     const toggleAuth = (value, data) => {
         switch (value) {
             case 'skip':
@@ -118,23 +179,27 @@ export const AuthProvider = ({ children }) => {
             case 'logout':
                 logout()
                 break;
-
+            case 'validate':
+                validatePassword(data)
+                break;
 
             default:
                 break;
         }
     }
 
-    return(
-        <AuthUpdateContext.Provider value = {toggleAuth} >
-        <AuthContext.Provider value={{
-            isLoggedIn: loggedIn,
-            isSkipped: skipped,
-            user: user,
-            server: server,
-        }}>
-            {children}      
-        </AuthContext.Provider>
+
+    return (
+        <AuthUpdateContext.Provider value={toggleAuth} >
+            <AuthContext.Provider value={{
+                isLoggedIn: loggedIn,
+                isSkipped: skipped,
+                user: user,
+                server: server,
+                validated: validated
+            }}>
+                {children}
+            </AuthContext.Provider>
         </AuthUpdateContext.Provider>
     )
 }

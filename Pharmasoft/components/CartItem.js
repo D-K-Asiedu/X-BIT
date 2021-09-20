@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback} from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { globalStyles } from '../styles/global'
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -55,7 +55,7 @@ const CartItem = () => {
             justifyContent: 'center',
             alignItems: 'center',
         },
-        cardBtn:{
+        cardBtn: {
             padding: 3,
             backgroundColor: colors.constant,
             borderRadius: 10,
@@ -63,11 +63,11 @@ const CartItem = () => {
             alignItems: 'center',
             width: 22,
         },
-        desc:{
+        desc: {
             color: colors.tetTextColor,
             fontSize: 14,
         },
-        delBox:{
+        delBox: {
             backgroundColor: 'red',
             padding: 10,
             // height: '100%',
@@ -81,26 +81,28 @@ const CartItem = () => {
     return (
         <TouchableWithoutFeedback onPress={toggle}>
             <View style={styles.card}>
-            <View style={styles.imageBox}>
-                <Image style={{ width: 75, height: 75, }} source={require('../assets/home-images/medicine.png')} />
-            </View>
-            <View style={styles.textBox}>
-                <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>Medicine</Text>
-                <Text style={styles.desc}>Quantity left: 69 </Text>
-                <Text style={styles.desc}>Unit price: GHC 20.00 </Text>
-            </View>
-            {!active && <View style={styles.countBox}>
-                <TouchableOpacity style={styles.cardBtn} onPress={countUp}>
-                    <AntDesign name="up" size={15} color={colors.secBgColor} />
-                </TouchableOpacity>
-                <Text style={globalStyles.h3}>{count}</Text>
-                <TouchableOpacity style={styles.cardBtn} onPress={countDown}>
-                    <AntDesign name="down" size={15} color={colors.secBgColor} />
-                </TouchableOpacity>
-            </View>}
-           {active && <TouchableOpacity style={styles.delBox}>
-                <FontAwesome5 name="trash" size={25} color={colors.secBgColor} />
-            </TouchableOpacity>}
+                <View style={styles.imageBox}>
+                    <Image style={{ width: 75, height: 75, }} source={require('../assets/home-images/medicine.png')} />
+                </View>
+                <View style={styles.textBox}>
+                    <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>Medicine</Text>
+                    <Text style={styles.desc}>Quantity left: 69 </Text>
+                    <Text style={styles.desc}>Unit price: GHC 20.00 </Text>
+                </View>
+                {!active && <TouchableWithoutFeedback onPress={() => setActive(false)}>
+                    <View style={styles.countBox}>
+                        <TouchableOpacity style={styles.cardBtn} onPress={countUp}>
+                            <AntDesign name="up" size={15} color={colors.secBgColor} />
+                        </TouchableOpacity>
+                        <Text style={{ ...globalStyles.h3, color: colors.tetColor2 }}>{count}</Text>
+                        <TouchableOpacity style={styles.cardBtn} onPress={countDown}>
+                            <AntDesign name="down" size={15} color={colors.secBgColor} />
+                        </TouchableOpacity>
+                    </View>
+                </TouchableWithoutFeedback>}
+                {active && <TouchableOpacity style={styles.delBox}>
+                    <FontAwesome5 name="trash" size={25} color={colors.secBgColor} />
+                </TouchableOpacity>}
             </View>
         </TouchableWithoutFeedback>
     )

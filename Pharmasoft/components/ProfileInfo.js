@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native'
-import { 
-    Entypo, 
-    FontAwesome, 
-    Fontisto, 
-    FontAwesome5, 
+import {
+    Entypo,
+    FontAwesome,
+    Fontisto,
+    FontAwesome5,
     MaterialIcons,
     AntDesign,
 } from '@expo/vector-icons';
@@ -25,7 +25,7 @@ const ProfileInfo = (props) => {
 
     const theme = useTheme()
     const colors = useColor()
-  
+
     // useEffect(() => {
     //   switch (theme.colortheme) {
     //     case 'green':
@@ -37,15 +37,15 @@ const ProfileInfo = (props) => {
     //     case 'pink':
     //       setMainColour(globalColours.mainCol3)
     //       break;
-    
-      
+
+
     //     default:
     //       break;
     //   }
     // }, [theme.colortheme])
 
     const styles = StyleSheet.create({
-        infoCard:{
+        infoCard: {
             borderBottomWidth: 1,
             borderColor: '#d4d4d4',
             paddingVertical: 20,
@@ -59,24 +59,24 @@ const ProfileInfo = (props) => {
             alignItems: 'center',
             marginBottom: 5
         },
-    
+
         titleText: {
             fontSize: 14,
             letterSpacing: 1,
             marginLeft: 10,
             color: colors.secTextColor
         },
-    
+
         profile: {
             fontSize: 16,
             letterSpacing: 1,
             color: colors.mainTextColor,
         },
-        array:{
+        array: {
             flexDirection: 'row',
             flexWrap: 'wrap',
         },
-        textBox:{
+        textBox: {
             paddingHorizontal: 7,
             paddingVertical: 5,
             margin: 2,
@@ -85,26 +85,18 @@ const ProfileInfo = (props) => {
             color: colors.mainTextColor,
             fontSize: 16,
         }
-    })    
-  
+    })
+
 
     return (
-        <TouchableOpacity style={styles.infoCard} onPress={() => props.editProfile(props.title, props.profile)}>
+        <View style={styles.infoCard}>
             <View>
                 <View style={styles.title}>
                     {icons[props.icon]}
                     <Text style={styles.titleText}>{props.title}</Text>
                 </View>
-                {Array.isArray(props.profile)?
+                {/*Array.isArray(props.profile)?
                     <View style={styles.array}>
-                        {/* <Text style={styles.textBox}>Fuck off</Text>
-                        <Text style={styles.textBox}>Fuck off</Text>
-                        <Text style={styles.textBox}>Fuck off</Text>
-                        <Text style={styles.textBox}>Fuck off</Text>
-                        <Text style={styles.textBox}>Fuck off</Text>
-                        <Text style={styles.textBox}>Fuck off</Text>
-                        <Text style={styles.textBox}>Fuck off</Text>
-                        <Text style={styles.textBox}>Fuck off</Text> */}
                         <FlatList
                             data={props.profile} 
                             horizontal = {true}
@@ -123,10 +115,14 @@ const ProfileInfo = (props) => {
                     }}>
                     {props.profile || `Add ${props.title.toLowerCase()}`}
                 </Text>
-                }
+                */}
+                <Text style={{ ...styles.profile, color: colors.mainTextColor }}>{props.profile}</Text>
             </View>
-            <MaterialIcons name={props.profile ? "edit" : "add"} size={24} color={colors.constant} />
-        </TouchableOpacity>
+            {props.editProfile &&
+                <TouchableOpacity onPress={props.editProfile}>
+                    <MaterialIcons name="edit" size={24} color={colors.constant} />
+                </TouchableOpacity>}
+        </View>
     )
 }
 
