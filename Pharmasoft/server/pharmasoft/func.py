@@ -35,6 +35,7 @@ def get_products(product_list):
             "price": product[2],
             "prescribe": product[3],
             "description": product[4],
+            "location": "Location",
             "image": url_for("product_image", image=product[5]),
         }
 

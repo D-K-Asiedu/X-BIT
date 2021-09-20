@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedba
 import { useTheme, useColor } from '../styles/ThemeContext'
 
 
-const ProductCard = ({link}) => {
+const ProductCard = ({link, medicine}) => {
     const colors = useColor()
     const theme = useTheme()
 

@@ -5,7 +5,9 @@ import {
   Image,
   TouchableOpacity,
   View,
-  Keyboard
+  Keyboard,
+  Modal,
+  ActivityIndicator
 } from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
@@ -16,6 +18,7 @@ import { globalStyles, globalColours } from '../styles/global';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import { useTheme, useColor } from '../styles/ThemeContext';
+import Loading from '../components/Loading';
 
 
 const loginSchema = yup.object({
@@ -33,6 +36,7 @@ export default function LoginScreen({ navigation }) {
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
   // const [mainColor, setMainColour] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const theme = useTheme()
   const colors = useColor()
@@ -48,8 +52,8 @@ export default function LoginScreen({ navigation }) {
   //     case 'pink':
   //       setMainColour(globalColours.mainCol3)
   //       break;
-  
-    
+
+
   //     default:
   //       break;
   //   }
@@ -64,44 +68,47 @@ export default function LoginScreen({ navigation }) {
   }, [])
 
   return (
-    <View style={{...globalStyles.container, backgroundColor: colors.mainColor}}>
+    <View style={{ ...globalStyles.container, backgroundColor: colors.mainColor }}>
 
       <View style={loginRegStyles.imgBox}>
         {imgDisplay && <Image source={require('../assets/login.png')} style={loginRegStyles.image} />}
       </View>
 
-      <View style={{...loginRegStyles.content, backgroundColor: colors.mainBgColor}}>
-        <Text style={{...loginRegStyles.h2, color: colors.tetColor1}}>Log in to your account</Text>
+      <View style={{ ...loginRegStyles.content, backgroundColor: colors.mainBgColor }}>
+        <Text style={{ ...loginRegStyles.h2, color: colors.tetColor1 }}>Log in to your account</Text>
 
-        <View style={{...loginRegStyles.contentCard, backgroundColor: colors.secBgColor}}>
+        <View style={{ ...loginRegStyles.contentCard, backgroundColor: colors.secBgColor }}>
           <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
             onSubmit={values => {
+              setIsLoading(true)
+              // console.log(`loading is ${isLoading}`);
               console.log(values)
               authenticate('login', values)
+              setTimeout(()=>{setIsLoading(false)}, 1000)
             }}
           >
             {props => (
               <>
-                <InputField 
-                  title="E-mail" 
+                <InputField
+                  title="E-mail"
                   type='email-address'
                   autoCompleteType='email'
-                  onChangeText={props.handleChange('email')} 
+                  onChangeText={props.handleChange('email')}
                   value={props.values.email}
-                  errorMsg = {props.touched.email && props.errors.email}
+                  errorMsg={props.touched.email && props.errors.email}
                   onBlur={props.handleBlur('email')}
                 />
-                <InputField 
-                  title="Password" 
+                <InputField
+                  title="Password"
                   secure
                   autoCompleteType='password'
                   onChangeText={props.handleChange('password')}
-                  value={props.values.password} 
-                  errorMsg = {props.touched.password && props.errors.password}
+                  value={props.values.password}
+                  errorMsg={props.touched.password && props.errors.password}
                   onBlur={props.handleBlur('password')}
-                  />
+                />
                 <Button
                   title="Login"
                   color='#ffffff'
@@ -116,27 +123,42 @@ export default function LoginScreen({ navigation }) {
           <Button
             title="Login with google"
             color={colors.tetColor1}
-            bgColor= {theme.darkmode ? "#69696969" :"#f2f2f2"} 
-            border1= {theme.darkmode ? "#f2f2f2" :"#c4c4c4"}
+            bgColor={theme.darkmode ? "#69696969" : "#f2f2f2"}
+            border1={theme.darkmode ? "#f2f2f2" : "#c4c4c4"}
             image="google"
             style={{ marginTop: 15, }}
           />
 
           <View style={loginRegStyles.bottomBox}>
-            <Text style={{...loginRegStyles.bottomText, color: colors.mainTextColor}}>Don't have an account, </Text>
+            <Text style={{ ...loginRegStyles.bottomText, color: colors.mainTextColor }}>Don't have an account, </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={{...loginRegStyles.bottomLink, color: colors.constant}}>Register</Text>
+              <Text style={{ ...loginRegStyles.bottomLink, color: colors.constant }}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
 
       <TouchableOpacity
-          style={loginRegStyles.skipBtn}
-          onPress={() => authenticate('skip')}
-        >
-          <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
-        </TouchableOpacity>
+        style={loginRegStyles.skipBtn}
+        onPress={() => authenticate('skip')}
+      >
+        <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
+      </TouchableOpacity>
+
+
+      <Loading loading={isLoading} setLoading={setIsLoading} />
+      {/* <Modal
+        visible={isLoading}
+        transparent={true}
+        animationType='fade'
+        onRequestClose={() => setContactModalOpen(false)}
+      >
+        <View style={globalStyles.modalBg}>
+          <View style={{...globalStyles.modalBox, backgroundColor: colors.secBgColor}}>
+            <ActivityIndicator size={50} color={colors.constant} />
+          </View>
+        </View>
+      </Modal> */}
 
       <StatusBar style="light" translucent={true} />
     </View>

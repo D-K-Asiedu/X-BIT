@@ -18,6 +18,7 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup'
 import { useTheme, useColor } from '../styles/ThemeContext';
 import { useAuth } from '../routes/AuthContext';
+import Loading from '../components/Loading';
 
 
 const registerSchema = yup.object({
@@ -50,6 +51,7 @@ export default function RegisterScreen({navigation}) {
   const [listDisplay, setListDisplay] = useState(false)
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   // const [mainColor, setMainColour] = useState('')
 
   const theme = useTheme()
@@ -120,8 +122,10 @@ export default function RegisterScreen({navigation}) {
             initialValues={{ name: '', email: '', phone: '', password: '', confirm_password: '' }}
             validationSchema={registerSchema}
             onSubmit={values => {
+              setIsLoading(true)
               console.log(values)
               registerAccount(values)
+              setTimeout(()=>{setIsLoading(false)}, 3000)
             }}
           >
             {props => (
@@ -213,6 +217,7 @@ export default function RegisterScreen({navigation}) {
             <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>
 
+      <Loading loading={isLoading} setLoading={setIsLoading} />
       <StatusBar style="light" translucent={true} />
     </View>
 

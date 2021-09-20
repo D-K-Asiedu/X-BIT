@@ -6,9 +6,10 @@ from flask import jsonify, send_file
 
 from pharmasoft import func
 
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def home(path):
+# @app.route("/", defaults={"path": ""})
+# @app.route("/<path:path>")
+@app.route("/products")
+def home():
     cur = mysql.connection.cursor()
     return_results = cur.execute('''SELECT * FROM product''')
     if return_results > 0:
@@ -16,7 +17,7 @@ def home(path):
         products = func.get_products(product_details)
         # return render_template('products.html' , product_details= product_details)
         return jsonify(products)
-    return "<h1>No Products Available</h1>"
+    return jsonify({"msg": "No Products Available"})
 
 @app.route("/product-image/<image>")
 def product_image(image):
@@ -76,7 +77,7 @@ def login():
             })
 
 
-        if bcrypt.check_password_hash(user[5], password):
+        if bcrypt.check_password_hash(user[4], password):
         # if user[2] == email and user[5] == password:
             user_model = User()
             user_model.id = user[0]
@@ -114,8 +115,6 @@ def profile():
                 "name": profile[1],
                 "email": profile[2],
                 "contact": profile[3],
-                "image": profile[4],
-                "password": profile[5],
 
             })
     else:
@@ -130,7 +129,7 @@ def validate_password():
     cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
     user = cur.fetchall()[0]
 
-    if bcrypt.check_password_hash(user[5], password):
+    if bcrypt.check_password_hash(user[4], password):
         return jsonify({"validate": True})
 
     else:
