@@ -17,6 +17,9 @@ def pharmacy_home():
             products = cur.fetchall()
             return render_template("pharmacy/pharmacy.html", products=products)
 
+        else:
+            return redirect(url_for("pharmacy_login"))
+
     except:
         return redirect(url_for("pharmacy_login"))
 
