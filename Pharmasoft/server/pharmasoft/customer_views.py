@@ -14,7 +14,25 @@ def home():
     return_results = cur.execute('''SELECT * FROM product''')
     if return_results > 0:
         product_details = cur.fetchall()
-        products = func.get_products(product_details)
+        # products = func.get_products(product_details)
+        
+        products = []
+    for product in product_details:
+        cur.execute("SELECT * FROM pharmacy WHERE id=%s", (str(product[7]),))
+        pharmacy = cur.fetchall()[0]
+
+        product_detail ={
+            "id": product[0],
+            "name": product[1],
+            "price": product[2],
+            "prescribe": product[3],
+            "description": product[4],
+            "location": pharmacy[4],
+            "image": url_for("product_image", image=product[5]),
+        }
+
+        products.append(product_detail)
+
         # return render_template('products.html' , product_details= product_details)
         return jsonify(products)
     return jsonify({"msg": "No Products Available"})

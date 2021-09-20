@@ -7,7 +7,7 @@ from pharmasoft.forms import RegistrationForm, LoginForm, Add_Product
 
 import os
 
-@app.route("/pharmacy")
+@app.route("/")
 def pharmacy_home():
     cur = mysql.connection.cursor()
     try:

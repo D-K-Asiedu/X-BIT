@@ -4,37 +4,38 @@
 {% if products | length == 0 %}
 <h1>No Products Available. Add Products <a href="/pharmacy/add-product">Here</a></h1>
 {% else %}
-{% for product in products %}
+
 <div class="row mt-3">
-    <div class="col-md-6">
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="{{ url_for('product_image', image=product[5]) }}" class="img-fluid rounded-start" alt="..." style="height: 100%; width: 100%;">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h3 class="card-title">{{ product[1] }}</h3>
-                  <h4 class="card-text">{{ product[2] }}</h3>
-                  <p class="card-text">{{ product[4] }}</p>
-                    <h5 class="card-text">Quantity Available: {{product[6]}}</h5>
-                    <a href="/pharmacy/update-product/{{ product[0] }}" class="btn btn-success">Update</a>
-                    <a href="/pharmacy/delete-product/{{ product[0] }}" class="btn btn-danger">Delete</a>
-                    <!-- <div>
-                      Prescribed:
-                      {% if product[3] == 1 %}
-                      <span class="badge bg-success">True</span>
-                      {% else %}
-                      <span class="badge bg-success">False</span>
-                      {% endif %}
-                    </div> -->
-                </div>
-              </div>
-            </div>
+  {% for product in products %}
+  <div class="col-md-6">
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{ url_for('product_image', image=product[5]) }}" class="img-fluid rounded-start" alt="..."
+            style="height: 100%; width: 100%;">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h3 class="card-title">{{ product[1] }}</h3>
+            <h4 class="card-text">{{ product[2] }}</h3>
+              <p class="card-text">{{ product[4] }}</p>
+              <h5 class="card-text">Quantity Available: {{product[6]}}</h5>
+              <a href="/pharmacy/update-product/{{ product[0] }}" class="btn btn-success">Update</a>
+              <a href="/pharmacy/delete-product/{{ product[0] }}" class="btn btn-danger">Delete</a>
+              <!-- <div>
+                  Prescribed:
+                  {% if product[3] == 1 %}
+                  <span class="badge bg-success">True</span>
+                  {% else %}
+                  <span class="badge bg-success">False</span>
+                  {% endif %}
+                </div> -->
           </div>
+        </div>
+      </div>
     </div>
+  </div>
+  {% endfor %}
 </div>
-{% endfor %}
 {% endif %}
 {% endblock %}
-
