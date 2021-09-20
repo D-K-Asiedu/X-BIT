@@ -42,7 +42,7 @@ def register():
             return jsonify({"msg": "Acount Already Exists"})
 
         pw_hash = bcrypt.generate_password_hash(password)
-        
+
         cur.execute("INSERT INTO  customer(name, email, contact, password) VALUES(%s, %s, %s, %s)", (name, email, contact, pw_hash,))
         mysql.connection.commit()
         cur.close()
@@ -101,25 +101,54 @@ def logout():
     # return  redirect(url_for("home")) 
     return jsonify({"login": False})
 
-@app.route("/profile", methods=["GET"])
+@app.route("/profile", methods=["GET", "PUT"])
 @login_required
 def profile():
     if current_user.is_authenticated:
         cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
-        profile = cur.fetchall()[0]
-        return jsonify({
-            "id": profile[0],
-            "name": profile[1],
-            "email": profile[2],
-            "contact": profile[3],
-            "image": profile[4],
-            "password": profile[5],
+        if request.method == "GET":
+            cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
+            profile = cur.fetchall()[0]
+            return jsonify({
+                "id": profile[0],
+                "name": profile[1],
+                "email": profile[2],
+                "contact": profile[3],
+                "image": profile[4],
+                "password": profile[5],
 
-        })
+            })
+
+        elif request.method == "PUT":
+            data = request.json
+            contact = data["contact"]
+            password = data["password"]
+
+            pw_hash = bcrypt.generate_password_hash(password)
+            
+            cur.execute("UPDATE customer SET contact=%s, password=%s WHERE id=%s", (contact, pw_hash, current_user.id,))
+            mysql.connection.commit()
+            cur.close()
+
+            return jsonify({"msg": "Update successfull"})
 
     else:
         return jsonify({"msg": "User not logged in"})
+
+@app.route("/validate-password", methods=["POST"])
+def validate_password():
+    cur = mysql.connection.cursor()
+    data = request.json
+    password = data["password"]
+
+    cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
+    user = cur.fetchall()[0]
+
+    if bcrypt.check_password_hash(user[6], password):
+        return jsonify({"msg": "Invalid Password"})
+
+    else:
+        return jsonify({"msg": "Invalid Passwod"})
 
 @app.route("/add-cart/<id>")
 @login_required
@@ -186,10 +215,10 @@ def update_cart(action, id):
 @app.route("/checkout")
 @login_required
 def checkout():
-    # cur = mysql.connection.cursor()
-    # cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
-    # customer = cur.fetchall()[0]
-    # order = func.get_order()
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
+    customer = cur.fetchall()[0]
+    order = func.get_order()
 
     
     return "<h1>checkout</h1>"

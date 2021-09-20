@@ -43,14 +43,17 @@ def get_products(product_list):
     return products
 
 
-# def send_email():
-#     email = "alvisfinnegan@gmail.com"
-#     password = "codename01"
+def send_email(pharmacy_email):
+    email = "alvisfinnegan@gmail.com"
+    password = "codename01"
 
-#     # msg = EmailMessage()
-#     # msg['From'] = email
-#     # msg['To'] = 
-#     # msg['Subject']
+    # msg = EmailMessage()
+    # msg['From'] = email
+    # msg['To'] = 
+    # msg['Subject']
 
-#     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-#         server.login(email, password)
+    msg = "Hello"
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(email, password)
+        server.sendmail(email, pharmacy_email, msg)

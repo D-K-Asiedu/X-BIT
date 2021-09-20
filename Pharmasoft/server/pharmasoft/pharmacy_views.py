@@ -10,15 +10,15 @@ import os
 @app.route("/pharmacy")
 def pharmacy_home():
     cur = mysql.connection.cursor()
-    # try:
-    if session["pharmacy"]:
-        pharmacy = session["pharmacy"]
-        cur.execute("SELECT * FROM product WHERE pharmacy_id=%s", (str(pharmacy[0]),))
-        products = cur.fetchall()
-        return render_template("pharmacy/pharmacy.html", products=products)
+    try:
+        if session["pharmacy"]:
+            pharmacy = session["pharmacy"]
+            cur.execute("SELECT * FROM product WHERE pharmacy_id=%s", (str(pharmacy[0]),))
+            products = cur.fetchall()
+            return render_template("pharmacy/pharmacy.html", products=products)
 
-    # except:
-    #     return redirect(url_for("pharmacy_login"))
+    except:
+        return redirect(url_for("pharmacy_login"))
 
 
 
@@ -221,7 +221,20 @@ def update_product(product_id):
     return render_template("pharmacy/update_product.html", form=form, product=product)
 
 
+@app.route("/pharmacy/delete-product/<product_id>")
+def delete_product(product_id):
+    cur = mysql.connection.cursor()
 
+    cur.execute("SELECT * FROM product WHERE id=%s", (product_id,))
+    product = cur.fetchall()[0]
+
+    os.remove(os.path.join(app.config["IMAGE_UPLOADS"]+"/server/pharmasoft/static/images/"+product[5]))
+
+    cur.execute("DELETE FROM product WHERE id=%s", (product_id,))
+    mysql.connection.commit()
+    cur.close()
+
+    return redirect(url_for("pharmacy_home"))
 
 
 
