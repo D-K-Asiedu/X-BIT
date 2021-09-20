@@ -7,7 +7,7 @@ from pharmasoft.forms import RegistrationForm, LoginForm, Add_Product
 
 import os
 
-@app.route("/pharmacy")
+@app.route("/")
 def pharmacy_home():
     cur = mysql.connection.cursor()
     try:
@@ -16,6 +16,9 @@ def pharmacy_home():
             cur.execute("SELECT * FROM product WHERE pharmacy_id=%s", (str(pharmacy[0]),))
             products = cur.fetchall()
             return render_template("pharmacy/pharmacy.html", products=products)
+
+        else:
+            return redirect(url_for("pharmacy_login"))
 
     except:
         return redirect(url_for("pharmacy_login"))
