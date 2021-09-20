@@ -1,10 +1,13 @@
 from flask import Flask
 from flask_mysqldb import MySQL
 from flask_login import LoginManager, UserMixin, login_user, logout_user
+from flask_bcrypt import Bcrypt
+
 
 import os
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 
 app.config["SECRET_KEY"] = "coded"
 app.config["MYSQL_HOST"] = 'sql11.freemysqlhosting.net'
