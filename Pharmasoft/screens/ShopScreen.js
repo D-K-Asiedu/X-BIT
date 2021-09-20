@@ -115,7 +115,7 @@ const ShopScreen = ({navigation}) => {
                     {isLoaded && <View style={{
                         flexDirection: 'row',
                         flexWrap: 'wrap',
-                        justifyContent: 'space-around'
+                        justifyContent: 'space-between'
                     }}>
                     {/* <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
@@ -125,7 +125,7 @@ const ShopScreen = ({navigation}) => {
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
-                    {products.map((product) => <ProductCard link={() => navigation.navigate('ProductDetail')} medicine={product} key={`${product.name}${product.id}`} />)}
+                    {products.map((product) => <ProductCard link={() => navigation.navigate('ProductDetail', product)} medicine={product} key={`${product.name}${product.id}`} />)}
                     {/* <ProductCard link={() => navigation.navigate('ProductDetail')} medicine={products[0]} /> */}
                     </View>}
                 </ScrollView>

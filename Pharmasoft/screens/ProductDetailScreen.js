@@ -4,13 +4,17 @@ import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { globalStyles, globalColours } from '../styles/global'
 import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
+import { useAuth } from '../routes/AuthContext'
 import Button from '../components/Button'
 
-const ProductDetailScreen = ({ navigation }) => {
+const ProductDetailScreen = ({ navigation, route }) => {
     // const [mainColor, setMainColour] = useState('')
 
     const theme = useTheme()
     const colors = useColor()
+    const product = route.params
+    const isLoggedIn = useAuth().isLoggedIn
+    const server = useAuth().server
 
     // useEffect(() => {
     //   switch (theme.colortheme) {
@@ -29,6 +33,29 @@ const ProductDetailScreen = ({ navigation }) => {
     //       break;
     //   }
     // }, [theme.colortheme])
+
+        //Add to cart
+        const addToCart = async () => {
+            if(isLoggedIn){
+                const data = {id: product.id}
+                const res = await fetch(`${server}/add-cart`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+        
+                try{
+                    const cartDetails = await res.json()
+                    console.log(cartDetails);
+                }
+                catch(e){
+                    console.log(e)
+                }    
+            }
+        }
+    
 
     //Styles
     const styles = StyleSheet.create({
@@ -86,8 +113,8 @@ const ProductDetailScreen = ({ navigation }) => {
                 </View>
                 <View style={{...globalStyles.content, ...styles.textBox}}>
                     <ScrollView>
-                        <Text style={{...globalStyles.h2, ...styles.title}}>Medicine</Text>
-                        <Text style={styles.desc}>Lorem ipsum medicine description and other thing we would like to say ok</Text>
+                        <Text style={{...globalStyles.h2, ...styles.title}}>{product.name}</Text>
+                        <Text style={styles.desc}>{product.description}</Text>
                     </ScrollView>
                 </View>
             </View>
@@ -100,7 +127,7 @@ const ProductDetailScreen = ({ navigation }) => {
                       fontSize: 16
                   }}
                 //   style={{ marginTop: 15, }}
-                //   onPress={props.handleSubmit}
+                  onPress={addToCart}
                 />
             </View>
 

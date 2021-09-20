@@ -85,8 +85,7 @@ export default function LoginScreen({ navigation }) {
               setIsLoading(true)
               // console.log(`loading is ${isLoading}`);
               console.log(values)
-              authenticate('login', values)
-              setTimeout(()=>{setIsLoading(false)}, 1000)
+              authenticate('login', values) && setTimeout(()=>{setIsLoading(false)}, 1)
             }}
           >
             {props => (

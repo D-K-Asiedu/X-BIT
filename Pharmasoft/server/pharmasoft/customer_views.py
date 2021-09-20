@@ -1,3 +1,4 @@
+from email import message
 from flask_login.utils import login_user, logout_user, current_user, login_required
 from pharmasoft import app, mysql, bcrypt
 from flask import render_template, redirect, request, url_for
@@ -174,9 +175,10 @@ def update_profile():
 
             return jsonify({"msg": "Update successfull"})
 
-@app.route("/add-cart/<id>")
+@app.route("/add-cart", methods=["POST"])
 @login_required
-def add_cart(id):
+def add_cart():
+    id =request.json["id"]
     cur = mysql.connection.cursor()
     cart_results = cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
 
@@ -203,17 +205,29 @@ def add_cart(id):
         mysql.connection.commit()
 
     print("Product Added Successfully")
-    return redirect(url_for("home"))
+    # return redirect(url_for("home"))
+    return jsonify({"msg": "Added to Cart"})
 
 @app.route("/cart")
 @login_required
 def cart():
     order = func.get_order()
-    return render_template("cart.html", order=order)
+    
+    return jsonify(order)
+    # return render_template("cart.html", order=order)
 
-@app.route("/update-cart/<action>/<id>")
+@app.route("/update-cart", methods=["POST"])
 @login_required
-def update_cart(action, id):
+def update_cart():
+    data = request.json
+    id = data["id"]
+
+    try:
+        action = data["action"]
+
+    except:
+        action = None
+
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
     cart = cur.fetchall()[0]
@@ -223,26 +237,66 @@ def update_cart(action, id):
 
     if action == "add":
         quantity = int(cart_item[1]) +1
-    else:
+    elif action == "remove":
         quantity = int(cart_item[1]) -1
         if quantity == 0:
             cur.execute("DELETE FROM cart_item WHERE id=%s",(cart_item[0],))
             mysql.connection.commit()
-            return redirect(url_for("cart"))
+            # return redirect(url_for("cart"))
+            return jsonify({"msg": "Deleted Product"})
+
+    elif action == "delete":
+        cur.execute("DELETE FROM cart_item WHERE id=%s",(cart_item[0],))
+        mysql.connection.commit()
+        return jsonify({"msg": "Deleted Product"})
+
+    else:
+        quantity = data["product quantity"]
 
 
     cur.execute("UPDATE cart_item SET Quantity=%s WHERE Cart_id=%s AND Product_id=%s", (quantity, cart[0], id))
     mysql.connection.commit()
+    cur.close()
 
-    return redirect(url_for("cart"))
+    return jsonify({"msg": "Updated cart successfully"})
+
+@app.route("/clear-cart")
+@login_required
+def clear_cart():
+    cur = mysql.connection.cursor()
+
+    cur.execute("DELETE FROM cart WHERE customer_id=%s and complete=False", (str(current_user.id),))
+    mysql.connection.commit()
+    cur.close()
+
+    return jsonify({"msg": "Cleared cart"})
+
 
 @app.route("/checkout")
 @login_required
 def checkout():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
-    customer = cur.fetchall()[0]
     order = func.get_order()
 
+    for item in order:
+        cur.execute("SELECT * FROM product WHERE id=%s", (str(item["id"]),))
+        product = cur.fetchall()[0]
+
+        cur.execute("SELECT * FROM pharmacy WHERE id=%s", (str(product[7]),))
+        pharmacy = cur.fetchall()[0]
+
+        cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
+        customer = cur.fetchall()[0]
+
+        message = [item, customer]
+        func.send_email(pharmacy[2], message)
+
+        quantity_available = product[6] - item["product quantity"]
+        cur.execute("UPDATE product SET quantity_available=%s WHERE id=%s", (quantity_available ,str(item["id"]),))
+        mysql.connection.commit()
+
+    cur.execute("UPDATE cart SET complete=True WHERE customer_id=%s AND complete=False", (current_user.id,))
+    mysql.connection.commit()
+    cur.close()
     
-    return "<h1>checkout</h1>"
+    return jsonify({"msg": "checkout complete"})

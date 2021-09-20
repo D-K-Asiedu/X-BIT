@@ -5,20 +5,20 @@ import { globalStyles } from '../styles/global'
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const CartItem = () => {
-    const [count, setCount] = useState(1)
+const CartItem = ({product, deleteProduct, add, remove}) => {
+    const [count, setCount] = useState(product['product quantity'])
     const [active, setActive] = useState(false)
 
     const colors = useColor()
     const themes = useTheme
 
     // Count
-    const countUp = () => {
-        count < 69 && setCount(prevCount => prevCount + 1)
+    const countUp = async () => {
+        add(product.id) && setCount(prevCount => prevCount + 1)
     }
 
-    const countDown = () => {
-        count > 1 && setCount(prevCount => prevCount - 1)
+    const countDown = async () => {
+        remove(product.id) && setCount(prevCount => prevCount - 1)
     }
 
     // Toggle
@@ -85,9 +85,9 @@ const CartItem = () => {
                     <Image style={{ width: 75, height: 75, }} source={require('../assets/home-images/medicine.png')} />
                 </View>
                 <View style={styles.textBox}>
-                    <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>Medicine</Text>
+                    <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>{product['product name']}</Text>
                     <Text style={styles.desc}>Quantity left: 69 </Text>
-                    <Text style={styles.desc}>Unit price: GHC 20.00 </Text>
+                    <Text style={styles.desc}>Unit price: GHC {product['product price']} </Text>
                 </View>
                 {!active && <TouchableWithoutFeedback onPress={() => setActive(false)}>
                     <View style={styles.countBox}>
@@ -100,7 +100,7 @@ const CartItem = () => {
                         </TouchableOpacity>
                     </View>
                 </TouchableWithoutFeedback>}
-                {active && <TouchableOpacity style={styles.delBox}>
+                {active && <TouchableOpacity style={styles.delBox} onPress={() => deleteProduct(product.id)}>
                     <FontAwesome5 name="trash" size={25} color={colors.secBgColor} />
                 </TouchableOpacity>}
             </View>

@@ -89,12 +89,12 @@ export default function RegisterScreen({navigation}) {
 
     try{
       const accReg = await res.json()
-      console.log(accReg);  
+      console.log(accReg);
     } catch(e){
       console.log(e);  
     }
 
-    authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'})
+    authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)  
   }
 
 
@@ -125,7 +125,6 @@ export default function RegisterScreen({navigation}) {
               setIsLoading(true)
               console.log(values)
               registerAccount(values)
-              setTimeout(()=>{setIsLoading(false)}, 3000)
             }}
           >
             {props => (

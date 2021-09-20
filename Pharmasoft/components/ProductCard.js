@@ -1,20 +1,45 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
+import { useAuth } from '../routes/AuthContext'
 
 
 const ProductCard = ({link, medicine}) => {
     const colors = useColor()
     const theme = useTheme()
+    const server = useAuth().server
+    const isLoggedIn = useAuth().isLoggedIn
 
     // const medicineImg = medicine.image
     // const image = false ? require(medicineImg) : require('../assets/home-images/medicine.png')
     const image = require('../assets/home-images/medicine.png')
 
+    //Add to cart
+    const addToCart = async () => {
+        if(isLoggedIn){
+            const data = {id: medicine.id}
+            const res = await fetch(`${server}/add-cart`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+    
+            try{
+                const cartDetails = await res.json()
+                console.log(cartDetails);
+            }
+            catch(e){
+                console.log(e)
+            }    
+        }
+    }
+
     // Styles
     const styles = StyleSheet.create({
         card:{
-            width: '45%',
+            width: '48%',
             // height: 230,
             padding: 10,
             // borderColor: '#999999',
@@ -61,7 +86,7 @@ const ProductCard = ({link, medicine}) => {
                 {/* <Text style={styles.desc}>{medicine.description}</Text> */}
                 <Text style={styles.desc}>{`Location : ${medicine.location}`}</Text>
             </View>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={addToCart}>
                 <Text style={styles.btnText}>Add to cart</Text>
             </TouchableOpacity>
         </View>
