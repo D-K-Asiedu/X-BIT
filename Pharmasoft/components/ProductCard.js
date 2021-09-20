@@ -7,6 +7,10 @@ const ProductCard = ({link, medicine}) => {
     const colors = useColor()
     const theme = useTheme()
 
+    // const medicineImg = medicine.image
+    // const image = false ? require(medicineImg) : require('../assets/home-images/medicine.png')
+    const image = require('../assets/home-images/medicine.png')
+
     // Styles
     const styles = StyleSheet.create({
         card:{
@@ -50,11 +54,12 @@ const ProductCard = ({link, medicine}) => {
         <TouchableWithoutFeedback onPress={() => link()}>
         <View style={styles.card}>
             <View style={{width: 150, height: 150, justifyContent: 'center', alignItems: 'center'}}>
-            <Image style={{width: 75, height: 75,}} source={require('../assets/home-images/medicine.png')} />
+            <Image style={{width: 75, height: 75,}} source={require('http://100.119.11.78:5000/product-image/Lonart1.jpg')} />
             </View>
             <View style={styles.textBox}>
-                <Text style={styles.title}>Medicine</Text>
-                <Text style={styles.desc}>Small Description here</Text>
+                <Text style={styles.title}>{medicine.name}</Text>
+                {/* <Text style={styles.desc}>{medicine.description}</Text> */}
+                <Text style={styles.desc}>{`Location : ${medicine.location}`}</Text>
             </View>
             <TouchableOpacity style={styles.btn}>
                 <Text style={styles.btnText}>Add to cart</Text>
