@@ -391,10 +391,10 @@ const HomeScreen = ({ navigation }) => {
             </View>
 
             <View style={{ ...styles.sectionContent, ...styles.products }}>
+              {/* <ProductCard link={() => navigation.navigate('ProductDetail')} />
               <ProductCard link={() => navigation.navigate('ProductDetail')} />
               <ProductCard link={() => navigation.navigate('ProductDetail')} />
-              <ProductCard link={() => navigation.navigate('ProductDetail')} />
-              <ProductCard link={() => navigation.navigate('ProductDetail')} />
+              <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
 
             </View>
 

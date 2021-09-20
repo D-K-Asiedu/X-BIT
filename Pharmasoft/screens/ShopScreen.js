@@ -7,6 +7,7 @@ import { useTheme, useColor } from '../styles/ThemeContext'
 import ProductCard from '../components/ProductCard'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { useAuth } from '../routes/AuthContext'
+import Loading from '../components/Loading'
 
 const ShopScreen = ({navigation}) => {
     // const [mainColor, setMainColour] = useState('')
@@ -14,10 +15,17 @@ const ShopScreen = ({navigation}) => {
     const theme = useTheme()
     const colors = useColor()
     const server = useAuth().server
+    const [products, setProducts] = useState([])
+    const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
             console.log('fetching...');
-            fetchProducts()
+            
+            const tempFunc = async() => {
+                setProducts(await fetchProducts())
+            }
+
+            tempFunc()
     }, [])
   
     // useEffect(() => {
@@ -45,7 +53,8 @@ const ShopScreen = ({navigation}) => {
         })
 
         const data = await res.json()
-        console.log(data);
+        await data && setTimeout(() => setIsLoaded(true), 100)
+        return data
     }
 
     //Styles
@@ -102,23 +111,26 @@ const ShopScreen = ({navigation}) => {
                 </View>
                 </View>
                 <ScrollView>
-                    <View style={{
+                    {isLoaded && <View style={{
                         flexDirection: 'row',
                         flexWrap: 'wrap',
                         justifyContent: 'space-around'
                     }}>
+                    {/* <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
                     <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    </View>
+                    <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
+                    {products.map((product) => <ProductCard link={() => navigation.navigate('ProductDetail')} medicine={product} key={`${product.name}${product.id}`} />)}
+                    {/* <ProductCard link={() => navigation.navigate('ProductDetail')} medicine={products[0]} /> */}
+                    </View>}
                 </ScrollView>
             </View>
 
+            <Loading loading={!isLoaded} setLoading={() => {}} />
         </View>
     )
 }
