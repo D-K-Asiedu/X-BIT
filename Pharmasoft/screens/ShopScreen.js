@@ -53,6 +53,7 @@ const ShopScreen = ({navigation}) => {
         })
 
         const data = await res.json()
+        console.log(await data)
         await data && setTimeout(() => setIsLoaded(true), 100)
         return data
     }
