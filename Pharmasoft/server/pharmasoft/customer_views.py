@@ -76,7 +76,7 @@ def login():
             })
 
 
-        if bcrypt.check_password_hash(user[6], password):
+        if bcrypt.check_password_hash(user[5], password):
         # if user[2] == email and user[5] == password:
             user_model = User()
             user_model.id = user[0]
@@ -118,20 +118,6 @@ def profile():
                 "password": profile[5],
 
             })
-
-        elif request.method == "PUT":
-            data = request.json
-            contact = data["contact"]
-            password = data["password"]
-
-            pw_hash = bcrypt.generate_password_hash(password)
-            
-            cur.execute("UPDATE customer SET contact=%s, password=%s WHERE id=%s", (contact, pw_hash, current_user.id,))
-            mysql.connection.commit()
-            cur.close()
-
-            return jsonify({"msg": "Update successfull"})
-
     else:
         return jsonify({"msg": "User not logged in"})
 
@@ -144,11 +130,32 @@ def validate_password():
     cur.execute("SELECT * FROM customer WHERE id=%s", (current_user.id,))
     user = cur.fetchall()[0]
 
-    if bcrypt.check_password_hash(user[6], password):
+    if bcrypt.check_password_hash(user[5], password):
         return jsonify({"validate": True})
 
     else:
         return jsonify({"validate": False})
+
+@app.route("/update-profile", methods=["POST"])
+def update_profile():
+    cur = mysql.connection.cursor()
+    if request.method == "POST":
+            data = request.json
+            column = data["column"]
+            update = data[column]
+
+            if column == "password":
+                update = bcrypt.generate_password_hash(update)
+                cur.execute("UPDATE customer SET password=%s WHERE id=%s", (update, current_user.id,))
+                mysql.connection.commit()
+                cur.close()
+
+            else:
+                cur.execute("UPDATE customer SET contact=%s WHERE id=%s", (update, current_user.id,))
+                mysql.connection.commit()
+                cur.close()
+
+            return jsonify({"msg": "Update successfull"})
 
 @app.route("/add-cart/<id>")
 @login_required

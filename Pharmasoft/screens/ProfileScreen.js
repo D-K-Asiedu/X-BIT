@@ -38,8 +38,14 @@ const ProfileScreen = ({ navigation }) => {
     //     password: 'helloworld'
     // })
 
+    // Update user after editing
+    // useEffect(() => {
+    //     effect
+    // }, [])
+
     const userInfo = useAuth().user
     const server = useAuth().server
+    const validated = useAuth().validated
     const authenticate = useUpdateAuth()
 
     const theme = useTheme()
@@ -96,6 +102,22 @@ const ProfileScreen = ({ navigation }) => {
         // })
         user = tempUser
         setModalOpen(false)
+    }
+
+    // Update user info
+    const updateUser = async (update) => {
+        const res = await fetch(`${server}/update-profile`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                },
+            body: JSON.stringify(update),
+        })  
+        
+        const updateMsg = await res.json()
+        console.log(updateMsg.msg);
+
+        authenticate('user')
     }
 
 
@@ -240,17 +262,13 @@ const ProfileScreen = ({ navigation }) => {
                     }
                     onSubmit={values => {
                         const update = {
-                            column: 'contact',
-                            contact: values.contact
+                            ...userInfo,
+                            contact: values.contact,
+                            column: 'contact'
                         }
 
-                        // const res = await fetch(`${server}/profile`, {
-                        //     method: 'PUT',
-                        //     headers: {
-                        //         'Content-Type': 'application/json',
-                        //         },
-                        //     body: JSON.stringify(update),
-                        // })                
+                        console.log(update);
+                        updateUser(update)
 
 
                         setContactModalOpen(false)
@@ -311,8 +329,20 @@ const ProfileScreen = ({ navigation }) => {
                         })
                     }
                     onSubmit={values => {
-                        console.log(values)
+                        // console.log(values)
+                        
+                        const update = {
+                            ...userInfo,
+                            password: values.new_password,
+                            column: 'password'
+                        }
+
+                        console.log(update);
+                        updateUser(update)
+
                         setPasswordModalOpen(false)
+                        authenticate('validateOff')
+                        setPassword('')
                     }}>
                     {props => (
                         <View style={styles.modalBg}>
@@ -333,7 +363,7 @@ const ProfileScreen = ({ navigation }) => {
                                 />
                                 <Text style={{ ...styles.errText, marginBottom: 10 }}>{props.touched.old_password && props.errors.old_password}</Text> */}
 
-                                {true ?
+                                {!validated ?
                                     <>
                                         <Text style={styles.editTitle}>Enter your old password</Text>
                                         <TextInput
@@ -341,18 +371,19 @@ const ProfileScreen = ({ navigation }) => {
                                             autoFocus={true}
                                             underlineColorAndroid="transparent"
                                             autoCompleteType="off"
-                                            style={{ ...styles.editInput, marginTop: 5, marginBottom: 20, backgroundColor: props.touched.old_password && props.errors.old_password ? '#ff000033' : '#d4d4d466' }}
+                                            style={{ ...styles.editInput, marginTop: 5, marginBottom: 5, backgroundColor: props.touched.old_password && props.errors.old_password ? '#ff000033' : '#d4d4d466' }}
                                             onChangeText={(text) => setPassword(text)}
                                             value={password}
                                         />
-                                        <TouchableOpacity 
-                                            style={{
-                                                alignSelf: 'flex-end'
-                                            }}
-                                            onPress = {() => authenticate('validate', {password: password})}
-                                        >
-                                            <Text style={styles.linkText}>Confirm</Text>
-                                        </TouchableOpacity>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, }}>
+                                            <TouchableOpacity onPress={() => setPasswordModalOpen(false)}>
+                                                <Text style={styles.linkText}>Cancel</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => authenticate('validate', { password: password })}>
+                                                <Text style={styles.linkText}>Confirm</Text>
+                                            </TouchableOpacity>
+
+                                        </View>
                                     </>
                                     :
                                     <>
@@ -382,7 +413,11 @@ const ProfileScreen = ({ navigation }) => {
                                         <Text style={{ ...styles.errText, marginBottom: 10 }}>{props.touched.confirm_password && props.errors.confirm_password}</Text>
 
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, }}>
-                                            <TouchableOpacity onPress={() => setPasswordModalOpen(false)}>
+                                            <TouchableOpacity onPress={() => {
+                                                setPasswordModalOpen(false)
+                                                authenticate('validateOff')
+                                                setPassword('')
+                                            }}>
                                                 <Text style={styles.linkText}>Cancel</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity onPress={props.handleSubmit}>

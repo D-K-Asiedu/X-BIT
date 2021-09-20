@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }) => {
     // Validate password
     const validatePassword = async (data) => {
         console.log(data)
-        
+
         const res = await fetch(`${server}/validate-password`, {
             method: 'POST',
             headers: {
@@ -120,6 +120,9 @@ export const AuthProvider = ({ children }) => {
         try {
             const pass = await res.json()
             setValidated(pass.validate)
+            
+            //Stupid fix
+            // setTimeout(() => setValidated(false), 1000)
 
             // Login succesful alert
             !pass.validate && showMessage({
@@ -166,6 +169,13 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+
+    // Update
+    const updateUser = async () => {
+        setUser(await fetchUser())
+    }
+
+
     const toggleAuth = (value, data) => {
         switch (value) {
             case 'skip':
@@ -182,6 +192,14 @@ export const AuthProvider = ({ children }) => {
             case 'validate':
                 validatePassword(data)
                 break;
+            case 'validateOff':
+                setValidated(false)
+                break;
+            case 'user':
+                updateUser()
+                break;
+
+
 
             default:
                 break;
