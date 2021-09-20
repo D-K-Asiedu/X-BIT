@@ -6,9 +6,10 @@ from flask import jsonify, send_file
 
 from pharmasoft import func
 
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def home(path):
+# @app.route("/", defaults={"path": ""})
+# @app.route("/<path:path>")
+@app.route("/products")
+def home():
     cur = mysql.connection.cursor()
     return_results = cur.execute('''SELECT * FROM product''')
     if return_results > 0:
@@ -16,7 +17,7 @@ def home(path):
         products = func.get_products(product_details)
         # return render_template('products.html' , product_details= product_details)
         return jsonify(products)
-    return "<h1>No Products Available</h1>"
+    return jsonify({"msg": "No Products Available"})
 
 @app.route("/product-image/<image>")
 def product_image(image):

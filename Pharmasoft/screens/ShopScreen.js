@@ -6,12 +6,19 @@ import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import ProductCard from '../components/ProductCard'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { useAuth } from '../routes/AuthContext'
 
 const ShopScreen = ({navigation}) => {
     // const [mainColor, setMainColour] = useState('')
 
     const theme = useTheme()
     const colors = useColor()
+    const server = useAuth().server
+
+    useEffect(() => {
+            console.log('fetching...');
+            fetchProducts()
+    }, [])
   
     // useEffect(() => {
     //   switch (theme.colortheme) {
@@ -30,6 +37,16 @@ const ShopScreen = ({navigation}) => {
     //       break;
     //   }
     // }, [theme.colortheme])
+
+    // Fetch products
+    const fetchProducts = async() => {
+        const res = await fetch(`${server}/products`, {
+            method: 'GET',
+        })
+
+        const data = await res.json()
+        console.log(data);
+    }
 
     //Styles
     const styles = StyleSheet.create({
