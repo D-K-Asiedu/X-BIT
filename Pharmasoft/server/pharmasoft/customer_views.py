@@ -145,10 +145,10 @@ def validate_password():
     user = cur.fetchall()[0]
 
     if bcrypt.check_password_hash(user[6], password):
-        return jsonify({"msg": "Invalid Password"})
+        return jsonify({"validate": True})
 
     else:
-        return jsonify({"msg": "Invalid Passwod"})
+        return jsonify({"validate": False})
 
 @app.route("/add-cart/<id>")
 @login_required
