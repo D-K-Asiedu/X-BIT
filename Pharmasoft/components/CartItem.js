@@ -15,7 +15,7 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
     }, [count])
 
     const colors = useColor()
-    const themes = useTheme
+    const themes = useTheme()
 
     // Count
     const countUp = async () => {
@@ -43,7 +43,7 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
             elevation: 2,
         },
         imageBox: {
-            padding: 20,
+            padding: 35,
         },
         textBox: {
             padding: 20,
@@ -87,7 +87,7 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
         <TouchableWithoutFeedback onPress={toggle}>
             <View style={styles.card}>
                 <View style={styles.imageBox}>
-                    <Image style={{ width: 75, height: 75, }} source={require('../assets/home-images/medicine.png')} />
+                    <Image style={{ width: 50, height: 50, }} source={require('../assets/home-images/medicine.png')} />
                 </View>
                 <View style={styles.textBox}>
                     <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>{product['product name']}</Text>

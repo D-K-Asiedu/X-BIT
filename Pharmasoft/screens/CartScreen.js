@@ -82,7 +82,9 @@ const CartScreen = ({ navigation }) => {
             // console.log();
             // console.log(updatedCart);
             setCart([])
-            setCart([...filteredCart, ])    
+            await updateCart()
+            setCart(await fetchCart())
+            // setCart([...filteredCart, ])    
         }
         catch(e){
             console.log(e)

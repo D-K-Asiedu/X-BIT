@@ -59,7 +59,10 @@ def register():
 
         user_result = cur.execute("SELECT * FROM customer WHERE email=%s", (email,))
         if user_result:
-            return jsonify({"msg": "Acount Already Exists"})
+            return jsonify({
+                "msg": "Acount Already Exists",
+                "registration": False
+                })
 
         pw_hash = bcrypt.generate_password_hash(password)
 
@@ -68,7 +71,10 @@ def register():
         cur.close()
 
         print("Registration Succesful")
-        return jsonify({"msg": "Registration complete"})
+        return jsonify({
+            "msg": "Registration complete",
+            "registration": True
+            })
 
     # return render_template("register.html")
     return jsonify({"msg": "Register Here"})

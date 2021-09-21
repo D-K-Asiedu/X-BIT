@@ -5,14 +5,19 @@ import { globalStyles, globalColours } from '../styles/global'
 import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import Button from '../components/Button'
+import Loading from '../components/Loading'
+import { useAuth } from '../routes/AuthContext'
+import PopupMessage from '../functions/PopupMessage'
 
 const CheckoutScreen = ({ navigation, route }) => {
     // const [mainColor, setMainColour] = useState('')
     const [total, setTotal] = useState(0)
+    const [isLoading, setIsLoading] = useState(false)
 
     const theme = useTheme()
     const colors = useColor()
     const cart = route.params
+    const server = useAuth().server
 
     useEffect(() => {
         console.log(cart);
@@ -45,8 +50,37 @@ const CheckoutScreen = ({ navigation, route }) => {
     //   }
     // }, [theme.colortheme])
 
-    //Styles
 
+    // Purchase items in cart
+    const makePurchase = async() => {
+        setIsLoading(true)
+        const res = await fetch(`${server}/checkout`, {
+            method: 'GET',
+        })
+
+        try{
+            const data = await res.json()
+            console.log(data);
+            PopupMessage(
+                'Purchase successful',
+                'View order in history page',
+                'success',
+                3000,
+                {top: 100},
+                {},
+                {}
+            )
+            // navigation.navigate('MainDrawer')
+        }
+        catch(e){
+            console.log(e);
+        }
+
+        navigation.navigate('MainDrawer')
+        setIsLoading(false)
+    }
+
+    // Checkout product card
     const CheckoutCard = ({product}) => {
         return(
             <View style={styles.checkoutCard}>
@@ -57,6 +91,7 @@ const CheckoutScreen = ({ navigation, route }) => {
         )
     }
 
+    //Styles
     const styles = StyleSheet.create({
         header: {
             backgroundColor: colors.mainColor,
@@ -144,8 +179,8 @@ const CheckoutScreen = ({ navigation, route }) => {
                         <CheckoutCard />
                         <CheckoutCard />
                         <CheckoutCard /> */}
-                        {cart.map((item) => (
-                            <CheckoutCard product={item} />
+                        {cart.map((item, index) => (
+                            <CheckoutCard product={item} key={index} />
                         ))}
                     </ScrollView>
                     <View style={styles.cardFooter}>
@@ -166,13 +201,14 @@ const CheckoutScreen = ({ navigation, route }) => {
                         textStyle={{
                             fontSize: 16,
                         }}
-                        onPress={() => navigation.navigate('MainDrawer')}
+                        onPress={() => makePurchase()}
                     //   style={{ marginTop: 15, }}
                     //   onPress={props.handleSubmit}
                     />
                 </View>
 
             </View>
+            <Loading loading={isLoading} setLoading={setIsLoading} />
 
         </View>
     )

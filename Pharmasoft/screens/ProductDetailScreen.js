@@ -81,6 +81,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
         textBox:{
             paddingTop: 20,
             paddingBottom: 5,
+            backgroundColor: colors.mainBgColor
         },
         title:{
             color: colors.tetColor2,
