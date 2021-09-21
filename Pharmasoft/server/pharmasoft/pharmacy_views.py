@@ -13,13 +13,34 @@ def pharmacy_home():
         pharmacy = session["pharmacy"]
         cur = mysql.connection.cursor()
         
-        transaction_results = cur.execute("SELECT * FROM transaction WHERE pharmacy_id=%s", (str(pharmacy[0]), ))
+        transaction_results = cur.execute("SELECT * FROM transaction WHERE pharmacy_id=%s AND complete=False", (str(pharmacy[0]), ))
         if transaction_results == 0:
             transactions = None
-
         else:
             transactions = cur.fetchall()
-        return render_template("pharmacy/index.html", transactions=transactions)
+
+        pharmacy_transaction = []
+        for transaction in transactions:
+            # Product Name
+            cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[2]), ))
+            product = cur.fetchall()[0]
+
+            # Customer
+            cur.execute("SELECT * FROM customer WHERE id=%s", (str(transaction[6]), ))
+            customer = cur.fetchall()[0]
+
+            pharmacy_transaction.append({
+                "product name": product[1],
+                "quantity": transaction[3],
+                "total price": transaction[4],
+                "customer name": customer[1],
+                "customer email": customer[2],
+                "customer contact": customer[3],
+            })
+
+
+
+        return render_template("pharmacy/index.html", transactions=pharmacy_transaction)
 
     else:
         flash("You must login", "danger")

@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
             const userLogin = await res.json()
+            console.log(userLogin);
             setLoggedIn(userLogin["login"])
 
             // Login succesful alert
@@ -68,8 +69,8 @@ export const AuthProvider = ({ children }) => {
                 }
             });
 
-            console.log(await fetchUser())
-            setUser(await fetchUser())
+            // console.log(await fetchUser())
+            userLogin["login"] && setUser(await fetchUser())
 
         } catch (e) {
             console.log(e);
@@ -93,8 +94,8 @@ export const AuthProvider = ({ children }) => {
             });
 
         }
-        return true
-
+        return 'done'
+        
     }
 
     // Logout

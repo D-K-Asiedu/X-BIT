@@ -19,6 +19,7 @@ import * as yup from 'yup'
 import { useTheme, useColor } from '../styles/ThemeContext';
 import { useAuth } from '../routes/AuthContext';
 import Loading from '../components/Loading';
+import PopupMessage from '../functions/PopupMessage';
 
 
 const registerSchema = yup.object({
@@ -90,7 +91,18 @@ export default function RegisterScreen({navigation}) {
     try{
       const accReg = await res.json()
       console.log(accReg);
-      authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)  
+      await accReg.registration && authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)
+      
+      !accReg.registration && PopupMessage(
+        'Registration failed',
+        await accReg.msg,
+        'danger',
+        1500,
+        {},
+        {},
+        {}
+    )
+    !accReg.registration && setIsLoading(false)
     } catch(e){
       console.log(e);  
     }

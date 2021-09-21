@@ -18,6 +18,7 @@ import { globalStyles, globalColours } from '../styles/global';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import { useTheme, useColor } from '../styles/ThemeContext';
+import { useAuth } from '../routes/AuthContext';
 import Loading from '../components/Loading';
 
 
@@ -40,6 +41,7 @@ export default function LoginScreen({ navigation }) {
 
   const theme = useTheme()
   const colors = useColor()
+  const isLoggedIn = useAuth().isLoggedIn
 
   // useEffect(() => {
   //   switch (theme.colortheme) {
@@ -85,7 +87,7 @@ export default function LoginScreen({ navigation }) {
               setIsLoading(true)
               // console.log(`loading is ${isLoading}`);
               console.log(values)
-              authenticate('login', values) && setTimeout(()=>{setIsLoading(false)}, 1)
+              authenticate('login', values) && setIsLoading(false)
             }}
           >
             {props => (
