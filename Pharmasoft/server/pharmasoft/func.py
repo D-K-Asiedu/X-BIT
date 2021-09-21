@@ -31,27 +31,11 @@ def get_order():
             "product name":item_name, 
             "product quantity": item_quantity, 
             "total price": item_price, 
-            "id":product[0]
+            "id":product[0],
+            "image": url_for("product_image", image=product[5])
             })
     print(order)
     return order
-
-# def get_products(product_list):
-#     products = []
-#     for product in product_list:
-#         product_detail ={
-#             "id": product[0],
-#             "name": product[1],
-#             "price": product[2],
-#             "prescribe": product[3],
-#             "description": product[4],
-#             "location": "Location",
-#             "image": url_for("product_image", image=product[5]),
-#         }
-
-#         products.append(product_detail)
-
-#     return products
 
 
 def send_email(pharmacy_email, message):

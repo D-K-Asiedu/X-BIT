@@ -90,11 +90,11 @@ export default function RegisterScreen({navigation}) {
     try{
       const accReg = await res.json()
       console.log(accReg);
+      authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)  
     } catch(e){
       console.log(e);  
     }
 
-    authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)  
   }
 
 
