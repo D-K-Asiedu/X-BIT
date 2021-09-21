@@ -18,6 +18,7 @@ const CartScreen = ({ navigation }) => {
 
     const [cart, setCart] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [quantity, setQuantity] = useState([])
 
     // useEffect(() => {
     //   switch (theme.colortheme) {
@@ -61,6 +62,7 @@ const CartScreen = ({ navigation }) => {
 
     // Delete product from cart
     const deleteProduct = async (id) => {
+        setIsLoading(true)
         const data = {id: id, action: 'delete'}
         const res = await fetch(`${server}/update-cart`, {
             method: 'POST',
@@ -75,12 +77,18 @@ const CartScreen = ({ navigation }) => {
             console.log(cartDetails);
 
             const filteredCart = cart.filter((item) => item.id != id )
-            setCart(filteredCart)    
+            // const updatedCart = filteredCart.map((item) => ({...item,}))
+            
+            // console.log();
+            // console.log(updatedCart);
+            setCart([])
+            setCart([...filteredCart, ])    
         }
         catch(e){
             console.log(e)
-        }    
-
+        }   
+        
+        setIsLoading(false)
     }
 
     // Add 1 to cart item
@@ -130,6 +138,86 @@ const CartScreen = ({ navigation }) => {
         return true
     }
 
+    //Update cart quantity
+    const updateQuantity = (id, data) => {
+        // console.log(id, data);
+        // const dataIds = quantity.map((item) => item.id)
+        // console.log(`data ids are:${dataIds}`);
+        // if(dataIds.indexOf(id) != -1){
+        //     console.log(`branch: exists`);
+        //     console.log([...quantity, {id: id, 'product quantity': data}]);
+        //     setQuantity((prevQuantity) => [...prevQuantity, {id: id, 'product quantity': data}])
+        // }
+        // else{
+        //     console.log(`branch: does not exist`);
+        //     const restOfQuantity = quantity.filter((item) => item.id == id)
+        //     console.log([...restOfQuantity, {id: id, 'product quantity': data}]);
+        //     setQuantity([...restOfQuantity, {id: id, 'product quantity': data}])
+        // }
+
+        const filteredQuantity = quantity.filter((item) => item.id != id)
+
+        console.log([...filteredQuantity, {id: id, 'product quantity': data}]);
+        setQuantity((prevQuantity) => [...filteredQuantity, {id: id, 'product quantity': data}])
+
+    }
+
+    // Update cart
+    const updateCart = async () => {
+        const data = quantity
+        const res = await fetch(`${server}/update-cart-bulk`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        try{
+            const updateDetails = await res.json()
+            console.log(updateDetails);
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    // Go back
+    const goBack = async() => {
+        navigation.goBack()
+        await updateCart()
+    }
+
+    // Clear cart and navigate to shop or home
+    const clearCart = async() => {
+        setIsLoading(true)
+        const res = await fetch(`${server}/clear-cart`, {
+            method: 'GET',
+        })
+
+        try{
+            const data = await res.json()
+            console.log(data);
+            await data && setCart([])
+            // navigation.navigate('MainDrawer')
+        }
+        catch(e){
+            console.log(e);
+        }
+
+        setIsLoading(false)
+    }
+
+    // to checkout
+    const toCheckout = async() => {
+        setIsLoading(true)
+        await updateCart() && setCart(await fetchCart())
+
+        const data = await fetchCart()
+        await fetchCart() && navigation.navigate('Checkout', data)
+        setIsLoading(false)
+    }
+
     //Styles
     const styles = StyleSheet.create({
         header: {
@@ -146,6 +234,16 @@ const CartScreen = ({ navigation }) => {
             flexDirection: 'row',
             // backgroundColor: 'red',
             paddingVertical: 10,
+        },
+        emptyView:{
+            flex: 1,
+            // backgroundColor: 'red',
+            alignItems: 'center',
+        },
+        emptyText:{
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: colors.tetTextColor
         }
     })
 
@@ -154,7 +252,7 @@ const CartScreen = ({ navigation }) => {
         <View style={{ ...globalStyles.container, backgroundColor: colors.mainColor }}>
             <View style={{ ...globalStyles.header, ...styles.header }}>
                 <TouchableOpacity
-                    onPress={() => navigation.goBack()}
+                    onPress={() => goBack()}
                 >
                     <Ionicons name="arrow-back" size={30} color="#ffffff" />
                 </TouchableOpacity>
@@ -166,13 +264,21 @@ const CartScreen = ({ navigation }) => {
                     <FlatList 
                         data={cart}
                         renderItem={({item, index}) => (
-                            <CartItem product={item} deleteProduct={deleteProduct} add={addProduct} remove={removeProduct} />
+                            <CartItem product={item} deleteProduct={deleteProduct} updateCount={updateQuantity} />
                         )}
+                        extraData={cart}
                         keyExtractor={(item, index) => item.toString()+ index.toString()}
                     />
+                    {/* {cart.map((item) => (
+                        <CartItem product={item} deleteProduct={deleteProduct} updateCount={updateQuantity} />
+                    ))} */}
                 </View>
+                
+                {!cart[0] && <View style={styles.emptyView}>
+                    <Text style={styles.emptyText}>Cart is empty 🛒</Text>
+                </View>}
 
-                <View style={styles.footer}>
+                {cart[0] && <View style={styles.footer}>
                     <Button
                         title="CLEAR CART"
                         color={colors.constant}
@@ -185,7 +291,7 @@ const CartScreen = ({ navigation }) => {
                             flex: 1,
                             marginRight: 10,
                         }}
-                        onPress={() => navigation.navigate('MainDrawer')}
+                        onPress={() => clearCart()}
                     />
                     <Button
                         title="CHECKOUT"
@@ -198,9 +304,9 @@ const CartScreen = ({ navigation }) => {
                             flex: 1,
                             marginLeft: 10,
                         }}
-                        onPress={() => navigation.navigate('Checkout')}
+                        onPress={() => toCheckout()}
                     />
-                </View>
+                </View>}
             </View>
 
             <Loading loading={isLoading} setLoading={() => {}} />

@@ -14,7 +14,7 @@ const Loading = ({loading, setLoading, }) => {
             onRequestClose={() => setLoading(false)}
         >
             <View style={globalStyles.modalBg}>
-                <View style={{ ...globalStyles.modalBox, backgroundColor: colors.secBgColor }}>
+                <View style={{ ...globalStyles.modalBox, backgroundColor: 'transparent' }}>
                     <ActivityIndicator size={50} color={colors.constant} />
                 </View>
             </View>

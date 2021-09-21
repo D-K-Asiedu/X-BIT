@@ -6,11 +6,26 @@ import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import Button from '../components/Button'
 
-const CheckoutScreen = ({ navigation }) => {
+const CheckoutScreen = ({ navigation, route }) => {
     // const [mainColor, setMainColour] = useState('')
+    const [total, setTotal] = useState(0)
 
     const theme = useTheme()
     const colors = useColor()
+    const cart = route.params
+
+    useEffect(() => {
+        console.log(cart);
+
+        const ammounts = cart.map((item) => item['total price'])
+
+        var totalAmt = 0
+        ammounts.forEach(amt => {
+           totalAmt += amt 
+        });
+
+        setTotal(totalAmt)
+    }, [])
 
     // useEffect(() => {
     //   switch (theme.colortheme) {
@@ -32,12 +47,12 @@ const CheckoutScreen = ({ navigation }) => {
 
     //Styles
 
-    const CheckoutCard = () => {
+    const CheckoutCard = ({product}) => {
         return(
             <View style={styles.checkoutCard}>
-                <Text style={{...styles.checkoutCardText,flexBasis: '60%'}}>Medicine</Text>
-                <Text style={{...styles.checkoutCardText,flexBasis: '20%'}}>69</Text>
-                <Text style={{...styles.checkoutCardText,flexBasis: '20%'}}>GHC 30.00</Text>
+                <Text style={{...styles.checkoutCardText,flexBasis: '60%'}}>{product['product name']}</Text>
+                <Text style={{...styles.checkoutCardText,flexBasis: '20%', paddingLeft: 10}}>{product['product quantity']}</Text>
+                <Text style={{...styles.checkoutCardText,flexBasis: '20%'}}>GHC {product['total price']}</Text>
             </View>
         )
     }
@@ -124,11 +139,14 @@ const CheckoutScreen = ({ navigation }) => {
                         <Text style={{...styles.cardHeaderTitle,flexBasis: '20%'}}>Amount</Text>
                     </View>
                     <ScrollView>
+                        {/* <CheckoutCard />
                         <CheckoutCard />
                         <CheckoutCard />
                         <CheckoutCard />
-                        <CheckoutCard />
-                        <CheckoutCard />
+                        <CheckoutCard /> */}
+                        {cart.map((item) => (
+                            <CheckoutCard product={item} />
+                        ))}
                     </ScrollView>
                     <View style={styles.cardFooter}>
                         <Text style={{
@@ -136,7 +154,7 @@ const CheckoutScreen = ({ navigation }) => {
                             fontWeight: 'bold',
                             color: colors.secTextColor
                         }}>Total: </Text>
-                        <Text style={{...styles.checkoutCardText, fontSize: 18, color: colors.tetColor2}}>GHC 699.99</Text>
+                        <Text style={{...styles.checkoutCardText, fontSize: 18, color: colors.tetColor2}}>GHC {total}</Text>
                     </View>
 
                 </View>

@@ -1,24 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { globalStyles } from '../styles/global'
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const CartItem = ({product, deleteProduct, add, remove}) => {
+const CartItem = ({product, deleteProduct, updateCount}) => {
     const [count, setCount] = useState(product['product quantity'])
     const [active, setActive] = useState(false)
+
+    // Update count value outside component
+    useEffect(() => {
+        updateCount(product.id, count)
+    }, [count])
 
     const colors = useColor()
     const themes = useTheme
 
     // Count
     const countUp = async () => {
-        add(product.id) && setCount(prevCount => prevCount + 1)
+        count < 69 && setCount(prevCount => prevCount + 1)
     }
 
     const countDown = async () => {
-        remove(product.id) && setCount(prevCount => prevCount - 1)
+        count > 1 && setCount(prevCount => prevCount - 1)
     }
 
     // Toggle

@@ -4,7 +4,7 @@ import { useTheme, useColor } from '../styles/ThemeContext'
 import { useAuth } from '../routes/AuthContext'
 
 
-const ProductCard = ({link, medicine}) => {
+const ProductCard = ({link, medicine, load}) => {
     const colors = useColor()
     const theme = useTheme()
     const server = useAuth().server
@@ -16,6 +16,7 @@ const ProductCard = ({link, medicine}) => {
 
     //Add to cart
     const addToCart = async () => {
+        load(false)
         if(isLoggedIn){
             const data = {id: medicine.id}
             const res = await fetch(`${server}/add-cart`, {
@@ -34,6 +35,7 @@ const ProductCard = ({link, medicine}) => {
                 console.log(e)
             }    
         }
+        load(true)
     }
 
     // Styles

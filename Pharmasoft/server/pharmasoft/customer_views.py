@@ -221,12 +221,7 @@ def cart():
 def update_cart():
     data = request.json
     id = data["id"]
-
-    try:
-        action = data["action"]
-
-    except:
-        action = None
+    action = data["action"]
 
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
@@ -250,15 +245,33 @@ def update_cart():
         mysql.connection.commit()
         return jsonify({"msg": "Deleted Product"})
 
-    else:
-        quantity = data["product quantity"]
-
 
     cur.execute("UPDATE cart_item SET Quantity=%s WHERE Cart_id=%s AND Product_id=%s", (quantity, cart[0], id))
     mysql.connection.commit()
     cur.close()
 
     return jsonify({"msg": "Updated cart successfully"})
+
+@app.route("/update-cart-bulk", methods = ["POST"])
+def update_cart_bulk():
+    cart = request.json
+    for cart_item in cart:
+        id = cart_item["id"]
+        quantity = cart_item["product quantity"]
+
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM cart WHERE Customer_id=%s AND complete=False", (current_user.id,))
+        cart = cur.fetchall()[0]
+
+        cur.execute("SELECT * FROM cart_item WHERE Cart_id=%s AND Product_id=%s",(cart[0], id,))
+        # cart_item = cur.fetchall()[0]
+
+        cur.execute("UPDATE cart_item SET Quantity=%s WHERE Cart_id=%s AND Product_id=%s", (quantity, cart[0], id))
+        mysql.connection.commit()
+        cur.close()
+
+    return jsonify({"msg": "Updated cart successfully"})
+
 
 @app.route("/clear-cart")
 @login_required

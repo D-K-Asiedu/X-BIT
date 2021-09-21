@@ -6,9 +6,11 @@ import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { useAuth } from '../routes/AuthContext'
 import Button from '../components/Button'
+import Loading from '../components/Loading'
 
 const ProductDetailScreen = ({ navigation, route }) => {
     // const [mainColor, setMainColour] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const theme = useTheme()
     const colors = useColor()
@@ -36,6 +38,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 
         //Add to cart
         const addToCart = async () => {
+            setIsLoading(true)
             if(isLoggedIn){
                 const data = {id: product.id}
                 const res = await fetch(`${server}/add-cart`, {
@@ -54,6 +57,8 @@ const ProductDetailScreen = ({ navigation, route }) => {
                     console.log(e)
                 }    
             }
+
+            setIsLoading(false)
         }
     
 
@@ -131,7 +136,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
                 />
             </View>
 
-
+            <Loading loading={isLoading} setLoading={() => {}} />
         </View>
     )
 }

@@ -75,7 +75,7 @@ export const globalStyles = StyleSheet.create({
     },
     modalBg:{
         flex: 1,
-        backgroundColor: '#00000066',
+        backgroundColor: '#00000033',
         justifyContent: 'center',
         alignItems: 'center'
     },
