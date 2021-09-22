@@ -14,20 +14,21 @@ def pharmacy_home():
         pharmacy = session["pharmacy"]
         cur = mysql.connection.cursor()
         
-        transaction_results = cur.execute("SELECT * FROM transaction WHERE pharmacy_id=%s AND complete=False", (str(pharmacy[0]), ))
+        transaction_results = cur.execute("SELECT * FROM transaction WHERE pharmacy_id=%s AND completed=False AND canceled=False", (str(pharmacy[0]), ))
         if transaction_results == 0:
             transactions = None
+            return render_template("pharmacy/index.html", transactions=transactions)
         else:
             transactions = cur.fetchall()
 
         pharmacy_transaction = []
         for transaction in transactions:
             # Product Name
-            cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[2]), ))
+            cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[3]), ))
             product = cur.fetchall()[0]
 
             # Customer
-            cur.execute("SELECT * FROM customer WHERE id=%s", (str(transaction[6]), ))
+            cur.execute("SELECT * FROM customer WHERE id=%s", (str(transaction[8]), ))
             customer = cur.fetchall()[0]
 
             pharmacy_transaction.append({
@@ -251,19 +252,45 @@ def complete_order(id):
     if "pharmacy" in session:
         cur = mysql.connection.cursor()
 
-        cur.execute("UPDATE transaction SET complete=True WHERE id=%s", (str(id), ))
+        cur.execute("UPDATE transaction SET completed=True WHERE id=%s", (str(id), ))
         mysql.connection.commit()
 
         cur.execute("SELECT * FROM transaction WHERE id=%s", (str(id), ))
         transaction = cur.fetchall()[0]
 
-        cur.execute("SELECT * FROM customer WHERE id=%s",(str(transaction[6]), ))
+        cur.execute("SELECT * FROM customer WHERE id=%s",(str(transaction[8]), ))
         customer = cur.fetchall()[0]
 
-        cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[2]), ))
+        cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[3]), ))
         product = cur.fetchall()[0]
 
-        func.send_email(customer[2], [customer, product, transaction], "customer", "order-complete")
+        func.send_email(customer[2], [customer, product, transaction], "customer", "order-completed")
+
+        return redirect(url_for("pharmacy_home"))
+        
+
+    else:
+        flash("You must login", "danger")
+        return redirect(url_for("pharmacy_login"))
+
+@app.route("/pharmacy/cancel-order/<id>")
+def cancel_order(id):
+    if "pharmacy" in session:
+        cur = mysql.connection.cursor()
+
+        cur.execute("UPDATE transaction SET canceled=True WHERE id=%s", (str(id), ))
+        mysql.connection.commit()
+
+        cur.execute("SELECT * FROM transaction WHERE id=%s", (str(id), ))
+        transaction = cur.fetchall()[0]
+
+        cur.execute("SELECT * FROM customer WHERE id=%s",(str(transaction[8]), ))
+        customer = cur.fetchall()[0]
+
+        cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[3]), ))
+        product = cur.fetchall()[0]
+
+        func.send_email(customer[2], [customer, product, transaction], "customer", "order-canceled")
 
         return redirect(url_for("pharmacy_home"))
         

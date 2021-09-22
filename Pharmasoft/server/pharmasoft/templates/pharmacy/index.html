@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
+{% if transactions %}
 {% for transaction in transactions %}
 <div class="mt-3">
     <div class="card" style="width: 50rem;">
@@ -38,10 +39,13 @@
 
             <div class="mt-3">
                 <a href="/pharmacy/complete-order/{{ transaction['id'] }}" class="btn btn-success">Complete</a>
-                <a href="#" class="btn btn-danger">Cancel</a>
+                <a href="/pharmacy/cancel-order/{{ transaction['id'] }}" class="btn btn-danger">Cancel</a>
             </div>
         </div>
     </div>
 </div>
 {% endfor %}
+{% else %}
+<h1>No trnsactions available</h1>
+{% endif %}
 {% endblock %}

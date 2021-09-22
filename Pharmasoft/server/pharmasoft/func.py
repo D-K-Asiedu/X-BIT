@@ -69,7 +69,7 @@ def send_email(reciever_email, message, user, action):
     else:
         msg['Subject'] = "Pharmasoft"
 
-        if action == "order-complete":
+        if action == "order-completed":
             msg.add_alternative(f"""\
             <!DOCTYPE html>
             <html>
@@ -79,15 +79,29 @@ def send_email(reciever_email, message, user, action):
             
             <h3>Order</h3>
             <p>Product Name: {message[1][1]}</p>
-            <p>Quantity: {message[2][3]}</p>
-            <p>Price: {message[2][4]} GHC</p>
+            <p>Quantity: {message[2][5]}</p>
+            <p>Price: {message[2][6]} GHC</p>
             
             </body>
             </html>
             """, subtype="html")
 
         elif action == "order-canceled":
-            msg.set_content("Your order has been cancelled")
+            msg.add_alternative(f"""\
+            <!DOCTYPE html>
+            <html>
+            <body>
+            <p>Hello {message[0][1]}, </p>
+            <p>We are sorry to inform you that your order <b>{message[1][1]}</b> could not be honored. We apologise for apologize for any inconveniences</p>
+            
+            <h3>Order</h3>
+            <p>Product Name: {message[1][1]}</p>
+            <p>Quantity: {message[2][5]}</p>
+            <p>Price: {message[2][6]} GHC</p>
+            
+            </body>
+            </html>
+            """, subtype="html")
 
         else:
             msg.set_content("Check Out")
