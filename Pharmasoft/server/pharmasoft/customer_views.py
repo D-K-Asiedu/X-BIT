@@ -308,9 +308,12 @@ def checkout():
         customer = cur.fetchall()[0]
 
         message = [item, customer]
-        func.send_email(pharmacy[2], message, "pharmacy")
+        func.send_email(pharmacy[2], message, "pharmacy", None)
 
-        cur.execute("INSERT INTO transaction(product_id, quantity, total_price, pharmacy_id, customer_id) VALUES(%s, %s, %s, %s, %s)",(str(product[0]), str(item["product quantity"]), str(item["total price"]), str(pharmacy[0]), str(current_user.id), ))
+        cur.execute("SELECT * FROM cart WHERE customer_id=%s AND complete=False", (str(current_user.id), ))
+        cart = cur.fetchall()[0]
+
+        cur.execute("INSERT INTO transaction(product_id, cart_id, quantity, total_price, pharmacy_id, customer_id) VALUES(%s, %s, %s, %s, %s, %s)",(str(product[0]), str(cart[0]), str(item["product quantity"]), str(item["total price"]), str(pharmacy[0]), str(current_user.id), ))
         mysql.connection.commit()
 
         quantity_available = product[6] - item["product quantity"]
@@ -322,3 +325,31 @@ def checkout():
     cur.close()
     
     return jsonify({"msg": "checkout complete"})
+
+@app.route("/transactions", methods = ["POST"])
+@login_required
+def transactions():
+    cur = mysql.connection.cursor()
+    data = request.json
+    customer_id = data["customer_id"]
+
+    cur.execute("SELECT * FROM transaction WHERE id=%s", (str(customer_id), ))
+    _transactions = cur.fetctall()
+
+    transactions = []
+    for transaction in _transactions:
+        cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[3]), ))
+        product = cur.fetchall()[0]
+
+        transactions.append({
+            "product_name": product[1],
+            "quantity": transaction[5],
+            "total price": transaction[6],
+            "cart_id": transaction[4],
+            "completed": transaction[1],
+            "canceled": transaction[2],
+        })
+
+    return jsonify(transactions)
+
+
