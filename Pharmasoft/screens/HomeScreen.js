@@ -44,19 +44,16 @@ const HomeScreen = ({ navigation }) => {
     const max = items.length
     const min = 1
     // const randInt = Math.floor(Math.random() * (max - min) + min)
+    const randInt = () =>  Math.floor(Math.random() * (max - min) + min)
     const randArr = []
+    var tempValue = 0
     for (i = 0; i < number; i++) {
-      const randInt = Math.floor(Math.random() * (max - min) + min)
-      const tempValue = randInt
-      if (randArr.indexOf(tempValue) < 0) {
-        randArr.push(tempValue)
+      tempValue = randInt()
+      while(randArr.indexOf(tempValue) != -1){
+        tempValue = randInt()
       }
-      else {
-        while (randArr.indexOf(tempValue) < 0) {
-          const tempValue = Math.floor(Math.random() * (max - min) + min)
-        }
-        randArr.push(tempValue)
-      }
+      randArr.push(tempValue)
+      
     }
 
     // console.log(randArr);

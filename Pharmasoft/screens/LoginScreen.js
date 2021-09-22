@@ -20,6 +20,7 @@ import * as yup from 'yup'
 import { useTheme, useColor } from '../styles/ThemeContext';
 import { useAuth } from '../routes/AuthContext';
 import Loading from '../components/Loading';
+import Info from '../functions/Info';
 
 
 const loginSchema = yup.object({
@@ -141,7 +142,10 @@ export default function LoginScreen({ navigation }) {
 
       <TouchableOpacity
         style={loginRegStyles.skipBtn}
-        onPress={() => authenticate('skip')}
+        onPress={() => {
+          authenticate('skip')
+          Info('Skipped login', 'Some features will not be available')
+        }}
       >
         <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
       </TouchableOpacity>

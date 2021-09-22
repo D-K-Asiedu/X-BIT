@@ -8,6 +8,7 @@ import ProductCard from '../components/ProductCard'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { useAuth } from '../routes/AuthContext'
 import Loading from '../components/Loading'
+import AccessDenied from '../functions/AccessDenied'
 
 const ShopScreen = ({navigation}) => {
     // const [mainColor, setMainColour] = useState('')
@@ -15,6 +16,7 @@ const ShopScreen = ({navigation}) => {
     const theme = useTheme()
     const colors = useColor()
     const server = useAuth().server
+    const isLoggedIn = useAuth().isLoggedIn
     const [products, setProducts] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
@@ -92,7 +94,7 @@ const ShopScreen = ({navigation}) => {
                 </TouchableOpacity>
                 <Text style={globalStyles.h2}>Shop</Text>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Cart')}
+                    onPress={() => isLoggedIn ? navigation.navigate('Cart'): AccessDenied('cart')}
                 >
                     <FontAwesome5 name="cart-plus" size={22} color="#ffffff" />
                 </TouchableOpacity>

@@ -20,6 +20,7 @@ import { useTheme, useColor } from '../styles/ThemeContext';
 import { useAuth } from '../routes/AuthContext';
 import Loading from '../components/Loading';
 import PopupMessage from '../functions/PopupMessage';
+import Info from '../functions/Info';
 
 
 const registerSchema = yup.object({
@@ -223,7 +224,10 @@ export default function RegisterScreen({navigation}) {
 
       <TouchableOpacity 
           style={loginRegStyles.skipBtn}
-          onPress={() => authenticate('skip')}
+          onPress={() => {
+            authenticate('skip')
+            Info('Skipped registration', 'Some features will not be available')
+          }}
           >
             <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
         </TouchableOpacity>

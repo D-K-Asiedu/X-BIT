@@ -140,8 +140,8 @@ const ProfileScreen = ({ navigation }) => {
             width: 150,
             height: 150,
             borderRadius: 75,
-            borderWidth: 1,
-            borderColor: globalColours.lightGrey,
+            borderWidth: 2,
+            borderColor: '#bbb',
         },
         imageBox: {
             width: 150,

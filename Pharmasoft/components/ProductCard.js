@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { useAuth } from '../routes/AuthContext'
+import AccessDenied from '../functions/AccessDenied'
 
 
 const ProductCard = ({link, medicine, load}) => {
@@ -34,6 +35,9 @@ const ProductCard = ({link, medicine, load}) => {
             catch(e){
                 console.log(e)
             }    
+        }
+        else{
+            AccessDenied('cart', 'add items to cart')
         }
         load(true)
     }

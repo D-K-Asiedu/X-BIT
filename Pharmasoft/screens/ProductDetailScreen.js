@@ -7,6 +7,8 @@ import { useTheme, useColor } from '../styles/ThemeContext'
 import { useAuth } from '../routes/AuthContext'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
+import AccessDenied from '../functions/AccessDenied'
+import { StatusBar } from 'expo-status-bar'
 
 const ProductDetailScreen = ({ navigation, route }) => {
     // const [mainColor, setMainColour] = useState('')
@@ -56,6 +58,9 @@ const ProductDetailScreen = ({ navigation, route }) => {
                 catch(e){
                     console.log(e)
                 }    
+            }
+            else{
+                AccessDenied('cart', 'add items to cart')
             }
 
             setIsLoading(false)
@@ -138,6 +143,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
             </View>
 
             <Loading loading={isLoading} setLoading={() => {}} />
+            <StatusBar style='auto' />
         </View>
     )
 }
