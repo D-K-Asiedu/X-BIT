@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     const [skipped, setSkipped] = useState(false)
     const [validated, setValidated] = useState(false)
     const [user, setUser] = useState({})
-    const server = 'http://100.119.11.78:5000'
+    const server = 'http://100.119.11.78:5000/'
 
     // useEffect(() => {
     //     // If logged in
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
 
         }
         return 'done'
-        
+
     }
 
     // Logout

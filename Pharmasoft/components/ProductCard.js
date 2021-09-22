@@ -85,7 +85,11 @@ const ProductCard = ({link, medicine, load}) => {
         <TouchableWithoutFeedback onPress={() => link()}>
         <View style={styles.card}>
             <View style={{width: 150, height: 150, justifyContent: 'center', alignItems: 'center'}}>
-            <Image style={{width: 75, height: 75,}} source={image} />
+            <Image 
+                style={{width: 125, height: 125,}} 
+                source={{uri: `${server}${medicine.image}`}}
+                defaultSource={image} 
+            />
             </View>
             <View style={styles.textBox}>
                 <Text style={styles.title}>{medicine.name}</Text>

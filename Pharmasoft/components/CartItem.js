@@ -4,6 +4,7 @@ import { useTheme, useColor } from '../styles/ThemeContext'
 import { globalStyles } from '../styles/global'
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { useAuth } from '../routes/AuthContext';
 
 const CartItem = ({product, deleteProduct, updateCount}) => {
     const [count, setCount] = useState(product['product quantity'])
@@ -16,6 +17,7 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
 
     const colors = useColor()
     const themes = useTheme()
+    const server = useAuth().server
 
     // Count
     const countUp = async () => {
@@ -43,7 +45,7 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
             elevation: 2,
         },
         imageBox: {
-            padding: 35,
+            padding: 20,
         },
         textBox: {
             padding: 20,
@@ -87,7 +89,11 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
         <TouchableWithoutFeedback onPress={toggle}>
             <View style={styles.card}>
                 <View style={styles.imageBox}>
-                    <Image style={{ width: 50, height: 50, }} source={require('../assets/home-images/medicine.png')} />
+                    <Image 
+                        style={{ width: 75, height: 75, }} 
+                        defaultSource={require('../assets/home-images/medicine.png')}
+                        source={{uri: `${server}${product.image}`}} 
+                    />
                 </View>
                 <View style={styles.textBox}>
                     <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>{product['product name']}</Text>

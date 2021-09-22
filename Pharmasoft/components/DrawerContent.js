@@ -92,7 +92,10 @@ const DrawerContent = ({ navigation }) => {
                 <View style={{ ...styles.section, ...styles.avatar }}>
                     {isLoggedIn ?
                         <>
-                            <Image source={require('../assets/no-user.jpg')} style={styles.avatarImg} />
+                            <Image 
+                                source={require('../assets/no-user.jpg')}
+                                style={styles.avatarImg} 
+                            />
                             <View>
                                 <Text style={styles.name}>{userInfo.name}</Text>
                                 <Text style={styles.email}>{userInfo.email}</Text>
