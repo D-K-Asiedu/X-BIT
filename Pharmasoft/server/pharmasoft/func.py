@@ -38,32 +38,59 @@ def get_order():
     return order
 
 
-def send_email(pharmacy_email, message):
+def send_email(reciever_email, message, user, action):
     email = "alvisfinnegan@gmail.com"
     password = "codename01"
 
     msg = EmailMessage()
     msg['From'] = email
-    msg['To'] = pharmacy_email
-    msg['Subject'] = "Pharmasoft Order"
+    msg['To'] = reciever_email
 
-    msg.set_content("Check Out")
-    msg.add_alternative(f"""\
-        <!DOCTYPE html>
-        <html>
-        <body>
-        <h1>Order</h1>
-        <h3>{message[0]["product name"]}</h3>
-        <h3>QANTITY: {message[0]["product quantity"]}</h3>
-        <h4>PRICE: {message[0]["total price"]}</h4>
+    if user == "pharmacy":
+        msg['Subject'] = "Pharmasoft Order"
 
-        <h1>Customer</h1>
-        <h3>{message[1][1]}</h3>
-        <h3>Email: {message[1][2]}</h3>
-        <h3>Contact: {message[1][3]}</h3>
-        </body>
-        </html>
-        """, subtype="html")
+        msg.add_alternative(f"""\
+            <!DOCTYPE html>
+            <html>
+            <body>
+            <h1>Order</h1>
+            <h3>{message[0]["product name"]}</h3>
+            <h3>QANTITY: {message[0]["product quantity"]}</h3>
+            <h4>PRICE: {message[0]["total price"]}</h4>
+
+            <h1>Customer</h1>
+            <h3>{message[1][1]}</h3>
+            <h3>Email: {message[1][2]}</h3>
+            <h3>Contact: {message[1][3]}</h3>
+            </body>
+            </html>
+            """, subtype="html")
+
+    else:
+        msg['Subject'] = "Pharmasoft"
+
+        if action == "order-complete":
+            msg.add_alternative(f"""\
+            <!DOCTYPE html>
+            <html>
+            <body>
+            <p>Hello {message[0][1]}, </p>
+            <p>Your order for <b>{message[1][1]}</b> is complete. You will be recieving product very soon</p>
+            
+            <h3>Order</h3>
+            <p>Product Name: {message[1][1]}</p>
+            <p>Quantity: {message[2][3]}</p>
+            <p>Price: {message[2][4]} GHC</p>
+            
+            </body>
+            </html>
+            """, subtype="html")
+
+        elif action == "order-canceled":
+            msg.set_content("Your order has been cancelled")
+
+        else:
+            msg.set_content("Check Out")
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(email, password)

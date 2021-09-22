@@ -308,7 +308,7 @@ def checkout():
         customer = cur.fetchall()[0]
 
         message = [item, customer]
-        func.send_email(pharmacy[2], message)
+        func.send_email(pharmacy[2], message, "pharmacy")
 
         cur.execute("INSERT INTO transaction(product_id, quantity, total_price, pharmacy_id, customer_id) VALUES(%s, %s, %s, %s, %s)",(str(product[0]), str(item["product quantity"]), str(item["total price"]), str(pharmacy[0]), str(current_user.id), ))
         mysql.connection.commit()

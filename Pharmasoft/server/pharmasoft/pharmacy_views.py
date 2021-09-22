@@ -1,3 +1,4 @@
+from pharmasoft import func
 from flask.json import jsonify
 from werkzeug.utils import secure_filename
 from pharmasoft import app, mysql, bcrypt
@@ -36,6 +37,7 @@ def pharmacy_home():
                 "customer name": customer[1],
                 "customer email": customer[2],
                 "customer contact": customer[3],
+                "id": transaction[0]
             })
 
 
@@ -244,6 +246,31 @@ def delete_product(product_id):
         flash("You must login", "danger")
         return redirect(url_for("pharmacy_login"))
 
+@app.route("/pharmacy/complete-order/<id>")
+def complete_order(id):
+    if "pharmacy" in session:
+        cur = mysql.connection.cursor()
+
+        cur.execute("UPDATE transaction SET complete=True WHERE id=%s", (str(id), ))
+        mysql.connection.commit()
+
+        cur.execute("SELECT * FROM transaction WHERE id=%s", (str(id), ))
+        transaction = cur.fetchall()[0]
+
+        cur.execute("SELECT * FROM customer WHERE id=%s",(str(transaction[6]), ))
+        customer = cur.fetchall()[0]
+
+        cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[2]), ))
+        product = cur.fetchall()[0]
+
+        func.send_email(customer[2], [customer, product, transaction], "customer", "order-complete")
+
+        return redirect(url_for("pharmacy_home"))
+        
+
+    else:
+        flash("You must login", "danger")
+        return redirect(url_for("pharmacy_login"))
 
 
 
