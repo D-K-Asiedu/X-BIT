@@ -5,6 +5,14 @@ from flask import url_for
 
 import smtplib
 from email.message import EmailMessage
+from datetime import datetime
+from random import randint
+
+verification_code = {
+    "code": None,
+    "time_stamp": None
+}
+
 
 def get_order():
     order = []
@@ -103,9 +111,30 @@ def send_email(reciever_email, message, user, action):
             </html>
             """, subtype="html")
 
+        elif action == "verification":
+            msg.add_alternative(f"""\
+            <!DOCTYPE html>
+            <html>
+            <body>
+            <p>Your verification code is <b>{message}</b></p>
+            <p>Do not share code with anyone</p>            
+            </body>
+            </html>
+            """, subtype="html")
+
         else:
             msg.set_content("Check Out")
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(email, password)
         server.send_message(msg)
+
+def generate_verification(email):
+    global verification_code
+    code = randint(10000, 99999)
+    time_stamp = datetime.now()
+
+    verification_code["code"] = code
+    verification_code["time_stamp"] = time_stamp
+
+    send_email(email, code, "customer", "verification")

@@ -33,8 +33,8 @@ def pharmacy_home():
 
             pharmacy_transaction.append({
                 "product name": product[1],
-                "quantity": transaction[3],
-                "total price": transaction[4],
+                "quantity": transaction[5],
+                "total price": transaction[6],
                 "customer name": customer[1],
                 "customer email": customer[2],
                 "customer contact": customer[3],
@@ -108,7 +108,7 @@ def pharmacy_login():
             return redirect(url_for("pharmacy_login"))
 
         if bcrypt.check_password_hash(pharmacy[5], password):
-        # if pharmacy[2] == email and pharmacy[5] == password:
+            session.permanent = False
             session["pharmacy"] = pharmacy
             flash("Login Successfull", "success")
             return redirect(url_for("pharmacy_home"))

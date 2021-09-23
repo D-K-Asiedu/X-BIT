@@ -1,9 +1,13 @@
 from email import message
+from math import e
 from flask_login.utils import login_user, logout_user, current_user, login_required
 from pharmasoft import app, mysql, bcrypt
 from flask import render_template, redirect, request, url_for
 from pharmasoft import User
 from flask import jsonify, send_file
+
+from datetime import datetime
+from random import randint
 
 from pharmasoft import func
 
@@ -46,11 +50,6 @@ def product_image(image):
 def register():
     cur = mysql.connection.cursor()
     if request.method == "POST":
-        # name = request.form["name"]
-        # email = request.form["email"]
-        # contact = request.form["contact"]
-        # password = request.form["password"]
-
         data = request.json
         name = data["name"]
         email= data["email"]
@@ -59,6 +58,12 @@ def register():
 
         user_result = cur.execute("SELECT * FROM customer WHERE email=%s", (email,))
         if user_result:
+            user_result = cur.execute("SELECT * FROM customer WHERE email=%s AND active=False", (email, )) 
+
+            if user_result:
+                func.generate_verification(email)
+                return jsonify({"msg": "Account needs verification"})
+
             return jsonify({
                 "msg": "Acount Already Exists",
                 "registration": False
@@ -70,6 +75,8 @@ def register():
         mysql.connection.commit()
         cur.close()
 
+        func.generate_verification(email)
+
         print("Registration Succesful")
         return jsonify({
             "msg": "Registration complete",
@@ -78,6 +85,7 @@ def register():
 
     # return render_template("register.html")
     return jsonify({"msg": "Register Here"})
+
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -91,7 +99,7 @@ def login():
         password = data["password"]
 
         
-        user_results = cur.execute("SELECT * FROM customer WHERE email=%s", (email,))
+        user_results = cur.execute("SELECT * FROM customer WHERE email=%s and active=True", (email,))
         if user_results:
             user = cur.fetchall()[0]
 
@@ -119,13 +127,13 @@ def login():
                 })
     # return render_template("login.html")
 
-
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     # return  redirect(url_for("home")) 
     return jsonify({"login": False})
+
 
 @app.route("/profile", methods=["GET", "PUT"])
 @login_required
@@ -352,4 +360,67 @@ def transactions():
 
     return jsonify(transactions)
 
+
+@app.route("/verify-email", methods=["POST"])
+def verify_email():
+    cur = mysql.connection.cursor()
+
+    data = request.json
+    action = data["action"]
+    email = data["email"]
+    ver_code = data["code"]
+    current_time = datetime.now()
+    verification_code = func.verification_code
+    
+    seconds_in_days = 24 * 60 * 60
+    time_diff = current_time - verification_code["time_stamp"]
+    time = divmod(time_diff.days * seconds_in_days + time_diff.seconds, 60)
+
+    print(time, ver_code)
+
+    
+    if time[0] < 30:
+        if  ver_code == verification_code["code"]:
+            if action == "activate":
+                cur.execute("UPDATE customer SET active=True WHERE email=%s", (email, ))
+                mysql.connection.commit()
+
+                cur.execute("SELECT * FROM customer WHERE email=%s AND active=True", (email, ))
+                customer = cur.fetchall()[0]
+                user_model = User()
+                user_model.id = customer[0]
+                login_user(user_model)
+
+                return jsonify({
+                    "msg": "Account activated",
+                    "login": True
+                    })
+
+            else:
+                return jsonify({
+                    "msg": "Acount verified",
+                    "verified": True
+                    })
+
+        else:
+            return jsonify({"msg": "invalid code"})
+
+    else:
+        return jsonify({
+            "msg": "code is expired or incorrect",
+            })
+
+@app.route("/forgot-password", methods=["POST"])
+def forgot_password():
+    cur = mysql.connection.cursor()
+    data = request.json
+    email = data["email"]
+
+    customer_results = cur.execute("SELECT * FROM customer WHERE email=%s AND active=True", (email, ))
+    if customer_results == 0:
+        return jsonify({"msg": "Account does not exist"})
+
+    func.generate_verification(email)
+
+    return jsonify({"msg": "verification code has been sent to email"})
 
