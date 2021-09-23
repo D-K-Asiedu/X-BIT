@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { globalStyles, globalColours } from '../styles/global'
@@ -6,12 +6,84 @@ import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import Button from '../components/Button'
-
+import { useAuth } from '../routes/AuthContext'
 
 
 const ForgotPasswordScreen = ({ navigation }) => {
+    const [emailSent, setEmailSent] = useState(false)
+    const [verified, setVerified] = useState(false)
+    const [email, setEmail] = useState('')
 
     const colors = useColor()
+    const server = useAuth().server
+
+    // Send email for code 
+    const sendEmail = async (email) => {
+        const data = { email: email }
+        setEmail(email)
+        const res = await fetch(`${server}/forgot-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        try {
+            const emailSentDetails = await res.json()
+            console.log(await emailSentDetails.msg);
+            setEmailSent(true)
+            // authenticate('login', { ...user, msg: await verifyDetails.msg })
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    // Verify email
+    const verifyEmail = async (code) => {
+        const data = { action: "verify", email: email, code: parseInt(code) }
+        const res = await fetch(`${server}/verify-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        try {
+            const verifyDetails = await res.json()
+            console.log(await verifyDetails.msg);
+            setVerified(true)
+        }
+        catch (e) {
+            console.log(e);
+        }
+
+    }
+
+    // Update password
+    const updatePassword = async (update) => {
+        const res = await fetch(`${server}/change-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(update),
+        })
+
+        try{
+            const updateMsg = await res.json()
+            console.log(updateMsg.msg);
+    
+            navigation.navigate('Login') 
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+    
+
 
     //Styles
     const styles = StyleSheet.create({
@@ -53,7 +125,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
             </View>
 
             <View style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
-                {false &&
+                {!emailSent && !verified &&
                     <Formik
                         initialValues={{ email: '' }}
                         validationSchema={
@@ -66,6 +138,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
                         }
                         onSubmit={values => {
                             console.log(values);
+                            sendEmail(values.email)
                         }}
                     >
                         {props => (
@@ -94,30 +167,44 @@ const ForgotPasswordScreen = ({ navigation }) => {
                         )}
                     </Formik>}
 
-                {false &&
+                {emailSent && !verified &&
                     <View style={{ paddingVertical: 50, }}>
                         <Text style={styles.mainText}>Enter the verification code sent to your e-mail</Text>
-                        <TextInput
-                            underlineColorAndroid="transparent"
-                            autoCompleteType="off"
-                            style={{ ...styles.editInput, marginTop: 5, }}
-                            // onChangeText={props.handleChange('email')}
-                            // value={props.values.email}
-                            // onBlur={props.handleBlur('email')}
-                            placeholder={'code'}
-                        />
+                        <Formik
+                            initialValues={{ code: '' }}
+                            // validationSchema={registerSchema}
+                            onSubmit={values => {
+                                //   setIsLoading(true)
+                                console.log(values)
+                                verifyEmail(values.code)
+                            }}
+                        >
+                            {props => (
+                                <>
+                                    <TextInput
+                                        underlineColorAndroid="transparent"
+                                        autoCompleteType="off"
+                                        style={{ ...styles.editInput, marginTop: 5, }}
+                                        onChangeText={props.handleChange('code')}
+                                        value={props.values.code}
+                                        onBlur={props.handleBlur('code')}
+                                        placeholder={'code'}
+                                    />
 
-                        <Button
-                            title="Next"
-                            color='#ffffff'
-                            bgColor={colors.constant}
-                            style={{ width: 100, alignSelf: 'flex-end', marginTop: 20, }}
-                        // onPress={props.handleSubmit}
-                        />
+                                    <Button
+                                        title="Verify"
+                                        color='#ffffff'
+                                        bgColor={colors.constant}
+                                        style={{ width: 100, alignSelf: 'flex-end', marginTop: 20, }}
+                                        onPress={props.handleSubmit}
+                                    />
+                                </>
+                            )}
+                        </Formik>
                     </View>
                 }
 
-                {true &&
+                {emailSent && verified &&
                     <Formik
                         initialValues={{ new_password: '', confirm_password: '' }}
                         validationSchema={
@@ -136,18 +223,15 @@ const ForgotPasswordScreen = ({ navigation }) => {
                         onSubmit={values => {
                             console.log(values)
 
-                            // const update = {
-                            //     ...userInfo,
-                            //     password: values.new_password,
-                            //     column: 'password'
-                            // }
+                            const update = {
+                                password: values.new_password,
+                                email: email
+                            }
 
-                            // console.log(update);
-                            // updateUser(update)
+                            console.log(update);
+                            updatePassword(update)
 
-                            // setPasswordModalOpen(false)
-                            // authenticate('validateOff')
-                            // setPassword('')
+                            setEmail('')
                         }}>
                         {props => (
                             <View style={{ paddingVertical: 50, }}>

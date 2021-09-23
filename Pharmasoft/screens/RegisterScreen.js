@@ -92,7 +92,9 @@ export default function RegisterScreen({navigation}) {
     try{
       const accReg = await res.json()
       console.log(accReg);
-      await accReg.registration && authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)
+      // await accReg.registration && authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)
+      await accReg.registration && navigation.navigate('VerifyEmail', {email:user.email, password:user.password} )
+
       
       !accReg.registration && PopupMessage(
         'Registration failed',
