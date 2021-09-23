@@ -385,15 +385,15 @@ def verify_email():
                 cur.execute("UPDATE customer SET active=True WHERE email=%s", (email, ))
                 mysql.connection.commit()
 
-                cur.execute("SELECT * FROM customer WHERE email=%s AND active=True", (email, ))
-                customer = cur.fetchall()[0]
-                user_model = User()
-                user_model.id = customer[0]
-                login_user(user_model)
+                # cur.execute("SELECT * FROM customer WHERE email=%s AND active=True", (email, ))
+                # customer = cur.fetchall()[0]
+                # user_model = User()
+                # user_model.id = customer[0]
+                # login_user(user_model)
 
                 return jsonify({
                     "msg": "Account activated",
-                    "login": True
+                    "verified": True
                     })
 
             else:
@@ -403,11 +403,15 @@ def verify_email():
                     })
 
         else:
-            return jsonify({"msg": "invalid code"})
+            return jsonify({
+                "msg": "invalid code",
+                "verifeid": False
+                })
 
     else:
         return jsonify({
-            "msg": "code is expired or incorrect",
+            "msg": "code is expired or",
+            "verifeid": False
             })
 
 @app.route("/forgot-password", methods=["POST"])
