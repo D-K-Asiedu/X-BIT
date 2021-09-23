@@ -21,7 +21,7 @@ const InputField = ({
 
     const styles = StyleSheet.create({
         inputField: {
-            marginBottom: 15,
+            marginBottom: 5,
         },
         label: {
             fontSize: 14,

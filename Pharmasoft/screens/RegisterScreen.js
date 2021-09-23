@@ -124,13 +124,13 @@ export default function RegisterScreen({navigation}) {
 
 
       <View style={loginRegStyles.imgBox}>
-         {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{...loginRegStyles.image, width: 275, height: 255}} />}
+         {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{...loginRegStyles.image, width: '90%', height: '75%'}} />}
       </View>
 
       <View style={{...loginRegStyles.content, backgroundColor: colors.mainBgColor}}>
           <Text style={{...loginRegStyles.h2, color: colors.tetColor1}}>Create an account</Text>
         
-        <View style={{...loginRegStyles.contentCard, backgroundColor: colors.secBgColor}}>
+        <ScrollView style={{...loginRegStyles.contentCard, backgroundColor: colors.secBgColor,}}>
           <Formik
             initialValues={{ name: '', email: '', phone: '', password: '', confirm_password: '' }}
             validationSchema={registerSchema}
@@ -204,14 +204,14 @@ export default function RegisterScreen({navigation}) {
               </>
             )}
           </Formik>
-          <Button
+          {/* <Button
             title="Register with google"
             color={colors.tetColor1}
             bgColor= {theme.darkmode ? "#69696969" :"#f2f2f2"} 
             border1= {theme.darkmode ? "#f2f2f2" :"#c4c4c4"}
             image="google"
             style={{marginTop: 15,}}
-           />
+           /> */}
           
           <View style={loginRegStyles.bottomBox}>
             <Text style={{...loginRegStyles.bottomText, color: colors.mainTextColor}}>Already have an account, </Text>
@@ -219,7 +219,8 @@ export default function RegisterScreen({navigation}) {
               <Text style={{...loginRegStyles.bottomLink, color: colors.constant}}>Login</Text>
             </TouchableOpacity>
           </View>
-        </View>
+          {!imgDisplay && <View style={{height: 100}}></View>}
+        </ScrollView>
       </View>
 
       <TouchableOpacity 

@@ -399,7 +399,7 @@ const HomeScreen = ({ navigation }) => {
               <ProductCard link={() => navigation.navigate('ProductDetail')} />
               <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
 
-              {isLoading && <LoadingView />}
+              {isLoading && <LoadingView size={30} />}
             </View>
 
           </View>
