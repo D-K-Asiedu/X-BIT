@@ -1,4 +1,5 @@
 import PopupMessage from "./PopupMessage"
+import { Alert } from "react-native";
 
 export default info = (title, desc) => {
     PopupMessage(
@@ -10,5 +11,11 @@ export default info = (title, desc) => {
         {},
         {backgroundColor: '#696969'}
     )
+        // Alert.alert(
+        //   title,
+        //   desc,
+        //   [{text: 'OK', onPress: () => {}}],
+        //   {cancelable: false},
+        // );
 }
 

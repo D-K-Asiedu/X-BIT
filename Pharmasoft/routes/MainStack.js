@@ -7,6 +7,8 @@ import RegisterScreen from '../screens/RegisterScreen';
 import CartScreen from '../screens/CartScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import VerifyEmailScreen from '../screens/VerifyEmailScreen'
 import { useAuth } from './AuthContext';
 
 const Stack = createStackNavigator();
@@ -32,6 +34,8 @@ function MainStack() {
         <>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+          <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
         </>
 
       }

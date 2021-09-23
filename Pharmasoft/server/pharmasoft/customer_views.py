@@ -341,8 +341,8 @@ def transactions():
     data = request.json
     customer_id = data["customer_id"]
 
-    cur.execute("SELECT * FROM transaction WHERE id=%s", (str(customer_id), ))
-    _transactions = cur.fetctall()
+    cur.execute("SELECT * FROM transaction WHERE customer_id=%s", (str(customer_id), ))
+    _transactions = cur.fetchall()
 
     transactions = []
     for transaction in _transactions:

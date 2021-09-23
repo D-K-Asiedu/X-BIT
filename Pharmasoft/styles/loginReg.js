@@ -13,8 +13,8 @@ export const loginRegStyles = StyleSheet.create({
         flex: 1,
       },
       image:{
-        width: 250,
-        height: 250,
+        width: '75%',
+        height: '75%',
       },
       skipBtn:{
         position: 'absolute',
@@ -46,7 +46,7 @@ export const loginRegStyles = StyleSheet.create({
         backgroundColor: '#fff',
         borderTopLeftRadius: 45,
         borderTopRightRadius: 45,
-        paddingVertical: 45,
+        paddingVertical: 20,
         paddingHorizontal: 20,
       },
       bottomBox:{

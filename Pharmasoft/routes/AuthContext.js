@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
             });
 
         }
-        return 'done'
+        return false
 
     }
 

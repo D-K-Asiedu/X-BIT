@@ -39,6 +39,7 @@ export default function LoginScreen({ navigation }) {
   const [imgDisplay, setImgDisplay] = useState(true)
   // const [mainColor, setMainColour] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [empty, setEmpty] = useState(false)
 
   const theme = useTheme()
   const colors = useColor()
@@ -85,10 +86,15 @@ export default function LoginScreen({ navigation }) {
             initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
             onSubmit={values => {
-              setIsLoading(true)
-              // console.log(`loading is ${isLoading}`);
-              console.log(values)
-              authenticate('login', values) && setIsLoading(false)
+              const tempFunc = async() => {
+                setIsLoading(true)
+                // console.log(`loading is ${isLoading}`);
+                console.log(values)
+                console.log(await authenticate('login', values))
+                // setIsLoading(false)  
+              } 
+
+              tempFunc()
             }}
           >
             {props => (
@@ -111,6 +117,17 @@ export default function LoginScreen({ navigation }) {
                   errorMsg={props.touched.password && props.errors.password}
                   onBlur={props.handleBlur('password')}
                 />
+
+                <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+                  <Text style={{ 
+                    ...loginRegStyles.bottomLink, 
+                    color: colors.constant, 
+                    alignSelf: 'flex-end',
+                    // fontWeight: 'normal',
+                    fontSize: 16, 
+                    }}>Forgot password?</Text>
+                </TouchableOpacity>
+
                 <Button
                   title="Login"
                   color='#ffffff'
@@ -122,14 +139,14 @@ export default function LoginScreen({ navigation }) {
             )}
           </Formik>
 
-          <Button
+          {/* <Button
             title="Login with google"
             color={colors.tetColor1}
             bgColor={theme.darkmode ? "#69696969" : "#f2f2f2"}
             border1={theme.darkmode ? "#f2f2f2" : "#c4c4c4"}
             image="google"
             style={{ marginTop: 15, }}
-          />
+          /> */}
 
           <View style={loginRegStyles.bottomBox}>
             <Text style={{ ...loginRegStyles.bottomText, color: colors.mainTextColor }}>Don't have an account, </Text>
