@@ -39,6 +39,7 @@ export default function LoginScreen({ navigation }) {
   const [imgDisplay, setImgDisplay] = useState(true)
   // const [mainColor, setMainColour] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [empty, setEmpty] = useState(false)
 
   const theme = useTheme()
   const colors = useColor()
@@ -85,10 +86,15 @@ export default function LoginScreen({ navigation }) {
             initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
             onSubmit={values => {
-              setIsLoading(true)
-              // console.log(`loading is ${isLoading}`);
-              console.log(values)
-              authenticate('login', values) && setIsLoading(false)
+              const tempFunc = async() => {
+                setIsLoading(true)
+                // console.log(`loading is ${isLoading}`);
+                console.log(values)
+                console.log(await authenticate('login', values))
+                // setIsLoading(false)  
+              } 
+
+              tempFunc()
             }}
           >
             {props => (

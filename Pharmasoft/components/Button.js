@@ -1,11 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import LoadingView from './LoadingView'
 
 const images = {
     "google": require('../assets/google.png')
 }
 
-const Button = ({title, color, bgColor, border1, image, style, onPress, textStyle}) => {
+const Button = ({title, color, bgColor, border1, image, style, onPress, textStyle, loading}) => {
     const border = border1 && {borderWidth: 1}
 
     return (
@@ -13,8 +14,11 @@ const Button = ({title, color, bgColor, border1, image, style, onPress, textStyl
             style={{...styles.button, backgroundColor: bgColor, borderColor: border1, ...border, ...style }}
             onPress = {onPress}
         >
+            {!loading &&<>
             {image && <Image source={images[image]} style={styles.img} />}
             <Text style={{...styles.text, ...textStyle,  color: color}}>{title}</Text>
+            </>}
+            {loading && <LoadingView color='#ffffff' size={20} />}
         </TouchableOpacity>
     )
 }

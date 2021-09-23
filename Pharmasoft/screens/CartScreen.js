@@ -261,7 +261,7 @@ const CartScreen = ({ navigation }) => {
                 <Text style={{ ...globalStyles.h2, ...styles.pageTitle }}>Cart</Text>
             </View>
 
-            <View style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
+            {<View style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
                 <View style={styles.cartBox}>
                     <FlatList 
                         data={cart}
@@ -309,7 +309,8 @@ const CartScreen = ({ navigation }) => {
                         onPress={() => toCheckout()}
                     />
                 </View>}
-            </View>
+
+            </View>}
 
             <Loading loading={isLoading} setLoading={() => {}} />
         </View>

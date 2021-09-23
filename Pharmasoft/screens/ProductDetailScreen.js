@@ -120,7 +120,11 @@ const ProductDetailScreen = ({ navigation, route }) => {
 
             <View style={{ ...globalStyles.content, ...styles.content }}>
                 <View style={styles.imageBox}>
-                    <Image style={{ width: 150, height: 150, }} source={require('../assets/home-images/medicine.png')} />
+                    <Image 
+                        style={{ width: 250, height: 250, }} 
+                        defaultSource={require('../assets/home-images/medicine.png')} 
+                        source={{uri: `${server}${product.image}`}}
+                    />
                 </View>
                 <View style={{...globalStyles.content, ...styles.textBox}}>
                     <ScrollView>

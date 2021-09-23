@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
@@ -23,6 +23,7 @@ import Swiper from 'react-native-swiper';
 import ArticleCarousel from '../components/ArticleCarousel';
 import ProductCard from '../components/ProductCard';
 import { useTheme, useColor } from '../styles/ThemeContext'
+import LoadingView from '../components/LoadingView';
 
 
 //import { useTheme } from '@react-navigation/native';
@@ -30,6 +31,11 @@ import { useTheme, useColor } from '../styles/ThemeContext'
 
 //<StatusBar backgroundColor='#1BA665' barStyle= { theme.dark ? "light-content" : "dark-content" }/>
 const HomeScreen = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+  }, [])
 
   const colors = useColor();
   const theme = useTheme();
@@ -393,6 +399,7 @@ const HomeScreen = ({ navigation }) => {
               <ProductCard link={() => navigation.navigate('ProductDetail')} />
               <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
 
+              {isLoading && <LoadingView />}
             </View>
 
           </View>
