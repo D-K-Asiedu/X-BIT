@@ -144,7 +144,8 @@ def generate_verification(email):
     send_email(email, code, "customer", "verification")
 
 def get_articles():
-    r = requests.get("https://www.news-medical.net/")
+    link = "https://www.news-medical.net/"
+    r = requests.get(link)
     soup = BeautifulSoup(r.text, "lxml")
 
     section = soup.find("section", {"class": "widget recentcategoryposts clearfix"})
@@ -154,7 +155,7 @@ def get_articles():
     for article in article_tags:
         articles.append({
             "title": article.p.text,
-            "link": article.a["href"],
+            "link": f"{link}/"+article.a["href"],
             "image": article.img["src"]
         })
 

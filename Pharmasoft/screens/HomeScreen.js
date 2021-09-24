@@ -16,7 +16,6 @@ import {
   Feather,
   FontAwesome
 } from '@expo/vector-icons';
-6
 import firstAid from '../data/firstAidData'
 import Swipable from '../components/Swipable';
 import Swiper from 'react-native-swiper';
@@ -24,6 +23,7 @@ import ArticleCarousel from '../components/ArticleCarousel';
 import ProductCard from '../components/ProductCard';
 import { useTheme, useColor } from '../styles/ThemeContext'
 import LoadingView from '../components/LoadingView';
+import { useAuth } from '../routes/AuthContext';
 
 
 //import { useTheme } from '@react-navigation/native';
@@ -32,34 +32,59 @@ import LoadingView from '../components/LoadingView';
 //<StatusBar backgroundColor='#1BA665' barStyle= { theme.dark ? "light-content" : "dark-content" }/>
 const HomeScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [loadArticles, setLoadArticles] = useState(false)
+  const [articles, setArticles] = useState([])
 
   useEffect(() => {
     setIsLoading(true)
+    setLoadArticles(true)
+
+    const tempFunc = async () => {
+      const tempArr = await fetchArticles()
+      console.log(tempArr.slice(0, 4));
+      setArticles(tempArr.slice(0, 4))
+    }
+
+    tempFunc()
+    setTimeout(() => { setLoadArticles(false) }, 2000)
   }, [])
 
   const colors = useColor();
   const theme = useTheme();
+  const server = useAuth().server
 
   // const colors = {
   //   mainColor: '#1ba665',
   //   mainBgColor: '#f2f2f2'
   // }
 
+  // Fetch articles
+  const fetchArticles = async () => {
+    const res = await fetch(`${server}/articles`, {
+      method: 'GET',
+    })
+
+    const data = await res.json()
+
+    // console.log(data);
+    return data
+  }
+
   // Random items generator
   const randomGen = (items, number) => {
     const max = items.length
     const min = 1
     // const randInt = Math.floor(Math.random() * (max - min) + min)
-    const randInt = () =>  Math.floor(Math.random() * (max - min) + min)
+    const randInt = () => Math.floor(Math.random() * (max - min) + min)
     const randArr = []
     var tempValue = 0
     for (i = 0; i < number; i++) {
       tempValue = randInt()
-      while(randArr.indexOf(tempValue) != -1){
+      while (randArr.indexOf(tempValue) != -1) {
         tempValue = randInt()
       }
       randArr.push(tempValue)
-      
+
     }
 
     // console.log(randArr);
@@ -305,107 +330,119 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ 
-        ...globalStyles.content, 
-        backgroundColor: colors.mainColor ,
+      <View style={{
+        ...globalStyles.content,
+        backgroundColor: colors.mainColor,
         paddingHorizontal: 0,
       }}>
-      <ScrollView>
-        <View style={styles.hero}>
-          <Swiper
-            loop={false}
-            activeDotStyle={
-              { width: 10, height: 10, backgroundColor: '#f9b900', borderRadius: 5, elevation: 2 }
-            }
-            dotStyle={
-              { width: 8, height: 8, backgroundColor: '#f9b90066', borderRadius: 5, }
-            }
-          >
-            <Swipable />
-            <Swipable />
-          </Swiper>
-        </View>
+        <ScrollView>
+          <View style={styles.hero}>
+            <Swiper
+              loop={false}
+              activeDotStyle={
+                { width: 10, height: 10, backgroundColor: '#f9b900', borderRadius: 5, elevation: 2 }
+              }
+              dotStyle={
+                { width: 8, height: 8, backgroundColor: '#f9b90066', borderRadius: 5, }
+              }
+            >
+              <Swipable />
+              <Swipable />
+            </Swiper>
+          </View>
 
 
-        <View style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.titleText}>First aid</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('First-aid')}>
-                <Text style={styles.linkText}>{"See all>>"}</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.titleText}>First aid</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('First-aid')}>
+                  <Text style={styles.linkText}>{"See all>>"}</Text>
+                </TouchableOpacity>
+              </View>
 
-            <View style={{ ...styles.sectionContent, justifyContent: 'space-between' }}>
-              {/* <LinkCard title="Poison" image="poison" />
+              <View style={{ ...styles.sectionContent, justifyContent: 'space-between' }}>
+                {/* <LinkCard title="Poison" image="poison" />
                 <LinkCard title="Bruises" image="plaster" />
                 <LinkCard title="Burns" image="fire" />
                 <LinkCard title="Asthma" image="lung" /> */}
 
-              {/* <FlatList
+                {/* <FlatList
                   data = {randomGen(firstAid, 4)}
                   renderItem = {({item}) => (
                     <LinkCard title={item.title} image={item.image} color={globalColours.firstAid[item.image]} />
                   )} 
                 /> */}
 
-              {randomGen(firstAid, 4).map((item) => (
-                <LinkCard
-                  key={item.id}
-                  title={item.title}
-                  image={item.image}
-                  color={globalColours.firstAid[item.image]}
-                  link={item}
-                />
-              ))}
+                {randomGen(firstAid, 4).map((item) => (
+                  <LinkCard
+                    key={item.id}
+                    title={item.title}
+                    image={item.image}
+                    color={globalColours.firstAid[item.image]}
+                    link={item}
+                  />
+                ))}
 
+              </View>
             </View>
-          </View>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.titleText}>Articles</Text>
-            </View>
-            <View style={{ ...styles.sectionContent, ...styles.articleBox }}>
-              <Swiper
-                autoplay={true}
-                autoplayTimeout={10}
-                activeDotStyle={
-                  { width: 10, height: 10, backgroundColor: colors.constant, borderRadius: 5, elevation: 2 }
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.titleText}>Articles</Text>
+              </View>
+              <View style={{ ...styles.sectionContent, ...styles.articleBox }}>
+                {!loadArticles &&
+                  <Swiper
+                    autoplay={true}
+                    autoplayTimeout={10}
+                    activeDotStyle={
+                      { width: 10, height: 10, backgroundColor: colors.constant, borderRadius: 5, elevation: 2 }
+                    }
+                    dotStyle={
+                      { width: 8, height: 8, backgroundColor: `${colors.constant}66`, borderRadius: 5, }
+                    }
+                  >
+                    {
+                    articles.map((item) => (
+                      <ArticleCarousel />
+                    ))}
+
+
+
+                    {/* <ArticleCarousel title={articles[0].title} link={articles[0].link} image={articles[0].image} />
+                    <ArticleCarousel title={articles[1].title} link={articles[1].link} image={articles[1].image} />
+                    <ArticleCarousel title={articles[2].title} link={articles[2].link} image={articles[2].image} />
+                    <ArticleCarousel title={articles[3].title} link={articles[3].link} image={articles[0].image} /> */}
+
+
+                  </Swiper>
                 }
-                dotStyle={
-                  { width: 8, height: 8, backgroundColor: `${colors.constant}66`, borderRadius: 5, }
-                }
-              >
-                <ArticleCarousel />
-                <ArticleCarousel />
-                <ArticleCarousel />
-                <ArticleCarousel />
-              </Swiper>
-            </View>
-          </View>
-
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.titleText}>Products</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
-                <Text style={styles.linkText}>{"See all>>"}</Text>
-              </TouchableOpacity>
+                {loadArticles && <LoadingView size={45} />}
+              </View>
             </View>
 
-            <View style={{ ...styles.sectionContent, ...styles.products }}>
-              {/* <ProductCard link={() => navigation.navigate('ProductDetail')} />
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.titleText}>Products</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
+                  <Text style={styles.linkText}>{"See all>>"}</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={{ ...styles.sectionContent, ...styles.products }}>
+                {/* <ProductCard link={() => navigation.navigate('ProductDetail')} />
               <ProductCard link={() => navigation.navigate('ProductDetail')} />
               <ProductCard link={() => navigation.navigate('ProductDetail')} />
               <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
 
-              {isLoading && <LoadingView size={30} />}
+                {isLoading && <LoadingView size={45} />}
+              </View>
+
             </View>
 
-          </View>
 
-
-          {/*
+            {/*
         <View style={styles.footer}>
           <View style={styles.footerOneView}>
 
@@ -549,8 +586,8 @@ const HomeScreen = ({ navigation }) => {
           </View> 
           </View>
           */}
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );

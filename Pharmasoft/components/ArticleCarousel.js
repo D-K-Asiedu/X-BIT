@@ -3,47 +3,31 @@ import { StyleSheet, TouchableOpacity, ImageBackground, Text } from 'react-nativ
 import { LinearGradient } from 'expo-linear-gradient';
 import { Linking } from 'react-native';
 
-export default class ArticleCarousel extends Component {
-  render() {
-    return (
-
-      <TouchableOpacity 
-        activeOpacity={0.7}
-        onPress={() => {Linking.openURL('https://www.google.com')}}
-        >
-      <ImageBackground 
+const ArticleCarousel = ({title, link, image}) => {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={() => { Linking.openURL(link || 'www.google.com') }}
+    >
+      <ImageBackground
         style={styles.card}
-        source={require('../assets/home-images/go.png')}
+        source={{uri: image}}
         imageStyle={{ borderRadius: 20 }}
       >
         <LinearGradient
-          colors={['#000000dd', '#ff000022', '#000000dd']}
+          colors={['#000000dd', '#00000022', '#000000dd']}
           start={[0, 0]}
           end={[0, 0.7]}
           style={styles.innerCard}
         >
-          <Text style={styles.title}>The best vacation spot in the fucking tropics...</Text>
-          <Text style={styles.desc}>In the 1800s our fucking forefathers wanted to ...</Text>
+          <Text style={styles.title}>{title || 'hello'}</Text>
         </LinearGradient>
       </ImageBackground>
-      </TouchableOpacity>
-      
-      // <View>
-      //   <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
-      // </View>
-
-      // <View>
-      //   <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
-      // </View>
-
-      // <View>
-      //   <Image source={require('../assets/home-icons/article-bg.png')} style={styles.footerFourImage}/>
-      // </View>
-    
-
-    )
-  }
+    </TouchableOpacity>
+  )
 };
+
+export default ArticleCarousel
 
 const styles = StyleSheet.create({
   // footerFourImage:{
@@ -55,29 +39,29 @@ const styles = StyleSheet.create({
   //   marginRight: 10
   //   },
 
-  card:{
+  card: {
     borderRadius: 20,
     margin: 5,
 
     backgroundColor: '#f2f2f2',
     elevation: 1
-    },
-  innerCard:{
+  },
+  innerCard: {
     borderRadius: 20,
     height: 200,
     padding: 20,
     justifyContent: 'flex-end',
   },
-  title:{
+  title: {
     fontWeight: 'bold',
     fontSize: 18,
     color: '#ffffff'
   },
-  desc:{
+  desc: {
     fontSize: 16,
     color: '#f2f2f2'
   }
-    
+
 });
 //npm install react-native-swiper
 

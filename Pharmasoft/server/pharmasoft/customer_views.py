@@ -433,6 +433,7 @@ def forgot_password():
 @app.route("/articles")
 def articles():
     return jsonify(func.get_articles())
+
 @app.route("/change-password", methods=["POST"])
 def change_password():
     cur = mysql.connection.cursor()
