@@ -63,7 +63,7 @@ const CheckoutScreen = ({ navigation, route }) => {
             console.log(data);
             PopupMessage(
                 'Purchase successful',
-                'View order in history page',
+                'View order status in order page',
                 'success',
                 3000,
                 {top: 100},

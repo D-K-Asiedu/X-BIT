@@ -7,11 +7,14 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import Button from '../components/Button'
 import { useAuth } from '../routes/AuthContext'
+import Loading from '../components/Loading'
+import PopupMessage from '../functions/PopupMessage'
 
 
 const ForgotPasswordScreen = ({ navigation }) => {
     const [emailSent, setEmailSent] = useState(false)
     const [verified, setVerified] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [email, setEmail] = useState('')
 
     const colors = useColor()
@@ -19,6 +22,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
     // Send email for code 
     const sendEmail = async (email) => {
+        setIsLoading(true)
         const data = { email: email }
         setEmail(email)
         const res = await fetch(`${server}/forgot-password`, {
@@ -31,17 +35,43 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
         try {
             const emailSentDetails = await res.json()
-            console.log(await emailSentDetails.msg);
-            setEmailSent(true)
-            // authenticate('login', { ...user, msg: await verifyDetails.msg })
+            const message = emailSentDetails.msg
+            console.log(await emailSentDetails);
+
+            const errMsg = "Account does not exist"
+            const sent = message != errMsg
+
+            PopupMessage(
+                sent ? 'Email sent' : 'Email not sent',
+                message,
+                sent ? 'success' : 'danger',
+                2000,
+                {},
+                {},
+                {}
+            )
+
+            sent && setEmailSent(true)
+            setIsLoading(false)
         }
         catch (e) {
             console.log(e);
+            PopupMessage(
+                'Email not sent',
+                'Unknown error',
+                'danger',
+                1500,
+                {},
+                {},
+                {}
+            )
+            setIsLoading(false)
         }
     }
 
     // Verify email
     const verifyEmail = async (code) => {
+        setIsLoading(true)
         const data = { action: "verify", email: email, code: parseInt(code) }
         const res = await fetch(`${server}/verify-email`, {
             method: 'POST',
@@ -53,17 +83,42 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
         try {
             const verifyDetails = await res.json()
-            console.log(await verifyDetails.msg);
-            setVerified(true)
+            console.log(await verifyDetails);
+            const verified = await verifyDetails.verified
+            const message = await verifyDetails.msg
+
+            PopupMessage(
+                `Verification ${verified ? '': 'not '}successful`,
+                message,
+                verified ? 'success' : 'danger',
+                1500,
+                {},
+                {},
+                {}
+            )
+
+            verified && setVerified(true)
         }
         catch (e) {
             console.log(e);
+            PopupMessage(
+                'Verification failed',
+                'Unknown error',
+                'danger',
+                1500,
+                {},
+                {},
+                {}
+            )
+            setIsLoading(false)
         }
 
+        setIsLoading(false)
     }
 
     // Update password
     const updatePassword = async (update) => {
+        setIsLoading(true)
         const res = await fetch(`${server}/change-password`, {
             method: 'POST',
             headers: {
@@ -74,13 +129,39 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
         try{
             const updateMsg = await res.json()
-            console.log(updateMsg.msg);
+            console.log(updateMsg);
+
+            const trueMsg = "password changed successfully"
+            const message = await updateMsg.msg
+            const changed = trueMsg == message
+
+            PopupMessage(
+                `Password ${changed ? '': 'couldn\'t be '}changed`,
+                message,
+                changed ? 'success' : 'danger',
+                1500,
+                {},
+                {},
+                {}
+            )
     
-            navigation.navigate('Login') 
+            changed && navigation.navigate('Login') 
         }
         catch(e){
             console.log(e);
+            PopupMessage(
+                'Password not changed',
+                'Unknown error',
+                'danger',
+                1500,
+                {},
+                {},
+                {}
+            )
+            setIsLoading(false)
+
         }
+        setIsLoading(true)
     }
     
 
@@ -148,6 +229,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
                                 <TextInput
                                     underlineColorAndroid="transparent"
                                     autoCompleteType="email"
+                                    keyboardType="email-address"
                                     style={{ ...styles.editInput, marginTop: 5, backgroundColor: props.touched.email && props.errors.email ? '#ff000033' : '#d4d4d466' }}
                                     onChangeText={props.handleChange('email')}
                                     value={props.values.email}
@@ -184,6 +266,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
                                     <TextInput
                                         underlineColorAndroid="transparent"
                                         autoCompleteType="off"
+                                        keyboardType="numeric"
                                         style={{ ...styles.editInput, marginTop: 5, }}
                                         onChangeText={props.handleChange('code')}
                                         value={props.values.code}
@@ -275,6 +358,8 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
                 }
             </View>
+
+            <Loading loading={isLoading} setLoading={() => setIsLoading(false)} />
         </View>
 
     )

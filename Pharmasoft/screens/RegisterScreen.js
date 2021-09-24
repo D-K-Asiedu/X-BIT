@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  Image, 
-  TouchableOpacity, 
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
   View,
   ScrollView,
-  Keyboard 
+  Keyboard
 } from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
@@ -33,7 +33,7 @@ const registerSchema = yup.object({
     .email()
     .required(),
   phone: yup
-  // Update later motherfucker
+    // Update later motherfucker
     .string()
     .min(10)
     .max(14)
@@ -49,7 +49,7 @@ const registerSchema = yup.object({
     .oneOf([yup.ref('password'), null], 'Passwords must match'),
 })
 
-export default function RegisterScreen({navigation}) {
+export default function RegisterScreen({ navigation }) {
   const [listDisplay, setListDisplay] = useState(false)
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
@@ -70,8 +70,8 @@ export default function RegisterScreen({navigation}) {
   //     case 'pink':
   //       setMainColour(globalColours.mainCol3)
   //       break;
-  
-    
+
+
   //     default:
   //       break;
   //   }
@@ -81,6 +81,7 @@ export default function RegisterScreen({navigation}) {
   const server = useAuth().server
 
   const registerAccount = async (user) => {
+    setIsLoading(true)
     const res = await fetch(`${server}/register`, {
       method: 'POST',
       headers: {
@@ -89,27 +90,40 @@ export default function RegisterScreen({navigation}) {
       body: JSON.stringify(user),
     })
 
-    try{
+    try {
       const accReg = await res.json()
       console.log(accReg);
       // await accReg.registration && authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)
-      await accReg.registration && navigation.navigate('VerifyEmail', {email:user.email, password:user.password} )
 
-      
-      !accReg.registration && PopupMessage(
-        'Registration failed',
-        await accReg.msg,
+      const registered = await accReg.registration
+      const message = await accReg.msg
+
+      PopupMessage(
+        registered? 'Registration successful' : 'User already exists',
+        message,
+        registered? 'success' : 'danger',
+        1500,
+        {},
+        {},
+        {}
+      )
+
+      registered && navigation.navigate('VerifyEmail', { email: user.email, password: user.password })
+    } 
+    catch (e) {
+      console.log(e);
+      PopupMessage(
+        `Registration failed`,
+        'Error caused by unknowns',
         'danger',
         1500,
         {},
         {},
         {}
-    )
-    !accReg.registration && setIsLoading(false)
-    } catch(e){
-      console.log(e);  
+      )
     }
 
+    setIsLoading(false)
   }
 
 
@@ -122,77 +136,76 @@ export default function RegisterScreen({navigation}) {
   }, [])
 
   return (
-    <View style={{...globalStyles.container, backgroundColor:colors.mainColor}}>
+    <View style={{ ...globalStyles.container, backgroundColor: colors.mainColor }}>
 
 
       <View style={loginRegStyles.imgBox}>
-         {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{...loginRegStyles.image, width: '90%', height: '75%'}} />}
+        {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{ ...loginRegStyles.image, width: '90%', height: '75%' }} />}
       </View>
 
-      <View style={{...loginRegStyles.content, backgroundColor: colors.mainBgColor}}>
-          <Text style={{...loginRegStyles.h2, color: colors.tetColor1}}>Create an account</Text>
-        
-        <ScrollView style={{...loginRegStyles.contentCard, backgroundColor: colors.secBgColor,}}>
+      <View style={{ ...loginRegStyles.content, backgroundColor: colors.mainBgColor }}>
+        <Text style={{ ...loginRegStyles.h2, color: colors.tetColor1 }}>Create an account</Text>
+
+        <ScrollView style={{ ...loginRegStyles.contentCard, backgroundColor: colors.secBgColor, }}>
           <Formik
             initialValues={{ name: '', email: '', phone: '', password: '', confirm_password: '' }}
             validationSchema={registerSchema}
             onSubmit={values => {
-              setIsLoading(true)
               console.log(values)
               registerAccount(values)
             }}
           >
             {props => (
               <>
-                <InputField 
-                  title="Name" 
+                <InputField
+                  title="Name"
                   focusHandler={() => setListDisplay(true)}
                   autoCompleteType='name'
-                  onChangeText={props.handleChange('name')} 
+                  onChangeText={props.handleChange('name')}
                   value={props.values.name}
-                  errorMsg = {props.touched.name && props.errors.name}
-                  onBlur={props.handleBlur('name')} 
+                  errorMsg={props.touched.name && props.errors.name}
+                  onBlur={props.handleBlur('name')}
                 />
-                <InputField 
-                  title="E-mail" 
-                  focusHandler={() => setListDisplay(true)} 
+                <InputField
+                  title="E-mail"
+                  focusHandler={() => setListDisplay(true)}
                   type='email-address'
                   autoCompleteType='email'
-                  onChangeText={props.handleChange('email')} 
-                  value={props.values.email} 
-                  errorMsg = {props.touched.email && props.errors.email}
+                  onChangeText={props.handleChange('email')}
+                  value={props.values.email}
+                  errorMsg={props.touched.email && props.errors.email}
                   onBlur={props.handleBlur('email')}
 
                 />
                 {listDisplay && <>
-                  <InputField 
-                    title="Phone number" 
+                  <InputField
+                    title="Phone number"
                     type='phone-pad'
                     autoCompleteType='tel'
-                    onChangeText={props.handleChange('phone')} 
+                    onChangeText={props.handleChange('phone')}
                     value={props.values.phone}
-                    errorMsg = {props.touched.phone && props.errors.phone}
+                    errorMsg={props.touched.phone && props.errors.phone}
                     onBlur={props.handleBlur('phone')}
-     
+
                   />
-                  <InputField 
-                    title="Password" 
-                    secure 
-                    onChangeText={props.handleChange('password')} 
-                    value={props.values.password}
-                    errorMsg = {props.touched.password && props.errors.password}
-                    onBlur={props.handleBlur('password')}
-    
-                  />
-                  <InputField 
-                    title="Confirm password" 
-                    placeHolder="Confirm password" 
+                  <InputField
+                    title="Password"
                     secure
-                    onChangeText={props.handleChange('confirm_password')} 
-                    value={props.values.confirm_password}   
-                    errorMsg = {props.touched.confirm_password && props.errors.confirm_password}
+                    onChangeText={props.handleChange('password')}
+                    value={props.values.password}
+                    errorMsg={props.touched.password && props.errors.password}
+                    onBlur={props.handleBlur('password')}
+
+                  />
+                  <InputField
+                    title="Confirm password"
+                    placeHolder="Confirm password"
+                    secure
+                    onChangeText={props.handleChange('confirm_password')}
+                    value={props.values.confirm_password}
+                    errorMsg={props.touched.confirm_password && props.errors.confirm_password}
                     onBlur={props.handleBlur('confirm_password')}
-  
+
                   />
                 </>}
                 <Button
@@ -214,26 +227,26 @@ export default function RegisterScreen({navigation}) {
             image="google"
             style={{marginTop: 15,}}
            /> */}
-          
+
           <View style={loginRegStyles.bottomBox}>
-            <Text style={{...loginRegStyles.bottomText, color: colors.mainTextColor}}>Already have an account, </Text>
+            <Text style={{ ...loginRegStyles.bottomText, color: colors.mainTextColor }}>Already have an account, </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={{...loginRegStyles.bottomLink, color: colors.constant}}>Login</Text>
+              <Text style={{ ...loginRegStyles.bottomLink, color: colors.constant }}>Login</Text>
             </TouchableOpacity>
           </View>
-          {!imgDisplay && <View style={{height: 100}}></View>}
+          {!imgDisplay && <View style={{ height: 100 }}></View>}
         </ScrollView>
       </View>
 
-      <TouchableOpacity 
-          style={loginRegStyles.skipBtn}
-          onPress={() => {
-            authenticate('skip')
-            Info('Skipped registration', 'Some features will not be available')
-          }}
-          >
-            <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={loginRegStyles.skipBtn}
+        onPress={() => {
+          authenticate('skip')
+          Info('Skipped registration', 'Some features will not be available')
+        }}
+      >
+        <Text style={loginRegStyles.skipText}> {"Skip>>"} </Text>
+      </TouchableOpacity>
 
       <Loading loading={isLoading} setLoading={setIsLoading} />
       <StatusBar style="light" translucent={true} />

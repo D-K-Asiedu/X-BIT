@@ -12,6 +12,7 @@ const Loading = ({loading, setLoading, }) => {
             transparent={true}
             animationType='fade'
             onRequestClose={() => setLoading(false)}
+            statusBarTranslucent={true}
         >
             <View style={globalStyles.modalBg}>
                 <View style={{ ...globalStyles.modalBox, backgroundColor: 'transparent' }}>
