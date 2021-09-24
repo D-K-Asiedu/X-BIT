@@ -24,39 +24,49 @@ import ProductCard from '../components/ProductCard';
 import { useTheme, useColor } from '../styles/ThemeContext'
 import LoadingView from '../components/LoadingView';
 import { useAuth } from '../routes/AuthContext';
+import ArticleCard from '../components/ArticleCard';
 
 
-//import { useTheme } from '@react-navigation/native';
-
-
-//<StatusBar backgroundColor='#1BA665' barStyle= { theme.dark ? "light-content" : "dark-content" }/>
 const HomeScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [loadArticles, setLoadArticles] = useState(false)
   const [articles, setArticles] = useState([])
+  const [products, setProducts] = useState([])
+
 
   useEffect(() => {
     setIsLoading(true)
+
+    const tempFunc = async () => {
+      const products = await fetchProducts()
+
+      console.log(products);
+
+      setProducts(products)
+    }
+
+    tempFunc()
+    setTimeout(() => { setIsLoading(false) }, 1000)
+  }, [])
+
+  useEffect(() => {
     setLoadArticles(true)
 
     const tempFunc = async () => {
       const tempArr = await fetchArticles()
       console.log(tempArr.slice(0, 4));
+
       setArticles(tempArr.slice(0, 4))
     }
 
     tempFunc()
-    setTimeout(() => { setLoadArticles(false) }, 2000)
+    setTimeout(() => { setLoadArticles(false) }, 1000)
   }, [])
+
 
   const colors = useColor();
   const theme = useTheme();
   const server = useAuth().server
-
-  // const colors = {
-  //   mainColor: '#1ba665',
-  //   mainBgColor: '#f2f2f2'
-  // }
 
   // Fetch articles
   const fetchArticles = async () => {
@@ -68,6 +78,25 @@ const HomeScreen = ({ navigation }) => {
 
     // console.log(data);
     return data
+  }
+
+  // Fetch products
+  const fetchProducts = async () => {
+    const res = await fetch(`${server}/products`, {
+      method: 'GET',
+    })
+
+    try {
+      const data = await res.json()
+      console.log(await data)
+      await data && setTimeout(() => setIsLoading(false), 100)
+      return data
+    }
+    catch (e) {
+      console.log(e);
+      setTimeout(() => setIsLoading(false), 100)
+      return []
+    }
   }
 
   // Random items generator
@@ -95,11 +124,6 @@ const HomeScreen = ({ navigation }) => {
     // console.log(arrOut);
     return arrOut
   }
-
-  // useEffect(() => {
-  //   tempValue = randomGen(firstAid, 4)
-  //   console.log(tempValue);
-  // }, [])
 
   const LinkCard = ({ title, image, color, link }) => {
     return (
@@ -362,17 +386,6 @@ const HomeScreen = ({ navigation }) => {
               </View>
 
               <View style={{ ...styles.sectionContent, justifyContent: 'space-between' }}>
-                {/* <LinkCard title="Poison" image="poison" />
-                <LinkCard title="Bruises" image="plaster" />
-                <LinkCard title="Burns" image="fire" />
-                <LinkCard title="Asthma" image="lung" /> */}
-
-                {/* <FlatList
-                  data = {randomGen(firstAid, 4)}
-                  renderItem = {({item}) => (
-                    <LinkCard title={item.title} image={item.image} color={globalColours.firstAid[item.image]} />
-                  )} 
-                /> */}
 
                 {randomGen(firstAid, 4).map((item) => (
                   <LinkCard
@@ -403,19 +416,14 @@ const HomeScreen = ({ navigation }) => {
                       { width: 8, height: 8, backgroundColor: `${colors.constant}66`, borderRadius: 5, }
                     }
                   >
-                    {
-                    articles.map((item) => (
-                      <ArticleCarousel />
+                    {articles.map((item, index) => (
+                      <ArticleCarousel
+                        key={index}
+                        text={item.title}
+                        image={item.image}
+                        link={item.link}
+                      />
                     ))}
-
-
-
-                    {/* <ArticleCarousel title={articles[0].title} link={articles[0].link} image={articles[0].image} />
-                    <ArticleCarousel title={articles[1].title} link={articles[1].link} image={articles[1].image} />
-                    <ArticleCarousel title={articles[2].title} link={articles[2].link} image={articles[2].image} />
-                    <ArticleCarousel title={articles[3].title} link={articles[3].link} image={articles[0].image} /> */}
-
-
                   </Swiper>
                 }
                 {loadArticles && <LoadingView size={45} />}
@@ -431,161 +439,18 @@ const HomeScreen = ({ navigation }) => {
               </View>
 
               <View style={{ ...styles.sectionContent, ...styles.products }}>
-                {/* <ProductCard link={() => navigation.navigate('ProductDetail')} />
-              <ProductCard link={() => navigation.navigate('ProductDetail')} />
-              <ProductCard link={() => navigation.navigate('ProductDetail')} />
-              <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
 
                 {isLoading && <LoadingView size={45} />}
+                {!isLoading &&
+                  <View>
+                    <Text>No products available</Text>
+                  </View>
+                }
               </View>
 
             </View>
 
 
-            {/*
-        <View style={styles.footer}>
-          <View style={styles.footerOneView}>
-
-            <Text style={styles.boldLeftText}>First aid</Text>
-            <Text style={styles.smallRightText}>{"See All >>"}</Text>
-          </View>
-
-          <View style={styles.footerTwoView}>
-
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../assets/home-icons/poisons.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}>Poisoning</Text>
-            </View>
-
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../assets/home-icons/bleeding.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}>Bleeding</Text>
-            </View>
-
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../assets/home-icons/heart-flat.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}>Resusitation</Text>
-            </View>
-
-            <View style={styles.footerTwoSubView}>
-              <View style={styles.smallBoxView}>
-                <Image source={require('../assets/home-icons/lung.png')} style={styles.smallBoxImage}/>
-              </View>
-              <Text style={styles.smallBoxText}>Asthma</Text>
-            </View>
-
-          </View>
-
-
-          <View style={styles.footerThreeView}>
-
-            <Text style={styles.boldLeftText}>Articles</Text>
-
-          </View>
-
-          <View style={styles.footerFourView}>
-          <ArticleCarousel />
-          </View>
-
-
-
-
-          <View style={styles.footerFiveView}>
-
-            <Text style={styles.boldLeftText} >Products</Text>
-            <Text style={styles.smallRightText}>{"See All >>"}</Text>
-          </View>
-
-
-          <View style={styles.footerSixView}>
-
-          <View style={styles.medicineView}>
-          <View style={styles.secondMedicineView}>
-          <Image source={require('../assets/home-icons/fluxamox.png')} style={styles.medicineImage}/>
-          <Text style={styles.medicineTextOne}>Fluxamox 250</Text>
-          <Text style={styles.medicineTextTwo}>Small Description here</Text>
-            <View  style={styles.button}>          
-              <TouchableOpacity onPress={()=>navigation.navigate('')}>
-              <LinearGradient
-                colors={['#1BA665', '#1BA665']}
-                style={styles.buttonIn}
-              >
-              <Text style={styles.buttonText}>Add To Cart</Text>
-              </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          </View>
-          </View>
-
-
-          <View style={styles.medicineView}>
-          <View style={styles.secondMedicineView}>
-          <Image source={require('../assets/home-icons/vitamina.png')} style={styles.medicineImage}/>
-          <Text style={styles.medicineTextOne}>Vitamin A</Text>
-          <Text style={styles.medicineTextTwo}>Small Description here</Text>
-            <View  style={styles.button}> 
-              <TouchableOpacity onPress={()=>navigation.navigate('')}>
-              <LinearGradient
-                colors={['#1BA665', '#1BA665']}
-                style={styles.buttonIn}
-              >
-              <Text style={styles.buttonText}>Add To Cart</Text>
-              </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          </View> 
-          </View>
-          </View>
-
-          <View style={styles.footerSixView}> 
-
-          <View style={styles.medicineView}>
-          <View style={styles.secondMedicineView}>
-          <Image source={require('../assets/home-icons/fluxamox.png')} style={styles.medicineImage}/>
-          <Text style={styles.medicineTextOne}>Fluxamox 250</Text>
-          <Text style={styles.medicineTextTwo}>Small Description here</Text>
-            <View  style={styles.button}> 
-              <TouchableOpacity onPress={()=>navigation.navigate('')}>
-              <LinearGradient
-                colors={['#1BA665', '#1BA665']}
-                style={styles.buttonIn}
-              >
-              <Text style={styles.buttonText}>Add To Cart</Text>
-              </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          </View> 
-          </View>
-
-          <View style={styles.medicineView}>
-          <View style={styles.secondMedicineView}>
-          <Image source={require('../assets/home-icons/vitamina.png')} style={styles.medicineImage}/>
-          <Text style={styles.medicineTextOne}>Vitamin A</Text>
-          <Text style={styles.medicineTextTwo}>Small Description here</Text>
-            <View style={styles.button}> 
-              <TouchableOpacity onPress={()=>navigation.navigate('')}>
-              <LinearGradient
-                colors={['#1BA665', '#1BA665']}
-                style={styles.buttonIn}
-              >
-              <Text style={styles.buttonText}>Add To Cart</Text>
-              </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          </View> 
-          </View> 
-
- 
-
-          </View> 
-          </View>
-          */}
           </View>
         </ScrollView>
       </View>

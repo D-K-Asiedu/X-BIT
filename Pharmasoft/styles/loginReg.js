@@ -1,5 +1,8 @@
 import { StyleSheet } from "react-native"
 import { globalColours } from "./global"
+import { Dimensions } from "react-native"
+
+const {width, height} = Dimensions.get('window')
 
 export const loginRegStyles = StyleSheet.create({
     container: {
@@ -13,8 +16,9 @@ export const loginRegStyles = StyleSheet.create({
         flex: 1,
       },
       image:{
-        width: '75%',
-        height: '75%',
+        width: width/1.3,
+        height: width/1.3,
+        
       },
       skipBtn:{
         position: 'absolute',

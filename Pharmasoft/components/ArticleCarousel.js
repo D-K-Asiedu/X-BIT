@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, ImageBackground, Text } from 'react-native';
+import { 
+  StyleSheet, 
+  TouchableOpacity, 
+  ImageBackground, 
+  Text,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Linking } from 'react-native';
 
-const ArticleCarousel = ({title, link, image}) => {
+const ArticleCarousel = ({ text, link, image }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => { Linking.openURL(link || 'www.google.com') }}
+      onPress={() => Linking.openURL(link || 'www.google.com')}
     >
       <ImageBackground
         style={styles.card}
-        source={{uri: image}}
+        source={{ uri: image }}
         imageStyle={{ borderRadius: 20 }}
       >
         <LinearGradient
-          colors={['#000000dd', '#00000022', '#000000dd']}
+          colors={['#000000dd', '#00000033', '#000000dd']}
           start={[0, 0]}
           end={[0, 0.7]}
           style={styles.innerCard}
         >
-          <Text style={styles.title}>{title || 'hello'}</Text>
+          <Text style={styles.title}>{text}</Text>
         </LinearGradient>
       </ImageBackground>
     </TouchableOpacity>

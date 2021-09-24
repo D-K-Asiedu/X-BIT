@@ -140,7 +140,7 @@ export default function RegisterScreen({ navigation }) {
 
 
       <View style={loginRegStyles.imgBox}>
-        {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{ ...loginRegStyles.image, width: '90%', height: '75%' }} />}
+        {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{ ...loginRegStyles.image,}} />}
       </View>
 
       <View style={{ ...loginRegStyles.content, backgroundColor: colors.mainBgColor }}>
