@@ -430,11 +430,9 @@ def forgot_password():
 
     return jsonify({"msg": "verification code has been sent to email"})
 
-<<<<<<< HEAD
 @app.route("/articles")
 def articles():
     return jsonify(func.get_articles())
-=======
 @app.route("/change-password", methods=["POST"])
 def change_password():
     cur = mysql.connection.cursor()
@@ -448,4 +446,3 @@ def change_password():
     cur.close()
 
     return jsonify({"msg": "password changed successfully"})
->>>>>>> 60447879e3505ba8350cbb03823143b140cbbe9a
