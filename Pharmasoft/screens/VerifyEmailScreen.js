@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { globalStyles, globalColours } from '../styles/global'
@@ -6,12 +6,134 @@ import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import Button from '../components/Button'
+import { useAuth, useUpdateAuth } from '../routes/AuthContext'
+import Loading from '../components/Loading'
+import PopupMessage from '../functions/PopupMessage'
+import { showMessage } from 'react-native-flash-message'
 
-
-
-const ForgotPasswordScreen = ({ navigation }) => {
+const VerifyEmailScreen = ({ navigation, route }) => {
+    const [isLoading, setIsLoading] = useState(false)
 
     const colors = useColor()
+    const user = route.params
+    const server = useAuth().server
+    const authenticate = useUpdateAuth()
+
+    // Verify email
+    const verifyEmail = async (code) => {
+        setIsLoading(true)
+        const data = { action: "activate", email: user.email, code: parseInt(code) }
+        const res = await fetch(`${server}/verify-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+
+        try {
+            const verifyDetails = await res.json()
+            console.log(await verifyDetails);
+
+            const message = await verifyDetails.msg
+            const verified = await verifyDetails.verified
+
+            PopupMessage(
+                `Verification ${verified ? '': 'not '}successful`,
+                message,
+                verified ? 'success' : 'danger',
+                1500,
+                {},
+                {},
+                {}
+            )
+            
+            verified && await login(user)
+        }
+        catch (e) {
+            console.log(e);
+            PopupMessage(
+                'Verification failed',
+                'Unknown error',
+                'danger',
+                1500,
+                {},
+                {},
+                {}
+            )
+            setIsLoading(false)
+        }
+        setIsLoading(false)
+
+    }
+
+    // login
+    const login = async (data) => {
+        setIsLoading(true)
+        const res = await fetch(`${server}/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+    
+        try {
+          const userLogin = await res.json()
+          console.log(userLogin);
+          const loggedIn = await userLogin["login"]
+    
+    
+          // Login succesful alert
+          showMessage({
+            message: loggedIn ? "Login successful" : "Login Failed",
+            description: data.msg || userLogin["msg"],
+            type: loggedIn ? "success" : "danger",
+            floating: true,
+            icon: 'auto',
+            duration: 2000,
+            position: {
+              top: 30,
+            },
+            titleStyle: {
+              fontSize: 16,
+            },
+            style: {
+              borderWidth: 1,
+              borderColor: '#ffffff33'
+            }
+          });
+    
+          loggedIn && authenticate('login')
+          // console.log(await fetchUser())
+          loggedIn && authenticate('user')
+    
+        } catch (e) {
+          console.log(e);
+    
+          // Login unsuccessful alert
+          showMessage({
+            message: "Login failed",
+            description: "Invalid username or password",
+            type: "danger",
+            floating: true,
+            icon: 'auto',
+            duration: 1500,
+            position: {
+              top: 30,
+            },
+            titleStyle: {
+              fontSize: 16,
+            },
+            style: {
+            }
+          });
+    
+        }
+        setIsLoading(false)
+    
+      }
+    
 
     //Styles
     const styles = StyleSheet.create({
@@ -56,30 +178,47 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
                 <View style={{ paddingVertical: 50, }}>
                     <Text style={styles.mainText}>Enter the verification code sent to your e-mail</Text>
-                    <TextInput
-                        underlineColorAndroid="transparent"
-                        autoCompleteType="off"
-                        style={{ ...styles.editInput, marginTop: 5, }}
-                        // onChangeText={props.handleChange('email')}
-                        // value={props.values.email}
-                        // onBlur={props.handleBlur('email')}
-                        placeholder={'code'}
-                    />
+                    <Formik
+                        initialValues={{ code: '' }}
+                        // validationSchema={registerSchema}
+                        onSubmit={values => {
+                            //   setIsLoading(true)
+                            console.log(values)
+                            verifyEmail(values.code)
+                        }}
+                    >
+                        {props => (
+                            <>
+                                <TextInput
+                                    underlineColorAndroid="transparent"
+                                    autoCompleteType="off"
+                                    keyboardType="numeric"
+                                    style={{ ...styles.editInput, marginTop: 5, }}
+                                    onChangeText={props.handleChange('code')}
+                                    value={props.values.code}
+                                    onBlur={props.handleBlur('code')}
+                                    placeholder={'code'}
+                                />
 
-                    <Button
-                        title="Verify"
-                        color='#ffffff'
-                        bgColor={colors.constant}
-                        style={{ width: 100, alignSelf: 'flex-end', marginTop: 20, }}
-                    // onPress={props.handleSubmit}
-                    />
+                                <Button
+                                    title="Verify"
+                                    color='#ffffff'
+                                    bgColor={colors.constant}
+                                    style={{ width: 100, alignSelf: 'flex-end', marginTop: 20, }}
+                                    onPress={props.handleSubmit}
+                                />
+                            </>
+                        )}
+                    </Formik>
                 </View>
 
 
             </View>
+
+            <Loading loading={isLoading} setLoading={() => setIsLoading(false)} />
         </View>
 
     )
 }
 
-export default ForgotPasswordScreen
+export default VerifyEmailScreen

@@ -10,6 +10,7 @@ import {
 } from '@expo/vector-icons';
 import { globalColours } from '../styles/global';
 import { useColor, useTheme } from '../styles/ThemeContext';
+import LoadingView from './LoadingView';
 
 const icons = {
     "email": <Entypo name="email" size={15} color={globalColours.lightGrey} />,
@@ -116,7 +117,8 @@ const ProfileInfo = (props) => {
                     {props.profile || `Add ${props.title.toLowerCase()}`}
                 </Text>
                 */}
-                <Text style={{ ...styles.profile, color: colors.mainTextColor }}>{props.profile}</Text>
+                {!props.loading && <Text style={{ ...styles.profile, color: colors.mainTextColor }}>{props.profile}</Text>}
+                {props.loading && <LoadingView size={20} />}
             </View>
             {props.editProfile &&
                 <TouchableOpacity onPress={props.editProfile}>

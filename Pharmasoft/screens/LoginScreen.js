@@ -21,18 +21,8 @@ import { useTheme, useColor } from '../styles/ThemeContext';
 import { useAuth } from '../routes/AuthContext';
 import Loading from '../components/Loading';
 import Info from '../functions/Info';
+import { showMessage } from 'react-native-flash-message';
 
-
-const loginSchema = yup.object({
-  email: yup
-    .string()
-    .email()
-    .required(),
-  password: yup
-    .string()
-    .min(4)
-    .required()
-})
 
 export default function LoginScreen({ navigation }) {
   const authenticate = useUpdateAuth()
@@ -41,9 +31,23 @@ export default function LoginScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false)
   const [empty, setEmpty] = useState(false)
 
+  // Validation schema
+  const loginSchema = yup.object({
+    email: yup
+      .string()
+      .email()
+      .required(),
+    password: yup
+      .string()
+      .min(4)
+      .required()
+  })
+  
+
   const theme = useTheme()
   const colors = useColor()
   const isLoggedIn = useAuth().isLoggedIn
+  const server = useAuth().server
 
   // useEffect(() => {
   //   switch (theme.colortheme) {
@@ -71,6 +75,74 @@ export default function LoginScreen({ navigation }) {
     return () => isMounted = false
   }, [])
 
+  // Login
+  const login = async (data) => {
+    setIsLoading(true)
+    const res = await fetch(`${server}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    try {
+      const userLogin = await res.json()
+      console.log(userLogin);
+      const loggedIn = await userLogin["login"]
+
+
+      // Login succesful alert
+      showMessage({
+        message: loggedIn ? "Login successful" : "Login Failed",
+        description: data.msg || userLogin["msg"],
+        type: loggedIn ? "success" : "danger",
+        floating: true,
+        icon: 'auto',
+        duration: 2000,
+        position: {
+          top: 30,
+        },
+        titleStyle: {
+          fontSize: 16,
+        },
+        style: {
+          borderWidth: 1,
+          borderColor: '#ffffff33'
+        }
+      });
+
+      loggedIn && authenticate('login')
+      // console.log(await fetchUser())
+      loggedIn && authenticate('user')
+
+    } catch (e) {
+      console.log(e);
+
+      // Login unsuccessful alert
+      showMessage({
+        message: "Login failed",
+        description: "Invalid username or password",
+        type: "danger",
+        floating: true,
+        icon: 'auto',
+        duration: 1500,
+        position: {
+          top: 30,
+        },
+        titleStyle: {
+          fontSize: 16,
+        },
+        style: {
+        }
+      });
+
+    }
+    setIsLoading(false)
+
+  }
+
+
   return (
     <View style={{ ...globalStyles.container, backgroundColor: colors.mainColor }}>
 
@@ -86,13 +158,12 @@ export default function LoginScreen({ navigation }) {
             initialValues={{ email: '', password: '' }}
             validationSchema={loginSchema}
             onSubmit={values => {
-              const tempFunc = async() => {
+              const tempFunc = async () => {
                 setIsLoading(true)
                 // console.log(`loading is ${isLoading}`);
                 console.log(values)
-                console.log(await authenticate('login', values))
-                // setIsLoading(false)  
-              } 
+                await login(values)
+              }
 
               tempFunc()
             }}
@@ -119,13 +190,14 @@ export default function LoginScreen({ navigation }) {
                 />
 
                 <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-                  <Text style={{ 
-                    ...loginRegStyles.bottomLink, 
-                    color: colors.constant, 
+                  <Text style={{
+                    ...loginRegStyles.bottomLink,
+                    color: colors.constant,
                     alignSelf: 'flex-end',
-                    // fontWeight: 'normal',
-                    fontSize: 16, 
-                    }}>Forgot password?</Text>
+                    fontWeight: 'normal',
+                    fontSize: 16,
+                    marginBottom: 10
+                  }}>Forgot password?</Text>
                 </TouchableOpacity>
 
                 <Button

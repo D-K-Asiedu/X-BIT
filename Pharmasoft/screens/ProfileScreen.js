@@ -29,6 +29,7 @@ const ProfileScreen = ({ navigation }) => {
     const [infoTitle, setInfoTitle] = useState('')
     const [infoValue, setInfoValue] = useState('')
     const [password, setPassword] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     // const [infoValueRef, setInfoValueRef] = useState('')
     // const [user, setUser] = useState({
     //     name: 'John Doe',
@@ -85,6 +86,11 @@ const ProfileScreen = ({ navigation }) => {
         setContactModalOpen(true)
     }
 
+    // stop loading whwn user changes
+    useEffect(() => {
+        setIsLoading(false)
+    }, [userInfo])
+
     const saveEdit = () => {
         // console.log(infoTitle);
         // console.log(infoValue);
@@ -107,6 +113,7 @@ const ProfileScreen = ({ navigation }) => {
 
     // Update user info
     const updateUser = async (update) => {
+        update.column == 'contact' && setIsLoading(true)
         const res = await fetch(`${server}/update-profile`, {
             method: 'POST',
             headers: {
@@ -119,6 +126,7 @@ const ProfileScreen = ({ navigation }) => {
         console.log(updateMsg.msg);
 
         authenticate('user')
+        // setIsLoading(false)
     }
 
 
@@ -225,7 +233,7 @@ const ProfileScreen = ({ navigation }) => {
                 <View>
                     <ProfileInfo icon="name" title="Name" profile={userInfo.name} />
                     <ProfileInfo icon="email" title="Email" profile={userInfo.email} />
-                    <ProfileInfo icon="phone" title="Phone number" profile={userInfo['contact']} editProfile={editContact} />
+                    <ProfileInfo icon="phone" title="Phone number" profile={userInfo['contact']} editProfile={editContact} loading={isLoading} />
                     {/* <ProfileInfo icon="date" title="Date of birth" profile={userInfo['date of birth']} editProfile={editProfile} /> */}
                     {/* <ProfileInfo icon="allergies" title="Allergies" profile={userInfo.allergies} editProfile={editProfile} /> */}
                     {/* <ProfileInfo icon="password" title="Password" profile="**********" editProfile={editProfile} /> */}

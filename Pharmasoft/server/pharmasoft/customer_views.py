@@ -154,6 +154,7 @@ def profile():
         return jsonify({"msg": "User not logged in"})
 
 @app.route("/validate-password", methods=["POST"])
+@login_required
 def validate_password():
     cur = mysql.connection.cursor()
     data = request.json
@@ -169,6 +170,7 @@ def validate_password():
         return jsonify({"validate": False})
 
 @app.route("/update-profile", methods=["POST"])
+@login_required
 def update_profile():
     cur = mysql.connection.cursor()
     if request.method == "POST":
@@ -428,6 +430,22 @@ def forgot_password():
 
     return jsonify({"msg": "verification code has been sent to email"})
 
+<<<<<<< HEAD
 @app.route("/articles")
 def articles():
     return jsonify(func.get_articles())
+=======
+@app.route("/change-password", methods=["POST"])
+def change_password():
+    cur = mysql.connection.cursor()
+    data = request.json
+    email = data["email"]
+    password = data["password"]
+
+    pw_hash = bcrypt.generate_password_hash(password)
+    cur.execute("UPDATE customer SET password=%s WHERE email=%s", (pw_hash, email, ))
+    mysql.connection.commit()
+    cur.close()
+
+    return jsonify({"msg": "password changed successfully"})
+>>>>>>> 60447879e3505ba8350cbb03823143b140cbbe9a

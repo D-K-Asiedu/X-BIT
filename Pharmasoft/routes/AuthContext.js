@@ -185,7 +185,7 @@ export const AuthProvider = ({ children }) => {
                 break;
 
             case 'login':
-                login(data)
+                setLoggedIn(true)
                 break;
 
             case 'logout':
