@@ -8,9 +8,6 @@ from email.message import EmailMessage
 from datetime import datetime
 from random import randint
 
-import requests
-from bs4 import BeautifulSoup
-
 verification_code = {
     "code": None,
     "time_stamp": None
@@ -159,3 +156,4 @@ def get_articles():
         })
 
     return articles
+

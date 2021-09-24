@@ -5,6 +5,7 @@ from pharmasoft import app, mysql, bcrypt
 from flask import request, session, redirect, url_for, render_template, flash
 
 from pharmasoft.forms import RegistrationForm, LoginForm, Add_Product
+from random import randint
 
 import os
 
@@ -38,7 +39,8 @@ def pharmacy_home():
                 "customer name": customer[1],
                 "customer email": customer[2],
                 "customer contact": customer[3],
-                "id": transaction[0]
+                "id": transaction[0],
+                "random": randint(10000, 99999)
             })
 
 
@@ -48,6 +50,42 @@ def pharmacy_home():
     else:
         flash("You must login", "danger")
         return redirect(url_for("pharmacy_login"))
+
+@app.route("/get-transactions")
+def get_transactions():
+    if "pharmacy" in session:
+        pharmacy = session["pharmacy"]
+        cur = mysql.connection.cursor()
+        
+        transaction_results = cur.execute("SELECT * FROM transaction WHERE pharmacy_id=%s AND completed=False AND canceled=False", (str(pharmacy[0]), ))
+        if transaction_results == 0:
+            transactions = None
+            return render_template("pharmacy/index.html", transactions=transactions)
+        else:
+            transactions = cur.fetchall()
+
+        pharmacy_transaction = []
+        for transaction in transactions:
+            # Product Name
+            cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[3]), ))
+            product = cur.fetchall()[0]
+
+            # Customer
+            cur.execute("SELECT * FROM customer WHERE id=%s", (str(transaction[8]), ))
+            customer = cur.fetchall()[0]
+
+            pharmacy_transaction.append({
+                "product name": product[1],
+                "quantity": transaction[5],
+                "total price": transaction[6],
+                "customer name": customer[1],
+                "customer email": customer[2],
+                "customer contact": customer[3],
+                "id": transaction[0],
+                "random": randint(10000, 99999)
+            })
+
+        return render_template("pharmacy/transaction.html", transactions=pharmacy_transaction)
 
     
 @app.route("/pharmacy/products")
@@ -247,10 +285,14 @@ def delete_product(product_id):
         flash("You must login", "danger")
         return redirect(url_for("pharmacy_login"))
 
-@app.route("/pharmacy/complete-order/<id>")
-def complete_order(id):
+# @app.route("/pharmacy/complete-order/<id>")
+@app.route("/pharmacy/complete-order")
+def complete_order():
     if "pharmacy" in session:
         cur = mysql.connection.cursor()
+
+        data = request.json
+        id = data["id"]
 
         cur.execute("UPDATE transaction SET completed=True WHERE id=%s", (str(id), ))
         mysql.connection.commit()
@@ -266,12 +308,13 @@ def complete_order(id):
 
         func.send_email(customer[2], [customer, product, transaction], "customer", "order-completed")
 
-        return redirect(url_for("pharmacy_home"))
+        # return redirect(url_for("pharmacy_home"))
+        return jsonify({"msg": "Update Complete"})
         
 
-    else:
-        flash("You must login", "danger")
-        return redirect(url_for("pharmacy_login"))
+    # else:
+    #     flash("You must login", "danger")
+    #     return redirect(url_for("pharmacy_login"))
 
 @app.route("/pharmacy/cancel-order/<id>")
 def cancel_order(id):
