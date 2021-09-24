@@ -8,9 +8,6 @@ from email.message import EmailMessage
 from datetime import datetime
 from random import randint
 
-import requests
-from bs4 import BeautifulSoup
-
 verification_code = {
     "code": None,
     "time_stamp": None
@@ -143,20 +140,5 @@ def generate_verification(email):
 
     send_email(email, code, "customer", "verification")
 
-def get_articles():
-    link = "https://www.news-medical.net/"
-    r = requests.get(link)
-    soup = BeautifulSoup(r.text, "lxml")
 
-    section = soup.find("section", {"class": "widget recentcategoryposts clearfix"})
-    article_tags = section.find_all("article")
 
-    articles = []
-    for article in article_tags:
-        articles.append({
-            "title": article.p.text,
-            "link": f"{link}/"+article.a["href"],
-            "image": article.img["src"]
-        })
-
-    return articles

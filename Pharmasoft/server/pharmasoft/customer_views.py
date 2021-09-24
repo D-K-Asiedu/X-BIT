@@ -9,6 +9,9 @@ from flask import jsonify, send_file
 from datetime import datetime
 from random import randint
 
+import requests
+from bs4 import BeautifulSoup
+
 from pharmasoft import func
 
 # @app.route("/", defaults={"path": ""})
@@ -430,10 +433,6 @@ def forgot_password():
 
     return jsonify({"msg": "verification code has been sent to email"})
 
-@app.route("/articles")
-def articles():
-    return jsonify(func.get_articles())
-
 @app.route("/change-password", methods=["POST"])
 def change_password():
     cur = mysql.connection.cursor()
@@ -447,3 +446,41 @@ def change_password():
     cur.close()
 
     return jsonify({"msg": "password changed successfully"})
+
+@app.route("/articles")
+def articles():
+    r = requests.get("https://www.news-medical.net/")
+    soup = BeautifulSoup(r.text, "lxml")
+
+    section = soup.find("section", {"class": "widget recentcategoryposts clearfix"})
+    article_tags = section.find_all("article")
+
+    articles = []
+    for article in article_tags:
+        articles.append({
+            "title": article.p.text,
+            "link": article.a["href"],
+            "image": article.img["src"]
+        })
+    return jsonify(articles)
+
+@app.route("/articles1")
+def articles1():
+    link = "https://www.medicalnewstoday.com"
+    r = requests.get(link)
+    soup = BeautifulSoup(r.text, "lxml")
+
+    div = soup.find("div", {"id": "latest-news"})
+    li_tags = div.find_all("li")
+
+    articles = []
+    for article in li_tags:
+        span = article.find("span")
+        
+        articles.append({
+            "title": article.find_all("a")[1].text,
+            "link": f"{link}"+article.find_all("a")[1]["href"],
+            "image": span.find("lazy-image")["src"]
+        })
+
+    return jsonify(articles)
