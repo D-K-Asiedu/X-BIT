@@ -2,7 +2,7 @@ from email import message
 from math import e
 from flask_login.utils import login_user, logout_user, current_user, login_required
 from pharmasoft import app, mysql, bcrypt
-from flask import render_template, redirect, request, url_for
+from flask import json, render_template, redirect, request, url_for
 from pharmasoft import User
 from flask import jsonify, send_file
 
@@ -428,3 +428,6 @@ def forgot_password():
 
     return jsonify({"msg": "verification code has been sent to email"})
 
+@app.route("/articles")
+def articles():
+    return jsonify(func.get_articles())

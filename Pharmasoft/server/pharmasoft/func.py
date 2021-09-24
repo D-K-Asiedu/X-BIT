@@ -8,6 +8,9 @@ from email.message import EmailMessage
 from datetime import datetime
 from random import randint
 
+import requests
+from bs4 import BeautifulSoup
+
 verification_code = {
     "code": None,
     "time_stamp": None
@@ -61,15 +64,16 @@ def send_email(reciever_email, message, user, action):
             <!DOCTYPE html>
             <html>
             <body>
-            <h1>Order</h1>
-            <h3>{message[0]["product name"]}</h3>
-            <h3>QANTITY: {message[0]["product quantity"]}</h3>
-            <h4>PRICE: {message[0]["total price"]}</h4>
+            <p>You have recieved an order for <b>{message[0]["product name"]}</b>. Click <a href='{url_for('pharmacy_home')}'>Here</a> to complete the order</p>
+            <h3>Order</h3>
+            <p>{message[0]["product name"]}</p>
+            <p>QANTITY: {message[0]["product quantity"]}</p>
+            <p>PRICE: {message[0]["total price"]}</p>
 
-            <h1>Customer</h1>
-            <h3>{message[1][1]}</h3>
-            <h3>Email: {message[1][2]}</h3>
-            <h3>Contact: {message[1][3]}</h3>
+            <h3>Customer</h3>
+            <p>{message[1][1]}</p>
+            <p>Email: {message[1][2]}</p>
+            <p>Contact: {message[1][3]}</p>
             </body>
             </html>
             """, subtype="html")
@@ -138,3 +142,20 @@ def generate_verification(email):
     verification_code["time_stamp"] = time_stamp
 
     send_email(email, code, "customer", "verification")
+
+def get_articles():
+    r = requests.get("https://www.news-medical.net/")
+    soup = BeautifulSoup(r.text, "lxml")
+
+    section = soup.find("section", {"class": "widget recentcategoryposts clearfix"})
+    article_tags = section.find_all("article")
+
+    articles = []
+    for article in article_tags:
+        articles.append({
+            "title": article.p.text,
+            "link": article.a["href"],
+            "image": article.img["src"]
+        })
+
+    return articles
