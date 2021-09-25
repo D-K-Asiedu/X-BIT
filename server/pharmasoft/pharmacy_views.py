@@ -60,7 +60,7 @@ def get_transactions():
         transaction_results = cur.execute("SELECT * FROM transaction WHERE pharmacy_id=%s AND completed=False AND canceled=False", (str(pharmacy[0]), ))
         if transaction_results == 0:
             transactions = None
-            return render_template("pharmacy/index.html", transactions=transactions)
+            return render_template("pharmacy/transaction.html", transactions=transactions)
         else:
             transactions = cur.fetchall()
 
@@ -285,15 +285,10 @@ def delete_product(product_id):
         flash("You must login", "danger")
         return redirect(url_for("pharmacy_login"))
 
-# @app.route("/pharmacy/complete-order/<id>")
-@app.route("/pharmacy/complete-order")
-def complete_order():
+@app.route("/pharmacy/complete-order/<id>")
+def complete_order(id):
     if "pharmacy" in session:
         cur = mysql.connection.cursor()
-
-        data = request.json
-        id = data["id"]
-
         cur.execute("UPDATE transaction SET completed=True WHERE id=%s", (str(id), ))
         mysql.connection.commit()
 
@@ -306,15 +301,17 @@ def complete_order():
         cur.execute("SELECT * FROM product WHERE id=%s", (str(transaction[3]), ))
         product = cur.fetchall()[0]
 
+        quantity_available = product[6] - transaction[5]
+        cur.execute("UPDATE product SET quantity_available=%s WHERE id=%s", (quantity_available ,str(transaction[3]),))
+        mysql.connection.commit()
+
         func.send_email(customer[2], [customer, product, transaction], "customer", "order-completed")
 
-        # return redirect(url_for("pharmacy_home"))
-        return jsonify({"msg": "Update Complete"})
-        
+        return redirect(url_for("pharmacy_home"))        
 
-    # else:
-    #     flash("You must login", "danger")
-    #     return redirect(url_for("pharmacy_login"))
+    else:
+        flash("You must login", "danger")
+        return redirect(url_for("pharmacy_login"))
 
 @app.route("/pharmacy/cancel-order/<id>")
 def cancel_order(id):
@@ -335,8 +332,7 @@ def cancel_order(id):
 
         func.send_email(customer[2], [customer, product, transaction], "customer", "order-canceled")
 
-        return redirect(url_for("pharmacy_home"))
-        
+        return redirect(url_for("pharmacy_home"))        
 
     else:
         flash("You must login", "danger")

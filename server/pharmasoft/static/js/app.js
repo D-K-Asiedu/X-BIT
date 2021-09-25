@@ -7,7 +7,8 @@
 // }
 
 $(document).ready(function () {
-    function update() {
+
+    setInterval(function () {
         req = $.ajax({
             type: "GET",
             url: "/get-transactions",
@@ -18,24 +19,5 @@ $(document).ready(function () {
             $("#transactions").html(data);
             console.log(data)
         });
-    }
-
-    setInterval(update(), 30000);
-
-    $(document).on('click', '#complete', function () {
-        let transaction_id = $(this).attr("transaction_id")
-
-        req = $.ajax({
-            type: "POST",
-            url: "/pharmacy/complete-order",
-            data: {"id": transaction_id},
-        });
-
-        req.done(function (data) {
-            update()
-            console.log(data)
-        })
-    });
-
-
+    }, 5000)
 });

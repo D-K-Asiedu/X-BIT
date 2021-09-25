@@ -54,9 +54,9 @@ const HomeScreen = ({ navigation }) => {
 
     const tempFunc = async () => {
       const tempArr = await fetchArticles()
-      console.log(tempArr.slice(0, 4));
+      console.log(tempArr);
 
-      setArticles(tempArr.slice(0, 4))
+      setArticles(tempArr)
     }
 
     tempFunc()
