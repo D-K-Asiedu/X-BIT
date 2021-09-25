@@ -11,8 +11,6 @@ const ProductCard = ({link, medicine, load}) => {
     const server = useAuth().server
     const isLoggedIn = useAuth().isLoggedIn
 
-    // const medicineImg = medicine.image
-    // const image = false ? require(medicineImg) : require('../assets/home-images/medicine.png')
     const image = require('../assets/home-images/medicine.png')
 
     //Add to cart
@@ -46,9 +44,7 @@ const ProductCard = ({link, medicine, load}) => {
     const styles = StyleSheet.create({
         card:{
             width: '48%',
-            // height: 230,
             padding: 10,
-            // borderColor: '#999999',
             borderRadius: 15,
             marginVertical: 10, 
             backgroundColor: colors.secBgColor,
@@ -93,7 +89,6 @@ const ProductCard = ({link, medicine, load}) => {
             </View>
             <View style={styles.textBox}>
                 <Text style={styles.title}>{medicine.name}</Text>
-                {/* <Text style={styles.desc}>{medicine.description}</Text> */}
                 <Text style={styles.desc}>{`Location : ${medicine.location}`}</Text>
             </View>
             <TouchableOpacity style={styles.btn} onPress={addToCart}>

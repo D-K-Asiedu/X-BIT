@@ -7,7 +7,6 @@ const NavBar = ({active, navigate}) => {
     return (
         <View style={styles.navbar}>
            <TouchableOpacity
-            // activeOpacity={0.5} 
             style={styles.pageBtn}
             onPress = {() => navigate('home')}
             >
@@ -15,7 +14,6 @@ const NavBar = ({active, navigate}) => {
                 {active!='home' && <Text style={styles.miniText}>Home</Text>}
             </TouchableOpacity>
            <TouchableOpacity 
-        //    activeOpacity={0.5} 
            style={styles.pageBtn}
            onPress = {() => navigate('shop')}
            >
@@ -23,7 +21,6 @@ const NavBar = ({active, navigate}) => {
                 {active!='shop' && <Text style={styles.miniText}>Shop</Text>}
             </TouchableOpacity>
            <TouchableOpacity 
-        //    activeOpacity={0.5} 
            style={styles.pageBtn}
            onPress = {() => navigate('first-aid')}
            >
@@ -46,8 +43,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
 
         elevation: 10,
-        // borderTopWidth: 1,
-        // borderTopColor: 'rgba(99,99,99,0.2)',
     },
     pageBtn:{
         alignItems: 'center',

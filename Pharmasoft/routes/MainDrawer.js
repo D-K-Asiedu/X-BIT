@@ -13,6 +13,9 @@ export default function MainDrawer() {
     return (
         <Drawer.Navigator
             drawerContent={props =>  <DrawerContent {...props} />}
+            screenOptions={{
+                unmountOnBlur: true
+            }}
         >
             <Drawer.Screen name="MainTab" component={MainTabNav} />
             <Drawer.Screen name="Settings" component={SettingsScreen} />

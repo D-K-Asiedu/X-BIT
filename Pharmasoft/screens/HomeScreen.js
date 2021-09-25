@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
-  StatusBar,
-  Dimensions,
   Image,
   TouchableOpacity,
   ScrollView,
@@ -24,7 +22,7 @@ import ProductCard from '../components/ProductCard';
 import { useTheme, useColor } from '../styles/ThemeContext'
 import LoadingView from '../components/LoadingView';
 import { useAuth } from '../routes/AuthContext';
-import ArticleCard from '../components/ArticleCard';
+
 
 
 const HomeScreen = ({ navigation }) => {
@@ -34,33 +32,44 @@ const HomeScreen = ({ navigation }) => {
   const [products, setProducts] = useState([])
 
 
+  // Load products
   useEffect(() => {
     setIsLoading(true)
 
     const tempFunc = async () => {
-      const products = await fetchProducts()
+      const tempProducts = await fetchProducts()
 
-      console.log(products);
+      console.log(tempProducts);
 
-      setProducts(products)
+      setProducts(tempProducts)
     }
 
     tempFunc()
+    // setTimeout(() => {tempFunc()}, 500)
     setTimeout(() => { setIsLoading(false) }, 1000)
+
+    return () => {
+      setProducts([])
+    }
   }, [])
 
+  // Load articles
   useEffect(() => {
     setLoadArticles(true)
 
     const tempFunc = async () => {
       const tempArr = await fetchArticles()
-      console.log(tempArr.slice(0, 4));
+      console.log(tempArr);
 
-      setArticles(tempArr.slice(0, 4))
+      setArticles(tempArr)
     }
 
     tempFunc()
     setTimeout(() => { setLoadArticles(false) }, 1000)
+
+    return () => {
+      setArticles([])
+    }
   }, [])
 
 
@@ -101,9 +110,8 @@ const HomeScreen = ({ navigation }) => {
 
   // Random items generator
   const randomGen = (items, number) => {
-    const max = items.length
-    const min = 1
-    // const randInt = Math.floor(Math.random() * (max - min) + min)
+    const max = items.length - 1
+    const min = 0
     const randInt = () => Math.floor(Math.random() * (max - min) + min)
     const randArr = []
     var tempValue = 0
@@ -117,9 +125,10 @@ const HomeScreen = ({ navigation }) => {
     }
 
     // console.log(randArr);
-    const arrOut = items.filter((item) => (
-      randArr.indexOf(item.id) != -1
+    const arrOut = items.filter((item, index) => (
+      randArr.indexOf(index) != -1
     ))
+
 
     // console.log(arrOut);
     return arrOut
@@ -144,29 +153,11 @@ const HomeScreen = ({ navigation }) => {
 
   // Styles
   const styles = StyleSheet.create({
-    // container: {
-    // flex: 1, 
-    // backgroundColor: '#1BA665'
-    // },
     hero: {
-      // flex: 1,
       height: 175,
       justifyContent: 'center',
       alignItems: 'center'
     },
-    // footer: {
-    //     flex: 5,
-    //     backgroundColor: '#f4f4f4',
-    //     borderTopLeftRadius: 30,
-    //     borderTopRightRadius: 30,
-    //     paddingVertical: 50,
-    //     paddingHorizontal: 30
-    // },
-    // footerOneView: {
-    //   flexDirection: 'row',
-    //   marginTop: -30,
-    //   marginBottom: 10
-    // },
     section: {
       paddingVertical: 15,
     },
@@ -178,26 +169,18 @@ const HomeScreen = ({ navigation }) => {
     titleText: {
       fontWeight: 'bold',
       color: colors.tetColor1,
-      // textAlign: 'left',
       fontSize: 24,
-      // marginLeft: 0
     },
     linkText: {
       fontSize: 16,
       fontWeight: 'bold',
-      color: colors.constant || '#1ba665',
-      // textAlign: 'right',
-      // marginLeft: 210,
-      // marginTop: 10
+      color: colors.constant,
     },
     sectionContent: {
       flexDirection: 'row',
       justifyContent: 'space-between'
     },
     linkCard: {
-      // paddingHorizontal: 10,
-      // borderWidth: 1,
-      // borderColor: 'red',
       justifyContent: 'space-between',
       alignItems: 'center',
     },
@@ -209,12 +192,10 @@ const HomeScreen = ({ navigation }) => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      // borderWidth: 1,
-      // borderColor: 'red',
       elevation: 3
     },
     linkCardText: {
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 'bold',
       color: colors.secTextColor,
       textAlign: 'center',
@@ -224,119 +205,9 @@ const HomeScreen = ({ navigation }) => {
       height: 260,
     },
     products: {
-      // flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'space-around',
     }
-
-    // footerTwoView:{
-    //   marginTop: 1,
-    //   flexDirection: 'row',
-    //   justifyContent: 'space-between',
-    //   marginBottom: 18
-    // },
-    // footerTwoSubView:{
-    //   flexDirection: 'column'
-    // },
-    // smallBoxView:{
-    //   flexDirection: 'column',
-    //   backgroundColor: 'white',
-    //   borderRadius: 22,
-    //   width: 75,
-    //   height: 75,
-    //   marginLeft: 10,
-    //   marginRight: 10
-    // },
-    // smallBoxImage:{
-    //   resizeMode: 'center'
-    // },
-    // smallBoxText:{
-    //   fontSize: 17,
-    //   fontWeight: 'bold',
-    //   color: '#375A64',
-    //   textAlign: 'center'
-    // },
-
-    // footerThreeView:{
-    //   flexDirection: 'column',
-    //   marginBottom: 80
-    // },
-    // footerFourView:{
-    //   flexDirection: 'row',
-    //   marginTop: -60,
-    //   marginBottom: 15,
-    //   marginLeft: -15,
-    //   marginRight: 5,
-    //   width: 390,
-    //   height: 300,
-    //   justifyContent: 'space-between'
-    // },
-    // footerFourImage:{
-    //   resizeMode: 'cover',
-    //   borderRadius: 10
-    // },
-    // footerFiveView:{
-    //   flexDirection: 'row',
-    //   marginTop: -30,
-    //   marginBottom: 15
-    // },
-    // footerSixView:{
-    //   flexDirection: 'row',
-    //   justifyContent: 'space-between',
-    //   marginBottom: 20
-    // },
-    // medicineView:{
-    //   flexDirection: 'column' ,
-    //   backgroundColor: '#fff',
-    //   width: 180,
-    //   height: 245,
-    //   borderRadius: 20
-    // },
-    // secondMedicineView:{
-    //   flexDirection: 'column' ,
-    //   backgroundColor: '#fff',
-    //   width: 160,
-    //   height: 225,
-    //   marginLeft: 10,
-    //   marginTop: 10
-    // },
-    // medicineImage:{
-    //   resizeMode: 'contain',
-    //   width: 150,
-    //   height: 148
-    // },
-    // medicineTextOne:{
-    //   fontSize: 16,
-    //   fontWeight: 'bold',
-    //   color:'#1A2E35',
-    //   textAlign: 'left',
-    //   marginLeft: 15
-    // },
-    // medicineTextTwo:{
-    //   fontSize: 12,
-    //   fontWeight: 'normal',
-    //   color:'#808080',
-    //   textAlign: 'left',
-    //   marginLeft: 15,
-    //   marginBottom: 10
-    // },
-    // button:{
-    //   alignItems: 'flex-end',
-    //   justifyContent: 'center',
-    // },
-    // buttonText:{
-    //   color: 'white',
-    //   fontWeight: 'bold',
-    //   fontSize: 13
-    // },
-    // buttonIn:{
-    //   width: 100,
-    //   height: 30,
-    //   justifyContent: 'center',
-    //   borderRadius: 5,
-    //   alignItems: 'center',
-    //   flexDirection: 'row'
-    // },
   });
 
 
@@ -370,7 +241,6 @@ const HomeScreen = ({ navigation }) => {
                 { width: 8, height: 8, backgroundColor: '#f9b90066', borderRadius: 5, }
               }
             >
-              <Swipable />
               <Swipable />
             </Swiper>
           </View>
@@ -442,8 +312,19 @@ const HomeScreen = ({ navigation }) => {
 
                 {isLoading && <LoadingView size={45} />}
                 {!isLoading &&
-                  <View>
-                    <Text>No products available</Text>
+                  <View style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between'
+                  }}>
+                    {products == [] && <Text style={{ fontSize: 16, color: colors.tetTextColor }}>No products available</Text>}
+                    {/* {randomGen(products, 4).map((product) => (
+                      <ProductCard
+                        link={() => navigation.navigate('ProductDetail', product)}
+                        medicine={product} key={`${product.name}${product.id}`}
+                        load={setIsLoaded} 
+                      />
+                    ))} */}
                   </View>
                 }
               </View>

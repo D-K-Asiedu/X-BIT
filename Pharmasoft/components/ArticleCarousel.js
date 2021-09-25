@@ -35,15 +35,6 @@ const ArticleCarousel = ({ text, link, image }) => {
 export default ArticleCarousel
 
 const styles = StyleSheet.create({
-  // footerFourImage:{
-  //   resizeMode: 'cover',
-  //   borderRadius: 10,
-  //   width: 380,
-  //   height: 250,
-  //   marginLeft: 10,
-  //   marginRight: 10
-  //   },
-
   card: {
     borderRadius: 20,
     margin: 5,

@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedba
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { globalStyles } from '../styles/global'
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useAuth } from '../routes/AuthContext';
 
 const CartItem = ({product, deleteProduct, updateCount}) => {
@@ -37,9 +36,7 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
     const styles = StyleSheet.create({
         card: {
             flexDirection: 'row',
-            // alignItems: 'center',
             marginVertical: 7,
-            // padding: 15,
             backgroundColor: colors.secBgColor,
             borderRadius: 20,
             elevation: 2,
@@ -51,13 +48,11 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
             padding: 20,
             flex: 1,
             justifyContent: 'center',
-            // backgroundColor: 'red'
         },
         cardTitle: {
             color: colors.tetColor2,
         },
         countBox: {
-            // backgroundColor: 'red',
             paddingHorizontal: 20,
             justifyContent: 'center',
             alignItems: 'center',
@@ -77,10 +72,8 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
         delBox: {
             backgroundColor: 'red',
             padding: 10,
-            // height: '100%',
             borderTopRightRadius: 20,
             borderBottomRightRadius: 20,
-            // alignItems: 'center',
             justifyContent: 'center'
         }
     })

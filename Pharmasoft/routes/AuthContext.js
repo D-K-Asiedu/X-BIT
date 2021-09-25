@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { showMessage, hideMessage } from "react-native-flash-message";
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { useColor } from '../styles/ThemeContext';
 
 
 const AuthContext = React.createContext()
@@ -15,14 +13,8 @@ export const AuthProvider = ({ children }) => {
     const [skipped, setSkipped] = useState(false)
     const [validated, setValidated] = useState(false)
     const [user, setUser] = useState({})
-    const server = 'http://100.119.11.78:5000/'
+    const server = 'https://pharmasoftgh.herokuapp.com'
 
-    // useEffect(() => {
-    //     // If logged in
-    //     fetchUser().name && setLoggedIn(true)
-    // }, [])
-
-    const colors = useColor()
 
 
     // Fetch user
@@ -34,69 +26,6 @@ export const AuthProvider = ({ children }) => {
         return data
     }
 
-    // Login to system
-    const login = async (data) => {
-        const res = await fetch(`${server}/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-
-        try {
-            const userLogin = await res.json()
-            console.log(userLogin);
-            setLoggedIn(userLogin["login"])
-
-            // Login succesful alert
-            showMessage({
-                message: userLogin["login"] ? "Login successful" : "Login Failed",
-                description: data.msg || userLogin["msg"],
-                type: userLogin["login"] ? "success" : "danger",
-                floating: true,
-                icon: 'auto',
-                duration: 2000,
-                position: {
-                    top: 30,
-                },
-                titleStyle: {
-                    fontSize: 16,
-                },
-                style: {
-                    borderWidth: 1,
-                    borderColor: '#ffffff33'
-                }
-            });
-
-            // console.log(await fetchUser())
-            userLogin["login"] && setUser(await fetchUser())
-
-        } catch (e) {
-            console.log(e);
-
-            // Login unsuccessful alert
-            !loggedIn && showMessage({
-                message: "Login failed",
-                description: "Invalid username or password",
-                type: "danger",
-                floating: true,
-                icon: 'auto',
-                duration: 1500,
-                position: {
-                    top: 30,
-                },
-                titleStyle: {
-                    fontSize: 16,
-                },
-                style: {
-                }
-            });
-
-        }
-        return false
-
-    }
 
     // Logout
     const logout = async () => {

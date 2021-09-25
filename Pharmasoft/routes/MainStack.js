@@ -14,7 +14,6 @@ import { useAuth } from './AuthContext';
 const Stack = createStackNavigator();
 
 function MainStack() {
-  // const auth = useContext(AuthContext)
   const auth = useAuth()
 
   return (

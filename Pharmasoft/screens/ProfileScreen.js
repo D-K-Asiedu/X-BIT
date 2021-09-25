@@ -23,27 +23,12 @@ import Avatar from '../components/Avatar'
 
 
 const ProfileScreen = ({ navigation }) => {
-    // const [mainColor, setMainColour] = useState('')
     const [contactModalOpen, setContactModalOpen] = useState(false)
     const [passwordModalOpen, setPasswordModalOpen] = useState(false)
     const [infoTitle, setInfoTitle] = useState('')
     const [infoValue, setInfoValue] = useState('')
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    // const [infoValueRef, setInfoValueRef] = useState('')
-    // const [user, setUser] = useState({
-    //     name: 'John Doe',
-    //     email: 'example@xbit.com',
-    //     'phone number': '+119923456',
-    //     'date of birth': '',
-    //     allergies: ['Peanut butter', 'Milk', 'Water', 'Miiiiiiiiiiilk', 'Kooooooool'],
-    //     password: 'helloworld'
-    // })
-
-    // Update user after editing
-    // useEffect(() => {
-    //     effect
-    // }, [])
 
     const userInfo = useAuth().user
     const server = useAuth().server
@@ -53,32 +38,6 @@ const ProfileScreen = ({ navigation }) => {
     const theme = useTheme()
     const colors = useColor()
 
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-
-
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])
-
-
-    // const editProfile = (val, data) => {
-    //         setInfoTitle(val.toLowerCase())
-    //         setInfoValue(data)
-
-    //         setModalOpen(true)    
-    // }
-
     // Contact validation
     const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -86,30 +45,11 @@ const ProfileScreen = ({ navigation }) => {
         setContactModalOpen(true)
     }
 
-    // stop loading whwn user changes
+    // stop loading when user info updates
     useEffect(() => {
         setIsLoading(false)
     }, [userInfo])
 
-    const saveEdit = () => {
-        // console.log(infoTitle);
-        // console.log(infoValue);
-
-        var tempUser = userInfo
-        tempUser[infoTitle] = infoValue
-        // setUser(prevUser => (
-        //     {...prevUser, tempUser} 
-        // ))
-        // const res = await fetch(`${server}/login`, {
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         },
-        //     body: JSON.stringify(data),
-        // })
-        user = tempUser
-        setModalOpen(false)
-    }
 
     // Update user info
     const updateUser = async (update) => {
@@ -126,7 +66,6 @@ const ProfileScreen = ({ navigation }) => {
         console.log(updateMsg.msg);
 
         authenticate('user')
-        // setIsLoading(false)
     }
 
 
@@ -225,9 +164,6 @@ const ProfileScreen = ({ navigation }) => {
                             <Image source={require('../assets/no-user.jpg')} style={styles.image} />
                             :
                             <Avatar name={userInfo.name} style={styles.image} />}
-                        {/* <TouchableOpacity style={{...styles.editBtn, backgroundColor: colors.constant}}>
-                            <FontAwesome name="camera" size={24} color="#ffffff" />
-                        </TouchableOpacity> */}
                     </View>
                 </View>
                 <View>
@@ -361,18 +297,6 @@ const ProfileScreen = ({ navigation }) => {
                                 <View style={{ flex: 1 }}></View>
                             </TouchableWithoutFeedback>
                             <View style={styles.modalBox}>
-                                {/* <Text style={styles.editTitle}>Enter your old password</Text>
-                                <TextInput
-                                    secureTextEntry={true}
-                                    autoFocus={true}
-                                    underlineColorAndroid="transparent"
-                                    autoCompleteType="off"
-                                    style={{ ...styles.editInput, marginTop: 5, backgroundColor: props.touched.old_password && props.errors.old_password ? '#ff000033' : '#d4d4d466' }}
-                                    onChangeText={props.handleChange('old_password')}
-                                    value={props.values.old_password}
-                                    onBlur={props.handleBlur('old_password')}
-                                />
-                                <Text style={{ ...styles.errText, marginBottom: 10 }}>{props.touched.old_password && props.errors.old_password}</Text> */}
 
                                 {!validated ?
                                     <>
@@ -442,85 +366,6 @@ const ProfileScreen = ({ navigation }) => {
                     )}
                 </Formik>
             </Modal>
-
-            {/* <Modal
-                visible={modalOpen}
-                transparent={true}
-                animationType='fade'
-                onRequestClose={() => setModalOpen(false)}
-            >
-                <View style={styles.modalBg}>
-                    <View style={styles.modalBox}>
-                        {['name', 'phone number'].indexOf(infoTitle) != -1 ?
-                            <View>
-                                <Text style={editTitle}>Enter your {infoTitle}</Text>
-                                <TextInput
-                                    autoFocus={true}
-                                    value={infoValue}
-                                    onChangeText={text => setInfoValue(text)}
-                                    underlineColorAndroid="transparent"
-                                    autoCompleteType="off"
-                                    // value='Hello'
-                                    style={editInput}
-
-                                />
-                            </View>
-                            : infoTitle == 'password' ?
-                                <View>
-                                    <Text style={editTitle}>Enter your old password</Text>
-                                    <TextInput
-                                        secureTextEntry={true}
-                                        autoFocus={true}
-                                        underlineColorAndroid="transparent"
-                                        autoCompleteType="off"
-                                        // value='Hello'
-                                        style={editInput}
-                                    />
-
-                                    <Text style={editTitle}>Enter a new password</Text>
-                                    <TextInput
-                                        secureTextEntry={true}
-                                        underlineColorAndroid="transparent"
-                                        autoCompleteType="off"
-                                        onChangeText={text => setInfoValue(text)}
-                                        // value='Hello'
-                                        style={editInput}
-                                    />
-
-                                    <Text style={editTitle}>Confirm your new password</Text>
-                                    <TextInput
-                                        secureTextEntry={true}
-                                        underlineColorAndroid="transparent"
-                                        autoCompleteType="off"
-                                        // value='Hello'
-                                        style={editInput}
-                                    />
-
-
-                                </View>
-                            :infoTitle == 'allergies' ?
-                                    <View>
-                                        <FLatlist 
-                                            data={user.allergies}
-                                            renderItem={({ item }) => (
-                                                <Text>{item}</Text>
-                                            )}
-                                            keyExtractor={() => (Math.random() * 1000).toString()}
-
-                                        />
-                                    </View>
-                            :
-                            <View></View>
-
-
-                        }
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20,}}>
-                            <TouchableOpacity onPress={() => setModalOpen(false)}><Text style={styles.linkText}>Cancel</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={saveEdit}><Text style={styles.linkText}>Save</Text></TouchableOpacity>                    
-                        </View>
-                    </View>
-                </View>
-            </Modal> */}
 
         </View>
     )

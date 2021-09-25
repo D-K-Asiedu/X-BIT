@@ -54,28 +54,9 @@ export default function RegisterScreen({ navigation }) {
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
-  // const [mainColor, setMainColour] = useState('')
 
   const theme = useTheme()
   const colors = useColor()
-
-  // useEffect(() => {
-  //   switch (theme.colortheme) {
-  //     case 'green':
-  //       setMainColour(globalColours.mainCol)
-  //       break;
-  //     case 'blue':
-  //       setMainColour(globalColours.mainCol2)
-  //       break;
-  //     case 'pink':
-  //       setMainColour(globalColours.mainCol3)
-  //       break;
-
-
-  //     default:
-  //       break;
-  //   }
-  // }, [theme.colortheme])
 
   // Register account
   const server = useAuth().server
@@ -93,7 +74,6 @@ export default function RegisterScreen({ navigation }) {
     try {
       const accReg = await res.json()
       console.log(accReg);
-      // await accReg.registration && authenticate('login', {email:user.email, password:user.password, msg: 'Account has been registered'}) && setTimeout(()=>{setIsLoading(false)}, 1)
 
       const registered = await accReg.registration
       const message = await accReg.msg
@@ -128,11 +108,13 @@ export default function RegisterScreen({ navigation }) {
 
 
   useEffect(() => {
-    let isMounted = true
-    isMounted && Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
-    isMounted && Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
+    Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
+    Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
 
-    return () => isMounted = false
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', () => setImgDisplay(false))
+      Keyboard.removeListener('keyboardDidHide', () => setImgDisplay(true))
+    }
   }, [])
 
   return (

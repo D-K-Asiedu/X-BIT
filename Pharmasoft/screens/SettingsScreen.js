@@ -68,28 +68,10 @@ const Selection = ({title, active, setActive}) => {
 }
 
 const Radio =  ({active, size, color}) => {
-    // const [mainColor, setMainColour] = useState('')
 
     const theme = useTheme()
     const colors = useColor()
   
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-    
-      
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])  
 
     return(
         <View style={{
@@ -120,26 +102,6 @@ const SettingsScreen = ({navigation}) => {
     const [darkMode, setDarkMode] = useState(theme.darkmodeBuff)
     const [darkTheme, setDarkTheme] = useState(theme.darktheme)
     const [colorTheme, setColorTheme] = useState(theme.colortheme)
-    // const [mainColor, setMainColour] = useState('')
-
-  
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-    
-      
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])
 
     const updateColorTheme = (val) => {
         updateTheme('colorTheme', val)

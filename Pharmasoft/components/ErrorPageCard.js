@@ -1,7 +1,5 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
-import { globalColours } from '../styles/global'
 import { useColor } from '../styles/ThemeContext'
 
 const ErrorPageCard = () => {

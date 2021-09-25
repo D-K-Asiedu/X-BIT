@@ -22,28 +22,9 @@ const icons = {
 }
 
 const ProfileInfo = (props) => {
-    // const [mainColor, setMainColour] = useState('')
 
     const theme = useTheme()
     const colors = useColor()
-
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-
-
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])
 
     const styles = StyleSheet.create({
         infoCard: {
@@ -96,27 +77,6 @@ const ProfileInfo = (props) => {
                     {icons[props.icon]}
                     <Text style={styles.titleText}>{props.title}</Text>
                 </View>
-                {/*Array.isArray(props.profile)?
-                    <View style={styles.array}>
-                        <FlatList
-                            data={props.profile} 
-                            horizontal = {true}
-                            renderItem = {({item}) => (
-                                <Text style={styles.textBox}>{item}</Text>
-                            )}
-                            keyExtractor = {() => (Math.random() * 1000).toString()}
-                            />
-                        {props.profile.length == 0 && <Text style={{...styles.profile, color: colors.constant}}>Add alleries</Text>}
-                    </View>
-                    :
-                    <Text
-                    style={{
-                        ...styles.profile,
-                        color: !props.profile ? colors.constant : colors.mainTextColor
-                    }}>
-                    {props.profile || `Add ${props.title.toLowerCase()}`}
-                </Text>
-                */}
                 {!props.loading && <Text style={{ ...styles.profile, color: colors.mainTextColor }}>{props.profile}</Text>}
                 {props.loading && <LoadingView size={20} />}
             </View>

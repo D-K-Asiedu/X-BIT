@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet } from 'react-native'
-import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
+import {Ionicons} from '@expo/vector-icons'
 import { globalStyles, globalColours } from '../styles/global'
-import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
@@ -10,7 +9,6 @@ import { useAuth } from '../routes/AuthContext'
 import PopupMessage from '../functions/PopupMessage'
 
 const CheckoutScreen = ({ navigation, route }) => {
-    // const [mainColor, setMainColour] = useState('')
     const [total, setTotal] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -30,26 +28,11 @@ const CheckoutScreen = ({ navigation, route }) => {
         });
 
         setTotal(totalAmt)
+
+        return () => {
+            setTotal(0)
+        }
     }, [])
-
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-
-
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])
-
 
     // Purchase items in cart
     const makePurchase = async() => {
@@ -70,7 +53,6 @@ const CheckoutScreen = ({ navigation, route }) => {
                 {},
                 {}
             )
-            // navigation.navigate('MainDrawer')
         }
         catch(e){
             console.log(e);
@@ -109,7 +91,6 @@ const CheckoutScreen = ({ navigation, route }) => {
             borderRadius: 20,
             flex: 1,
             padding: 20,
-            // marginBottom: 20,
 
             elevation: 1,
         },
@@ -131,7 +112,6 @@ const CheckoutScreen = ({ navigation, route }) => {
         },
         checkoutCard:{
             paddingVertical: 20,
-            // borderWidth: 1,
             borderBottomWidth: 1,
             borderColor: '#c4c4c4aa',
             flexDirection: 'row',
@@ -174,11 +154,6 @@ const CheckoutScreen = ({ navigation, route }) => {
                         <Text style={{...styles.cardHeaderTitle,flexBasis: '20%'}}>Amount</Text>
                     </View>
                     <ScrollView>
-                        {/* <CheckoutCard />
-                        <CheckoutCard />
-                        <CheckoutCard />
-                        <CheckoutCard />
-                        <CheckoutCard /> */}
                         {cart.map((item, index) => (
                             <CheckoutCard product={item} key={index} />
                         ))}
@@ -202,8 +177,6 @@ const CheckoutScreen = ({ navigation, route }) => {
                             fontSize: 16,
                         }}
                         onPress={() => makePurchase()}
-                    //   style={{ marginTop: 15, }}
-                    //   onPress={props.handleSubmit}
                     />
                 </View>
 

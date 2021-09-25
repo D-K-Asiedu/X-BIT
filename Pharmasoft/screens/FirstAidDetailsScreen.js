@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, TouchableWithoutFeedback, Modal } from 'react-native'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Modal } from 'react-native'
 import { globalColours, globalStyles } from '../styles/global'
 import { Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
 import FirstAidSteps from '../components/FirstAidSteps';

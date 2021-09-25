@@ -7,7 +7,6 @@ import {
     Dimensions,
     Modal
 } from 'react-native'
-import { globalStyles } from '../styles/global'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { Ionicons } from '@expo/vector-icons';
 
@@ -16,9 +15,9 @@ const MessagePopup = () => {
     const { height, width } = Dimensions.get('window')
 
 
-    useEffect(() => {
-        console.log(height, width);
-    }, [])
+    // useEffect(() => {
+    //     console.log(height, width);
+    // }, [])
 
     // Styles
     const styles = StyleSheet.create({

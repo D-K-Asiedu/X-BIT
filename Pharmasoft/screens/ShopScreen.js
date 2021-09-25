@@ -9,6 +9,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { useAuth } from '../routes/AuthContext'
 import Loading from '../components/Loading'
 import AccessDenied from '../functions/AccessDenied'
+import LoadingView from '../components/LoadingView'
 
 const ShopScreen = ({navigation}) => {
     // const [mainColor, setMainColour] = useState('')
@@ -18,45 +19,34 @@ const ShopScreen = ({navigation}) => {
     const server = useAuth().server
     const isLoggedIn = useAuth().isLoggedIn
     const [products, setProducts] = useState([])
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(true)
+    const [isLoadedMain, setIsLoadedMain] = useState(false)
 
     useEffect(() => {
-            console.log('fetching...');
-            
-            const tempFunc = async() => {
-                setProducts(await fetchProducts())
-            }
+        console.log('fetching...');
+        
+        const tempFunc = async() => {
+            setProducts(await fetchProducts())
+        }
 
-            tempFunc()
+        tempFunc()
+
+        return () => {
+            setProducts([])
+        }
     }, [])
   
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-    
-      
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])
 
     // Fetch products
     const fetchProducts = async() => {
+        setIsLoadedMain(false)
         const res = await fetch(`${server}/products`, {
             method: 'GET',
         })
 
         const data = await res.json()
         console.log(await data)
-        await data && setTimeout(() => setIsLoaded(true), 100)
+        await data && setTimeout(() => setIsLoadedMain(true), 100)
         return data
     }
 
@@ -114,19 +104,12 @@ const ShopScreen = ({navigation}) => {
                 </View>
                 </View>
                 <ScrollView>
+                    {isLoadedMain &&
                     <View style={{
                         flexDirection: 'row',
                         flexWrap: 'wrap',
                         justifyContent: 'space-between'
                     }}>
-                    {/* <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} />
-                    <ProductCard link={() => navigation.navigate('ProductDetail')} /> */}
                     {products.map((product) => (
                         <ProductCard 
                             link={() => navigation.navigate('ProductDetail', product)} 
@@ -134,8 +117,12 @@ const ShopScreen = ({navigation}) => {
                             load={setIsLoaded} 
                         />
                     ))}
-                    {/* <ProductCard link={() => navigation.navigate('ProductDetail')} medicine={products[0]} /> */}
-                    </View>
+                    </View>}
+                    {!isLoadedMain &&
+                        <View style={{paddingVertical: 200}}>
+                            <LoadingView size={50} />
+                        </View>
+                    }
                 </ScrollView>
             </View>
 

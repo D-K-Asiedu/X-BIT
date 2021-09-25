@@ -4,7 +4,6 @@ import { useTheme, useColor } from '../styles/ThemeContext'
 import { globalStyles, globalColours } from '../styles/global'
 import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { Formik } from 'formik'
-import * as yup from 'yup'
 import Button from '../components/Button'
 import { useAuth, useUpdateAuth } from '../routes/AuthContext'
 import Loading from '../components/Loading'
@@ -105,7 +104,6 @@ const VerifyEmailScreen = ({ navigation, route }) => {
           });
     
           loggedIn && authenticate('login')
-          // console.log(await fetchUser())
           loggedIn && authenticate('user')
     
         } catch (e) {
@@ -158,7 +156,8 @@ const VerifyEmailScreen = ({ navigation, route }) => {
         },
         mainText: {
             ...globalStyles.h3,
-            paddingVertical: 10
+            paddingVertical: 10,
+            color: colors.tetColor2
         }
 
     })
@@ -180,9 +179,7 @@ const VerifyEmailScreen = ({ navigation, route }) => {
                     <Text style={styles.mainText}>Enter the verification code sent to your e-mail</Text>
                     <Formik
                         initialValues={{ code: '' }}
-                        // validationSchema={registerSchema}
                         onSubmit={values => {
-                            //   setIsLoading(true)
                             console.log(values)
                             verifyEmail(values.code)
                         }}

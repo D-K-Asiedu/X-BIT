@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   View,
   Keyboard,
-  Modal,
-  ActivityIndicator
 } from 'react-native';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
@@ -27,11 +25,9 @@ import { showMessage } from 'react-native-flash-message';
 export default function LoginScreen({ navigation }) {
   const authenticate = useUpdateAuth()
   const [imgDisplay, setImgDisplay] = useState(true)
-  // const [mainColor, setMainColour] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [empty, setEmpty] = useState(false)
 
-  // Validation schema
   const loginSchema = yup.object({
     email: yup
       .string()
@@ -49,30 +45,14 @@ export default function LoginScreen({ navigation }) {
   const isLoggedIn = useAuth().isLoggedIn
   const server = useAuth().server
 
-  // useEffect(() => {
-  //   switch (theme.colortheme) {
-  //     case 'green':
-  //       setMainColour(globalColours.mainCol)
-  //       break;
-  //     case 'blue':
-  //       setMainColour(globalColours.mainCol2)
-  //       break;
-  //     case 'pink':
-  //       setMainColour(globalColours.mainCol3)
-  //       break;
-
-
-  //     default:
-  //       break;
-  //   }
-  // }, [theme.colortheme])
-
   useEffect(() => {
-    let isMounted = true
-    isMounted && Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
-    isMounted && Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
+    Keyboard.addListener('keyboardDidShow', () => setImgDisplay(false))
+    Keyboard.addListener('keyboardDidHide', () => setImgDisplay(true))
 
-    return () => isMounted = false
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', () => setImgDisplay(false))
+      Keyboard.removeListener('keyboardDidHide', () => setImgDisplay(true))
+    }
   }, [])
 
   // Login
@@ -241,18 +221,6 @@ export default function LoginScreen({ navigation }) {
 
 
       <Loading loading={isLoading} setLoading={setIsLoading} />
-      {/* <Modal
-        visible={isLoading}
-        transparent={true}
-        animationType='fade'
-        onRequestClose={() => setContactModalOpen(false)}
-      >
-        <View style={globalStyles.modalBg}>
-          <View style={{...globalStyles.modalBox, backgroundColor: colors.secBgColor}}>
-            <ActivityIndicator size={50} color={colors.constant} />
-          </View>
-        </View>
-      </Modal> */}
 
       <StatusBar style="light" translucent={true} />
     </View>

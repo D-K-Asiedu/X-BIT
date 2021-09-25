@@ -11,7 +11,6 @@ import {
     AntDesign,
     MaterialIcons,
 } from '@expo/vector-icons';
-import Loading from '../components/Loading'
 import LoadingView from '../components/LoadingView'
 
 const OrderDetailsScreen = ({ navigation }) => {
@@ -24,6 +23,8 @@ const OrderDetailsScreen = ({ navigation }) => {
     const theme = useTheme()
     const server = useAuth().server
     const user = useAuth().user
+    
+    let isMounted = true
 
     // Load transaction info on page load
     useEffect(() => {
@@ -31,18 +32,35 @@ const OrderDetailsScreen = ({ navigation }) => {
             await loadTransactions()
         }
 
-        tempFunc()
-        
+        const activeFunc = async (temp) => {
+            await reloadTransactions()
+        }
+
+
+        isMounted = true
+
+        isMounted && tempFunc()
+
+        // setInterval(() => {
+        //     isMounted && update && console.log('update')
+        //     isMounted && update && activeFunc()
+        // }, 5000);
+
+        return () => {
+            console.log('unmount');
+            setTemp([])
+            isMounted = false
+        }
     }, [])
 
     // Change grouped transactions when active changes
     useEffect(() => {
-            const tempValue = groupedTransactions(temp)
-            setTransactions(tempValue)
+        const tempValue = groupedTransactions(temp)
+        setTransactions(tempValue)
     }, [active])
 
     // Load transactions
-    const loadTransactions = async() => {
+    const loadTransactions = async () => {
         setIsLoading(true)
         setTemp(await fetchTransactions())
         setActive((value) => !value)
@@ -51,13 +69,28 @@ const OrderDetailsScreen = ({ navigation }) => {
 
     }
 
+    // re-Load(update) transactions
+    const reloadTransactions = async () => {
+        const tempOrders = await fetchTransactions()
+
+        if(temp != await tempOrders){
+            console.log('reloading transactions');
+            setTemp()
+            setIsLoading(true)
+            setActive((value) => !value)
+            setActive((value) => !value)
+            setIsLoading(false)    
+        }
+    }
+
+
     // Group transactions
     const groupedTransactions = (temp) => {
         var transactions = []
-        if(active){
+        if (active) {
             transactions = temp.filter((item) => item.completed == 0 && item.canceled == 0)
         }
-        else{
+        else {
             transactions = temp.filter((item) => item.completed == 1 || item.canceled == 1)
         }
         const getIds = () => {
@@ -133,7 +166,7 @@ const OrderDetailsScreen = ({ navigation }) => {
                 <Text style={styles.orderTitle}>Cart ID {card[0].cart_id}</Text>
                 <FlatList
                     data={card}
-                    renderItem={({item}) => (
+                    renderItem={({ item }) => (
                         <View style={styles.orderDetails}>
                             <View style={{ flex: 1 }}>
                                 <Text style={styles.orderDetailsText}>Product name: {item.product_name}</Text>
@@ -163,7 +196,7 @@ const OrderDetailsScreen = ({ navigation }) => {
                         </View>
                     )}
                     keyExtractor={(item) => item['cart_id'].toString() + item['total price'].toString()}
-                    listKey={(item) => Math.floor(Math.random() * 1000).toString()}
+                    listKey={(item) => item['cart_id'].toString() + item['total price'].toString()}
                 />
 
             </View>
@@ -174,7 +207,6 @@ const OrderDetailsScreen = ({ navigation }) => {
     const styles = StyleSheet.create({
         header: {
             backgroundColor: colors.mainColor,
-            // justifyContent: 'flex-start'
         },
         pageTitle: {
             marginLeft: 30,
@@ -186,8 +218,6 @@ const OrderDetailsScreen = ({ navigation }) => {
         },
         tabBar: {
             flexDirection: 'row',
-            // borderBottomWidth: 1,
-            // borderColor: '#00000033'
         },
         tabBox: {
             flex: 1,
@@ -212,8 +242,6 @@ const OrderDetailsScreen = ({ navigation }) => {
             paddingVertical: 5,
         },
         orderCard: {
-            // borderWidth: 1,
-            // borderColor: '#00000033',
             backgroundColor: colors.secBgColor,
             borderRadius: 20,
             marginTop: 20,
@@ -266,35 +294,30 @@ const OrderDetailsScreen = ({ navigation }) => {
                     <TabBox title="Ended" active={!active} navigate={() => setActive(false)} />
                 </View>
                 {!isLoading &&
-                <View style={styles.orders}>
+                    <View style={styles.orders}>
 
-                    {!transactions[0] &&
-                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                            <Ionicons name="ios-file-tray-full-outline" size={75} color={colors.tetColor2} />
-                            <Text style={{ fontSize: 16, color: colors.tetTextColor }}>{`You have no ${active ? 'active' : 'completed'} orders`}</Text>
-                        </View>
-                    }
+                        {!transactions[0] &&
+                            <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                                <Ionicons name="ios-file-tray-full-outline" size={75} color={colors.tetColor2} />
+                                <Text style={{ fontSize: 16, color: colors.tetTextColor }}>{`You have no ${active ? 'active' : 'completed'} orders`}</Text>
+                            </View>
+                        }
 
-                    {transactions &&
-                        // <>
-                        //     <OrderCard />
-                        //     <OrderCard />
-                        // </>
-                        <FlatList
-                            data={transactions}
-                            renderItem={({ item }) => (
-                                <OrderCard card={item} />
-                            )}
-                            keyExtractor={(item) => (Math.random() * 1000 + 1000).toString()}
-                            listKey={(item) => Math.floor(Math.random() * 1000).toString()}
-                        />
-                    }
+                        {transactions &&
+                            <FlatList
+                                data={transactions}
+                                renderItem={({ item }) => (
+                                    <OrderCard card={item} />
+                                )}
+                                keyExtractor={(item) => (Math.random() * 1000 + 1000).toString()}
+                                listKey={(Math.random() * 1000 + 1000).toString()}
+                            />
+                        }
 
-                </View>}
+                    </View>}
                 {isLoading && <LoadingView size={50} />}
             </View>
 
-            {/* <Loading loading={isLoading} setLoading={() => setIsLoading(false)} /> */}
         </View>
     )
 }

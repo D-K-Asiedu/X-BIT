@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, Image } from 'react-native'
-import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
+import {Ionicons,} from '@expo/vector-icons'
 import { globalStyles, globalColours } from '../styles/global'
-import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { useAuth } from '../routes/AuthContext'
 import Button from '../components/Button'
@@ -11,7 +10,6 @@ import AccessDenied from '../functions/AccessDenied'
 import { StatusBar } from 'expo-status-bar'
 
 const ProductDetailScreen = ({ navigation, route }) => {
-    // const [mainColor, setMainColour] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
     const theme = useTheme()
@@ -19,24 +17,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
     const product = route.params
     const isLoggedIn = useAuth().isLoggedIn
     const server = useAuth().server
-
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-
-
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])
 
         //Add to cart
         const addToCart = async () => {
@@ -86,7 +66,8 @@ const ProductDetailScreen = ({ navigation, route }) => {
         textBox:{
             paddingTop: 20,
             paddingBottom: 5,
-            backgroundColor: colors.mainBgColor
+            backgroundColor: colors.mainBgColor,
+            alignItems: 'center',
         },
         title:{
             color: colors.tetColor2,
@@ -94,6 +75,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
         desc:{
             fontSize: 16,
             color: colors.mainTextColor,
+            fontWeight: 'bold'
         },
         footer:{
             width: '90%',
@@ -112,9 +94,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
                 >
                     <Ionicons name="arrow-back" size={30} color={colors.constant} />
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => navigation.navigate('MainDrawer')}>
-                    <FontAwesome5 name="cart-plus" size={22} color="#ffffff" />
-                </TouchableOpacity> */}
             </View>
 
 
@@ -130,6 +109,9 @@ const ProductDetailScreen = ({ navigation, route }) => {
                     <ScrollView>
                         <Text style={{...globalStyles.h2, ...styles.title}}>{product.name}</Text>
                         <Text style={styles.desc}>{product.description}</Text>
+                        <Text style={styles.desc}>Price: GH₵ {product.price}</Text>
+                        <Text style={styles.desc}>Quantity left: {product.quantity_available}</Text>
+
                     </ScrollView>
                 </View>
             </View>
@@ -141,7 +123,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
                   textStyle={{
                       fontSize: 16
                   }}
-                //   style={{ marginTop: 15, }}
                   onPress={addToCart}
                 />
             </View>

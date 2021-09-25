@@ -189,7 +189,8 @@ const ForgotPasswordScreen = ({ navigation }) => {
         },
         mainText: {
             ...globalStyles.h3,
-            paddingVertical: 10
+            paddingVertical: 10,
+            color: colors.tetColor2
         }
 
     })
@@ -254,9 +255,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
                         <Text style={styles.mainText}>Enter the verification code sent to your e-mail</Text>
                         <Formik
                             initialValues={{ code: '' }}
-                            // validationSchema={registerSchema}
                             onSubmit={values => {
-                                //   setIsLoading(true)
                                 console.log(values)
                                 verifyEmail(values.code)
                             }}

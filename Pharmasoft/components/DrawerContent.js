@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { globalColours } from '../styles/global';
 import {
     DrawerContentScrollView,
     DrawerItem,

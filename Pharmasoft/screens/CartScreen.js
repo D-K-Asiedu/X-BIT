@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, FlatList } from 'react-native'
 import { Feather, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { globalStyles, globalColours } from '../styles/global'
-import ErrorPageCard from '../components/ErrorPageCard'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import Button from '../components/Button'
 import CartItem from '../components/CartItem'
@@ -10,8 +9,6 @@ import { useAuth } from '../routes/AuthContext'
 import Loading from '../components/Loading'
 
 const CartScreen = ({ navigation }) => {
-    // const [mainColor, setMainColour] = useState('')
-
     const theme = useTheme()
     const colors = useColor()
     const server = useAuth().server
@@ -20,24 +17,6 @@ const CartScreen = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [quantity, setQuantity] = useState([])
 
-    // useEffect(() => {
-    //   switch (theme.colortheme) {
-    //     case 'green':
-    //       setMainColour(globalColours.mainCol)
-    //       break;
-    //     case 'blue':
-    //       setMainColour(globalColours.mainCol2)
-    //       break;
-    //     case 'pink':
-    //       setMainColour(globalColours.mainCol3)
-    //       break;
-
-
-    //     default:
-    //       break;
-    //   }
-    // }, [theme.colortheme])
-
     useEffect(() => {
         setIsLoading(true)
         const tempFunc = async() => {
@@ -45,6 +24,10 @@ const CartScreen = ({ navigation }) => {
         }
 
         tempFunc()
+
+        return () => {
+            setCart([])
+        }
     }, [])
 
     // Get cart items
@@ -77,14 +60,9 @@ const CartScreen = ({ navigation }) => {
             console.log(cartDetails);
 
             const filteredCart = cart.filter((item) => item.id != id )
-            // const updatedCart = filteredCart.map((item) => ({...item,}))
-            
-            // console.log();
-            // console.log(updatedCart);
             setCart([])
             await updateCart()
             setCart(await fetchCart())
-            // setCart([...filteredCart, ])    
         }
         catch(e){
             console.log(e)
@@ -93,69 +71,8 @@ const CartScreen = ({ navigation }) => {
         setIsLoading(false)
     }
 
-    // Add 1 to cart item
-    const addProduct = async(id) => {
-        const data = {id: id, action: 'add'}
-        const res = await fetch(`${server}/update-cart`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-
-        try{
-            const cartDetails = await res.json()
-            console.log(cartDetails);
-
-            // setCart(await fetchCart())
-        }
-        catch(e){
-            console.log(e)
-        }    
-
-    }
-
-    // Remove 1 from cart item
-    const removeProduct = async(id) => {
-        const data = {id: id, action: 'remove'}
-        const res = await fetch(`${server}/update-cart`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-
-        try{
-            const cartDetails = await res.json()
-            console.log(cartDetails);
-
-            setCart(await fetchCart())
-        }
-        catch(e){
-            console.log(e)
-        }
-        
-        return true
-    }
-
     //Update cart quantity
     const updateQuantity = (id, data) => {
-        // console.log(id, data);
-        // const dataIds = quantity.map((item) => item.id)
-        // console.log(`data ids are:${dataIds}`);
-        // if(dataIds.indexOf(id) != -1){
-        //     console.log(`branch: exists`);
-        //     console.log([...quantity, {id: id, 'product quantity': data}]);
-        //     setQuantity((prevQuantity) => [...prevQuantity, {id: id, 'product quantity': data}])
-        // }
-        // else{
-        //     console.log(`branch: does not exist`);
-        //     const restOfQuantity = quantity.filter((item) => item.id == id)
-        //     console.log([...restOfQuantity, {id: id, 'product quantity': data}]);
-        //     setQuantity([...restOfQuantity, {id: id, 'product quantity': data}])
-        // }
 
         const filteredQuantity = quantity.filter((item) => item.id != id)
 
@@ -201,7 +118,6 @@ const CartScreen = ({ navigation }) => {
             const data = await res.json()
             console.log(data);
             await data && setCart([])
-            // navigation.navigate('MainDrawer')
         }
         catch(e){
             console.log(e);
@@ -234,12 +150,10 @@ const CartScreen = ({ navigation }) => {
         },
         footer:{
             flexDirection: 'row',
-            // backgroundColor: 'red',
             paddingVertical: 10,
         },
         emptyView:{
             flex: 1,
-            // backgroundColor: 'red',
             alignItems: 'center',
         },
         emptyText:{
@@ -271,9 +185,6 @@ const CartScreen = ({ navigation }) => {
                         extraData={cart}
                         keyExtractor={(item, index) => item.toString()+ index.toString()}
                     />
-                    {/* {cart.map((item) => (
-                        <CartItem product={item} deleteProduct={deleteProduct} updateCount={updateQuantity} />
-                    ))} */}
                 </View>
                 
                 {!cart[0] && <View style={styles.emptyView}>
