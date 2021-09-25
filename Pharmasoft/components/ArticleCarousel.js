@@ -12,7 +12,7 @@ const ArticleCarousel = ({ text, link, image }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => Linking.openURL(link || 'www.google.com')}
+      onPress={() => Linking.openURL(link)}
     >
       <ImageBackground
         style={styles.card}

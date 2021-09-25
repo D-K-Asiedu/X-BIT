@@ -11,9 +11,9 @@ bcrypt = Bcrypt(app)
 
 app.config["SECRET_KEY"] = "coded"
 app.config["MYSQL_HOST"] = 'sql11.freemysqlhosting.net'
-app.config["MYSQL_USER"] = 'sql11438367'
-app.config["MYSQL_PASSWORD"] = '89796k2ENd'
-app.config["MYSQL_DB"] = 'sql11438367'
+app.config["MYSQL_USER"] = 'sql11439725'
+app.config["MYSQL_PASSWORD"] = 'YnHqnQhCKC'
+app.config["MYSQL_DB"] = 'sql11439725'
 
 # app.config["IMAGE_UPLOADS"] = r"F:\Projects\Python\X-bit\Pharmasoft\server\pharmasoft\static\images"
 app.config["IMAGE_UPLOADS"] = os.getcwd()

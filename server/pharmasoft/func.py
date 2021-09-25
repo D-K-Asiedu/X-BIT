@@ -47,8 +47,8 @@ def get_order():
 
 
 def send_email(reciever_email, message, user, action):
-    email = "alvisfinnegan@gmail.com"
-    password = "codename01"
+    email = "pharmasoftgh@gmail.com"
+    password = "pharmasoft1234"
 
     msg = EmailMessage()
     msg['From'] = email
@@ -61,7 +61,7 @@ def send_email(reciever_email, message, user, action):
             <!DOCTYPE html>
             <html>
             <body>
-            <p>You have recieved an order for <b>{message[0]["product name"]}</b>. Click <a href='{url_for('pharmacy_home')}'>Here</a> to complete the order</p>
+            <p>You have recieved an order for <b>{message[0]["product name"]}</b>. Click <a href={url_for('pharmacy_home')}>Here</a> to complete the order</p>
             <h3>Order</h3>
             <p>{message[0]["product name"]}</p>
             <p>QANTITY: {message[0]["product quantity"]}</p>

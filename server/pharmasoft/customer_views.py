@@ -37,6 +37,7 @@ def home():
                 "description": product[4],
                 "location": pharmacy[4],
                 "image": url_for("product_image", image=product[5]),
+                "quantity_available": product[6]
             }
 
             products.append(product_detail)
@@ -329,9 +330,9 @@ def checkout():
         cur.execute("INSERT INTO transaction(product_id, cart_id, quantity, total_price, pharmacy_id, customer_id) VALUES(%s, %s, %s, %s, %s, %s)",(str(product[0]), str(cart[0]), str(item["product quantity"]), str(item["total price"]), str(pharmacy[0]), str(current_user.id), ))
         mysql.connection.commit()
 
-        quantity_available = product[6] - item["product quantity"]
-        cur.execute("UPDATE product SET quantity_available=%s WHERE id=%s", (quantity_available ,str(item["id"]),))
-        mysql.connection.commit()
+        # quantity_available = product[6] - item["product quantity"]
+        # cur.execute("UPDATE product SET quantity_available=%s WHERE id=%s", (quantity_available ,str(item["id"]),))
+        # mysql.connection.commit()
 
     cur.execute("UPDATE cart SET complete=True WHERE customer_id=%s AND complete=False", (current_user.id,))
     mysql.connection.commit()
@@ -449,7 +450,8 @@ def change_password():
 
 @app.route("/articles")
 def articles():
-    r = requests.get("https://www.news-medical.net/")
+    link = "https://www.news-medical.net/"
+    r = requests.get(link)
     soup = BeautifulSoup(r.text, "lxml")
 
     section = soup.find("section", {"class": "widget recentcategoryposts clearfix"})
@@ -459,28 +461,7 @@ def articles():
     for article in article_tags:
         articles.append({
             "title": article.p.text,
-            "link": article.a["href"],
+            "link":f"{link}"+article.a["href"],
             "image": article.img["src"]
         })
-    return jsonify(articles)
-
-@app.route("/articles1")
-def articles1():
-    link = "https://www.medicalnewstoday.com"
-    r = requests.get(link)
-    soup = BeautifulSoup(r.text, "lxml")
-
-    div = soup.find("div", {"id": "latest-news"})
-    li_tags = div.find_all("li")
-
-    articles = []
-    for article in li_tags:
-        span = article.find("span")
-        
-        articles.append({
-            "title": article.find_all("a")[1].text,
-            "link": f"{link}"+article.find_all("a")[1]["href"],
-            "image": span.find("lazy-image")["src"]
-        })
-
     return jsonify(articles)

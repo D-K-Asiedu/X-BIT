@@ -39,8 +39,7 @@
                 </div>
     
                 <div class="mt-3">
-                    <button class="btn btn-success" id="complete" transaction_id="{{ transaction['id'] }}">Complete</button>
-                    <!-- <a href="/pharmacy/complete-order/{{ transaction['id'] }}" class="btn btn-success">Complete</a> -->
+                    <a href="/pharmacy/complete-order/{{ transaction['id'] }}" class="btn btn-success">Complete</a>
                     <a href="/pharmacy/cancel-order/{{ transaction['id'] }}" class="btn btn-danger" id="cancel">Cancel</a>
                 </div>
             </div>
@@ -48,7 +47,7 @@
     </div>
     {% endfor %}
     {% else %}
-    <h1>No trnsactions available</h1>
+    <h1>No transactions available</h1>
     {% endif %}
     </div>
 {% endblock %}
