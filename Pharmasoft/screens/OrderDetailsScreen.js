@@ -25,6 +25,7 @@ const OrderDetailsScreen = ({ navigation }) => {
     const user = useAuth().user
     
     let isMounted = true
+    let refreshInterval
 
     // Load transaction info on page load
     useEffect(() => {
@@ -41,14 +42,14 @@ const OrderDetailsScreen = ({ navigation }) => {
 
         isMounted && tempFunc()
 
-        // setInterval(() => {
-        //     isMounted && update && console.log('update')
-        //     isMounted && update && activeFunc()
-        // }, 5000);
+        // refreshInterval = setInterval(() => {
+        //     activeFunc()
+        // }, 5000)
 
         return () => {
             console.log('unmount');
             setTemp([])
+            // clearInterval(refreshInterval)
             isMounted = false
         }
     }, [])
@@ -71,10 +72,11 @@ const OrderDetailsScreen = ({ navigation }) => {
 
     // re-Load(update) transactions
     const reloadTransactions = async () => {
+        console.log('reloading transactions...');
         const tempOrders = await fetchTransactions()
 
         if(temp != await tempOrders){
-            console.log('reloading transactions');
+            console.log('updating transactions');
             setTemp()
             setIsLoading(true)
             setActive((value) => !value)
@@ -189,7 +191,7 @@ const OrderDetailsScreen = ({ navigation }) => {
                                 {(item.canceled == 0 && item.completed == 0) &&
                                     <>
                                         <AntDesign name="exclamationcircle" size={20} color="#ffaa00aa" />
-                                        <Text style={{ color: '#ffaa00aa', fontWeight: 'bold' }}>Pending</Text>
+                                        <Text style={{ color: '#ffaa00aa', fontWeight: 'bold' }}>In progress</Text>
                                     </>
                                 }
                             </View>

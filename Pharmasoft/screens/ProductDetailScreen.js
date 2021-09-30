@@ -8,6 +8,7 @@ import Button from '../components/Button'
 import Loading from '../components/Loading'
 import AccessDenied from '../functions/AccessDenied'
 import { StatusBar } from 'expo-status-bar'
+import PopupMessage from '../functions/PopupMessage'
 
 const ProductDetailScreen = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -34,9 +35,27 @@ const ProductDetailScreen = ({ navigation, route }) => {
                 try{
                     const cartDetails = await res.json()
                     console.log(cartDetails);
+                    PopupMessage(
+                        'Added to cart',
+                        '',
+                        'success',
+                        1000,
+                        {top: 100},
+                        {},
+                        {}
+                    )
                 }
                 catch(e){
                     console.log(e)
+                    PopupMessage(
+                        'Failed to add to cart',
+                        '',
+                        'danger',
+                        1000,
+                        {top: 30},
+                        {},
+                        {}
+                    )
                 }    
             }
             else{
@@ -75,7 +94,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
         desc:{
             fontSize: 16,
             color: colors.mainTextColor,
-            fontWeight: 'bold'
+            // fontWeight: 'bold'
         },
         footer:{
             width: '90%',
@@ -128,7 +147,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
             </View>
 
             <Loading loading={isLoading} setLoading={() => {}} />
-            <StatusBar style='auto' />
+            <StatusBar style={theme.darkmode? 'light': 'dark'} />
         </View>
     )
 }

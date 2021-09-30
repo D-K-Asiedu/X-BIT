@@ -13,14 +13,14 @@ export default function MainDrawer() {
     return (
         <Drawer.Navigator
             drawerContent={props =>  <DrawerContent {...props} />}
-            screenOptions={{
-                unmountOnBlur: true
-            }}
+            // screenOptions={{
+            //     unmountOnBlur: true
+            // }}
         >
             <Drawer.Screen name="MainTab" component={MainTabNav} />
             <Drawer.Screen name="Settings" component={SettingsScreen} />
             <Drawer.Screen name="Profile" component={ProfileScreen} />
-            <Drawer.Screen name="OrderDetails" component={OrderDetailsScreen} />
+            <Drawer.Screen name="OrderDetails" component={OrderDetailsScreen} options={{unmountOnBlur: true}} />
         </Drawer.Navigator>
     );
 }

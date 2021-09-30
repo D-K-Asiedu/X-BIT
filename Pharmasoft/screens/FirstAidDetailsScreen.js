@@ -115,7 +115,7 @@ const FirstAidDetailsScreen = ({ navigation, route }) => {
             <View style={{ ...globalStyles.content, ...styles.content }}>
                 <TouchableOpacity
                     style={styles.title}
-                    activeOpacity={item.steps.categories == 1 ? 1: 0.3}
+                    activeOpacity={item.steps.categories == 1 ? 1 : 0.3}
                     onPress={openDropDown}
                 >
                     <Text style={{ ...globalStyles.h3, color: colors.tetColor2 }}>{item.steps.categories > 1 ? activeBranch.AcTitle : 'Steps'}</Text>
@@ -133,7 +133,17 @@ const FirstAidDetailsScreen = ({ navigation, route }) => {
                         )}
                         keyExtractor={stepDetails => (Math.random() * 1000).toString()}
                     />
+
+                    {/* <Text>Notes</Text>
+                    <FlatList
+                        data={item.notes}
+                        renderItem={({item}) => (
+                            <Text>◼{item}</Text>
+                        )}
+                        keyExtractor={(item, index) => index.toString()}
+                    /> */}
                 </View>
+
             </View>
 
             <Modal
@@ -143,12 +153,12 @@ const FirstAidDetailsScreen = ({ navigation, route }) => {
                 animationType='fade'
                 statusBarTranslucent={true}
             >
-            <FirstAidDropDown
-                content={[item.steps.title1, item.steps.title2, item.steps.title3]}
-                color={mainColor}
-                set={set}
-                close={() => setDropDownVisible(false)}
-            />
+                <FirstAidDropDown
+                    content={[item.steps.title1, item.steps.title2, item.steps.title3]}
+                    color={mainColor}
+                    set={set}
+                    close={() => setDropDownVisible(false)}
+                />
             </Modal>
         </LinearGradient>
     )

@@ -23,6 +23,9 @@ import PopupMessage from '../functions/PopupMessage';
 import Info from '../functions/Info';
 
 
+// Contact validation
+const phoneRegExp = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/
+
 const registerSchema = yup.object({
   name: yup
     .string()
@@ -33,11 +36,9 @@ const registerSchema = yup.object({
     .email()
     .required(),
   phone: yup
-    // Update later motherfucker
     .string()
-    .min(10)
-    .max(14)
-    .required(),
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .required('Field cannot be empty'),
   password: yup
     .string()
     .min(4)
@@ -79,9 +80,9 @@ export default function RegisterScreen({ navigation }) {
       const message = await accReg.msg
 
       PopupMessage(
-        registered? 'Registration successful' : 'User already exists',
+        registered ? 'Registration successful' : 'User already exists',
         message,
-        registered? 'success' : 'danger',
+        registered ? 'success' : 'danger',
         1500,
         {},
         {},
@@ -89,7 +90,7 @@ export default function RegisterScreen({ navigation }) {
       )
 
       registered && navigation.navigate('VerifyEmail', { email: user.email, password: user.password })
-    } 
+    }
     catch (e) {
       console.log(e);
       PopupMessage(
@@ -122,7 +123,7 @@ export default function RegisterScreen({ navigation }) {
 
 
       <View style={loginRegStyles.imgBox}>
-        {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{ ...loginRegStyles.image,}} />}
+        {imgDisplay && !listDisplay && <Image source={require('../assets/register.png')} style={{ ...loginRegStyles.image, }} />}
       </View>
 
       <View style={{ ...loginRegStyles.content, backgroundColor: colors.mainBgColor }}>
@@ -231,7 +232,7 @@ export default function RegisterScreen({ navigation }) {
       </TouchableOpacity>
 
       <Loading loading={isLoading} setLoading={setIsLoading} />
-      <StatusBar style="light" translucent={true} />
+      <StatusBar style={theme.darkmode? 'light': 'dark'} translucent={true} />
     </View>
 
   );

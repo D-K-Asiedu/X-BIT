@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { showMessage, hideMessage } from "react-native-flash-message";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoadingView from '../components/LoadingView'
 
 
 const AuthContext = React.createContext()
@@ -13,7 +15,88 @@ export const AuthProvider = ({ children }) => {
     const [skipped, setSkipped] = useState(false)
     const [validated, setValidated] = useState(false)
     const [user, setUser] = useState({})
+    const [isLoaded, setIsLoaded] = useState(true)
+
     const server = 'https://pharmasoftgh.herokuapp.com'
+
+    // Load auth from storage
+    useEffect(() => {
+        const tempFunc = async () => {
+            await loadAuth()
+        }
+
+        tempFunc()
+    }, [])
+
+    // Save info to storage
+    const saveSkipped = async (value) => {
+        try{
+            const temp = value.toString()
+            await AsyncStorage.setItem("skipped", temp)
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    const saveLogggedIn = async (value) => {
+        try{
+            const temp = value.toString()
+            console.log(temp);
+            await AsyncStorage.setItem("loggedIn", temp)
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    const saveUser = async (value) => {
+        try{
+            await AsyncStorage.setItem("user", JSON.stringify(value))
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    // Remove user from storage
+    const removeUser = async () => {
+        try{
+            await AsyncStorage.removeItem("user")
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    // Load auth details from storage
+    const loadAuth = async() => {
+        try{
+            const skipped = await AsyncStorage.getItem("skipped")
+            const loggedIn = await AsyncStorage.getItem("loggedIn")
+            const user = await AsyncStorage.getItem("user")
+
+            console.log(skipped, loggedIn, user)
+
+            if(skipped != null){
+                const temp = (skipped === 'true')
+                setSkipped(temp)
+            }
+            if(loggedIn != null){
+                const temp = (loggedIn === 'true')
+                setLoggedIn(temp)
+            }
+            if(user != null){
+                setUser(JSON.parse(user))
+            }
+
+        }
+        catch(e){
+            console.log(e);
+        }
+
+    }
+
 
 
 
@@ -32,6 +115,10 @@ export const AuthProvider = ({ children }) => {
         const res = await fetch(`${server}/logout`, {
             method: 'GET',
         })
+
+        saveSkipped(false)
+        saveLogggedIn(false)
+        removeUser()
 
         setSkipped(false)
         setLoggedIn(false)
@@ -103,17 +190,22 @@ export const AuthProvider = ({ children }) => {
 
     // Update
     const updateUser = async () => {
-        setUser(await fetchUser())
+        const tempUser = await fetchUser()
+
+        saveUser(tempUser)
+        setUser(tempUser)
     }
 
 
     const toggleAuth = (value, data) => {
         switch (value) {
             case 'skip':
+                saveSkipped(true)
                 setSkipped(true)
                 break;
 
             case 'login':
+                saveLogggedIn(true)
                 setLoggedIn(true)
                 break;
 
@@ -147,7 +239,8 @@ export const AuthProvider = ({ children }) => {
                 server: server,
                 validated: validated
             }}>
-                {children}
+                {isLoaded && children}
+                {!isLoaded && <LoadingView size={45} color="#1ba665" />}
             </AuthContext.Provider>
         </AuthUpdateContext.Provider>
     )

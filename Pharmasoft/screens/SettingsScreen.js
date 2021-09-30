@@ -103,18 +103,18 @@ const SettingsScreen = ({navigation}) => {
     const [darkTheme, setDarkTheme] = useState(theme.darktheme)
     const [colorTheme, setColorTheme] = useState(theme.colortheme)
 
-    const updateColorTheme = (val) => {
-        updateTheme('colorTheme', val)
+    const updateColorTheme = async (val) => {
+        await updateTheme('colorTheme', val)
         setColorTheme(val)
     }
 
-    const updateDarkMode = (val) => {
-        updateTheme('darkMode', val)
+    const updateDarkMode = async (val) => {
+        await updateTheme('darkMode', val)
         setDarkMode(val)
     }
 
-    const updateDarkTheme = (val) => {
-        updateTheme('darkTheme', val)
+    const updateDarkTheme = async (val) => {
+        await updateTheme('darkTheme', val)
         setDarkTheme(val)
     }
 

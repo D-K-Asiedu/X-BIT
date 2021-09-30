@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     StyleSheet,
     TouchableOpacity,
@@ -10,10 +10,9 @@ import {
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { Ionicons } from '@expo/vector-icons';
 
-const MessagePopup = () => {
+const MessagePopup = ({message, type}) => {
     const colors = useColor()
     const { height, width } = Dimensions.get('window')
-
 
     // useEffect(() => {
     //     console.log(height, width);
@@ -24,7 +23,7 @@ const MessagePopup = () => {
         modal: {
             alignItems: 'center',
             position: 'absolute',
-            bottom: height / 5,
+            bottom: height/ 20,
             width: '100%'
         },
         modalBox: {
@@ -54,8 +53,8 @@ const MessagePopup = () => {
     return (
         <View style={styles.modal}>
                 <View style={styles.modalBox}>
-                    <Ionicons name="checkmark-circle" size={20} color="#ffffff" />
-                    <Text style={styles.boxText}>Added to cart</Text>
+                    <Ionicons name={type ? "checkmark-circle" : "close-circle"} size={20} color="#ffffff" />
+                    <Text style={styles.boxText}>{message || "lorem ipsum"}</Text>
                 </View>
         </View>
 

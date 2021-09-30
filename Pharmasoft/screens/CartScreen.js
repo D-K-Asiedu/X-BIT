@@ -7,6 +7,7 @@ import Button from '../components/Button'
 import CartItem from '../components/CartItem'
 import { useAuth } from '../routes/AuthContext'
 import Loading from '../components/Loading'
+import PopupMessage from '../functions/PopupMessage'
 
 const CartScreen = ({ navigation }) => {
     const theme = useTheme()
@@ -16,17 +17,20 @@ const CartScreen = ({ navigation }) => {
     const [cart, setCart] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [quantity, setQuantity] = useState([])
+    const [updatedCart, setUpdatedCart] = useState([])
 
     useEffect(() => {
         setIsLoading(true)
         const tempFunc = async() => {
             setCart(await fetchCart())
+            setUpdatedCart(await fetchCart())
         }
 
         tempFunc()
 
         return () => {
             setCart([])
+            setUpdatedCart([])
         }
     }, [])
 
@@ -36,11 +40,18 @@ const CartScreen = ({ navigation }) => {
             method: 'GET',
         })
 
-        const data = await res.json()
-        await data && setIsLoading(false)
-        console.log(data);
-
-        return data
+        try{
+            const data = await res.json()
+            await data && setIsLoading(false)
+            console.log(data);
+    
+            return data
+    
+        }
+        catch(e){
+            console.log(e);
+            return []
+        }
     }
 
     // Delete product from cart
@@ -60,12 +71,25 @@ const CartScreen = ({ navigation }) => {
             console.log(cartDetails);
 
             const filteredCart = cart.filter((item) => item.id != id )
-            setCart([])
+            // setCart([])
+            // setCart((prevCart) => prevCart)
             await updateCart()
-            setCart(await fetchCart())
+            setCart([])
+            setCart(updatedCart.filter((item) => item.id != id))
+            // setCart(filteredCart)
+            // setCart(await fetchCart())
         }
         catch(e){
             console.log(e)
+            PopupMessage(
+                'Delete unsuccessful',
+                'Caused by an unknown error',
+                'danger',
+                2000,
+                {top: 100},
+                {},
+                {}
+            )
         }   
         
         setIsLoading(false)
@@ -78,6 +102,15 @@ const CartScreen = ({ navigation }) => {
 
         console.log([...filteredQuantity, {id: id, 'product quantity': data}]);
         setQuantity((prevQuantity) => [...filteredQuantity, {id: id, 'product quantity': data}])
+
+        const filteredCart = cart.filter((item) => item.id != id)
+        let activeCartItem = cart.filter((item) => item.id == id)
+        activeCartItem = activeCartItem[0]
+        console.log('activeCart', activeCartItem);
+        // console.log('Updated active cart', {...activeCartItem[0], 'product quantity': data});
+        // console.log('filtered cart', filteredCart);
+        console.log('Delete filter',[...filteredCart, {...activeCartItem, 'product quantity': data}]);
+        setUpdatedCart([...filteredCart, {...activeCartItem, 'product quantity': data}])
 
     }
 

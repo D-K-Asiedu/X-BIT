@@ -22,31 +22,41 @@ import ProductCard from '../components/ProductCard';
 import { useTheme, useColor } from '../styles/ThemeContext'
 import LoadingView from '../components/LoadingView';
 import { useAuth } from '../routes/AuthContext';
+import Loading from '../components/Loading';
 
 
 
 const HomeScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingCart, setIsLoadingCart] = useState(false)
   const [loadArticles, setLoadArticles] = useState(false)
   const [articles, setArticles] = useState([])
   const [products, setProducts] = useState([])
 
-
   // Load products
   useEffect(() => {
     setIsLoading(true)
+    setIsLoadingCart(true)
 
     const tempFunc = async () => {
-      const tempProducts = await fetchProducts()
+      try {
+        const tempProducts = await fetchProducts()
+        const tempVal = randomGen(await tempProducts, 4)
+        console.log(tempVal);
 
-      console.log(tempProducts);
-
-      setProducts(tempProducts)
+        setProducts(tempVal)
+      }
+      catch (e) {
+        console.log(e);
+      }
+      finally {
+        setTimeout(() => { setIsLoading(false) }, 2000)
+      }
     }
 
     tempFunc()
     // setTimeout(() => {tempFunc()}, 500)
-    setTimeout(() => { setIsLoading(false) }, 1000)
+    // setTimeout(() => { setIsLoading(false) }, 2000)
 
     return () => {
       setProducts([])
@@ -58,14 +68,22 @@ const HomeScreen = ({ navigation }) => {
     setLoadArticles(true)
 
     const tempFunc = async () => {
-      const tempArr = await fetchArticles()
-      console.log(tempArr);
+      try {
+        const tempArr = await fetchArticles()
+        console.log(tempArr);
 
-      setArticles(tempArr)
+        setArticles(tempArr)
+      }
+      catch (e) {
+        console.log(e);
+      }
+      finally {
+        setTimeout(() => { setLoadArticles(false) }, 2000)
+      }
     }
 
     tempFunc()
-    setTimeout(() => { setLoadArticles(false) }, 1000)
+    // setTimeout(() => { setLoadArticles(false) }, 2000)
 
     return () => {
       setArticles([])
@@ -318,13 +336,15 @@ const HomeScreen = ({ navigation }) => {
                     justifyContent: 'space-between'
                   }}>
                     {products == [] && <Text style={{ fontSize: 16, color: colors.tetTextColor }}>No products available</Text>}
-                    {/* {randomGen(products, 4).map((product) => (
+                    {products.map((product) => (
                       <ProductCard
                         link={() => navigation.navigate('ProductDetail', product)}
                         medicine={product} key={`${product.name}${product.id}`}
-                        load={setIsLoaded} 
+                        load={setIsLoadingCart}
+                      // popup={messagePopup}
+                      // buttonless
                       />
-                    ))} */}
+                    ))}
                   </View>
                 }
               </View>
@@ -335,6 +355,8 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </ScrollView>
       </View>
+
+      <Loading loading={!isLoadingCart} setLoading={() => { }} />
     </View>
   );
 

@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { useColorScheme } from 'react-native'
 import { globalColours } from './global'
-
+import { useColorScheme, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ActivityIndicator } from 'react-native'
 
 const ThemeContext = React.createContext()
 const ThemeUpdateContext = React.createContext()
@@ -17,20 +18,90 @@ export const ThemeProvider = ({ children }) => {
     const [darkTheme, setDarkTheme] = useState('dim')
     const [colorTheme, setColorTheme] = useState('green')
     const [mainColour, setMainColour] = useState('')
+    const [isLoaded, setIsLoaded] = useState(false)
 
-    const colorScheme = useColorScheme()
+    // Load storage info on startup
+    useEffect(() => {
+        const tempFunc = async () => {
+            await loadSettings()
+        }
 
-    const toggleDisplay = (mode, value) => {
+        tempFunc()
+    }, [])
+
+    // Store theme details
+    const saveDarkMode = async (value) => {
+        try{
+            await AsyncStorage.setItem("darkMode", value)
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    const saveDarkTheme = async (value) => {
+        try{
+            await AsyncStorage.setItem("darkTheme", value)
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    const saveColorTheme = async (value) => {
+        try{
+            await AsyncStorage.setItem("colorTheme", value)
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+    // Load theme details from storage
+    const loadSettings = async() => {
+        try{
+            const darkMode = await AsyncStorage.getItem("darkMode")
+            const darkTheme = await AsyncStorage.getItem("darkTheme")
+            const colorTheme = await AsyncStorage.getItem("colorTheme")
+
+            if(darkMode != null){
+                setDarkModeBuffer(darkMode)
+            }
+            if(darkTheme != null){
+                setDarkTheme(darkTheme)
+            }
+            if(colorTheme != null){
+                setColorTheme(colorTheme)
+            }
+
+        }
+        catch(e){
+            console.log(e);
+        }
+        finally{
+            setTimeout(() => {
+                setIsLoaded(true)
+            }, 500);
+        }
+
+    }
+
+
+
+    const toggleDisplay = async (mode, value) => {
         switch (mode) {
             case 'darkMode':
+                saveDarkMode(value)
                 setDarkModeBuffer(value)
                 break;
 
             case 'darkTheme':
+                saveDarkTheme(value)
                 setDarkTheme(value)
                 break;
 
             case 'colorTheme':
+                saveColorTheme(value)
                 setColorTheme(value)
                 break;
 
@@ -52,7 +123,7 @@ export const ThemeProvider = ({ children }) => {
 
             case 'system':
                 // console.log(colorScheme == 'dark');
-                setDarkMode(colorScheme == 'dark')
+                // setDarkMode(colorScheme == 'dark')
                 break;
 
 
@@ -136,7 +207,12 @@ export const ThemeProvider = ({ children }) => {
                 colortheme: colorTheme,
             }}>
                 <ColorContext.Provider value={darkMode ? darkTheme == 'dim' ? dimColors: blackColors: lightColors}>
-                    {children}
+                    {isLoaded && children}
+                    {!isLoaded && 
+                        <View style={{flex:1, backgroundColor: darkMode? '#333333': '#f2f2f2', justifyContent: 'center', alignItems: 'center'}}>
+                            <ActivityIndicator size={45} color={mainColour} />
+                        </View>
+                    }
                 </ColorContext.Provider>
             </ThemeContext.Provider>
         </ThemeUpdateContext.Provider>

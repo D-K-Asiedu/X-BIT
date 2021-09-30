@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedba
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { useAuth } from '../routes/AuthContext'
 import AccessDenied from '../functions/AccessDenied'
+import PopupMessage from '../functions/PopupMessage'
 
 
-const ProductCard = ({link, medicine, load}) => {
+const ProductCard = ({link, medicine, buttonless, load, popup}) => {
     const colors = useColor()
     const theme = useTheme()
     const server = useAuth().server
@@ -15,8 +16,9 @@ const ProductCard = ({link, medicine, load}) => {
 
     //Add to cart
     const addToCart = async () => {
-        load(false)
         if(isLoggedIn){
+            load(false)
+
             const data = {id: medicine.id}
             const res = await fetch(`${server}/add-cart`, {
                 method: 'POST',
@@ -29,15 +31,33 @@ const ProductCard = ({link, medicine, load}) => {
             try{
                 const cartDetails = await res.json()
                 console.log(cartDetails);
+                PopupMessage(
+                    'Added to cart',
+                    '',
+                    'success',
+                    1000,
+                    {top: 100},
+                    {},
+                    {}
+                )
             }
             catch(e){
                 console.log(e)
-            }    
+                PopupMessage(
+                    'Failed to add to cart',
+                    '',
+                    'danger',
+                    1000,
+                    {top: 100},
+                    {},
+                    {}
+                )
+            } 
+            load(true)   
         }
         else{
             AccessDenied('cart', 'add items to cart')
         }
-        load(true)
     }
 
     // Styles
@@ -89,11 +109,11 @@ const ProductCard = ({link, medicine, load}) => {
             </View>
             <View style={styles.textBox}>
                 <Text style={styles.title}>{medicine.name}</Text>
-                <Text style={styles.desc}>{`Location : ${medicine.location}`}</Text>
+                <Text style={styles.desc}>{medicine.description}</Text>
             </View>
-            <TouchableOpacity style={styles.btn} onPress={addToCart}>
+            {!buttonless && <TouchableOpacity style={styles.btn} onPress={addToCart}>
                 <Text style={styles.btnText}>Add to cart</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
         </TouchableWithoutFeedback>
     )

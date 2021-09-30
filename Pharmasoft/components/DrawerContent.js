@@ -144,11 +144,11 @@ const DrawerContent = ({ navigation }) => {
                         labelStyle={{ color: colors.mainTextColor }}
                         onPress={() => Linking.openURL('tel:911')}
                     />
-                    <DrawerItem
+                    {/* <DrawerItem
                         icon={() => (<Fontisto name="doctor" size={24} color='#1da665' />)}
                         label="Medical personel"
                         labelStyle={{ color: colors.mainTextColor }}
-                    />
+                    /> */}
                 </View>
             </DrawerContentScrollView>
             {isLoggedIn && <DrawerItem

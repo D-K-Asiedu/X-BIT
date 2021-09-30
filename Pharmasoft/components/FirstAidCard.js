@@ -59,7 +59,7 @@ const FirstAidCard = ({id, title, description, bgColor, image, viewDetails}) => 
                 </View>
                 <View style={styles.textBox}>
                     <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.description}>{description || 'Lorem ipsum dolor random gibberish here'}</Text>
+                    {/* <Text style={styles.description}>{description || 'Lorem ipsum dolor random gibberish here'}</Text> */}
                 </View>
                 <View style={styles.iconBox}>
                     <Entypo name="chevron-right" size={18} color={colors.tetColor2} />

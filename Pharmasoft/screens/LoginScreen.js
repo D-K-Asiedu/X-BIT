@@ -222,7 +222,7 @@ export default function LoginScreen({ navigation }) {
 
       <Loading loading={isLoading} setLoading={setIsLoading} />
 
-      <StatusBar style="light" translucent={true} />
+      <StatusBar style={theme.darkmode? 'light': 'dark'} translucent={true} />
     </View>
 
   );
