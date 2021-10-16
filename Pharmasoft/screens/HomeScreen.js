@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import {
   Text,
   StyleSheet,
@@ -32,36 +32,48 @@ const HomeScreen = ({ navigation }) => {
   const [loadArticles, setLoadArticles] = useState(false)
   const [articles, setArticles] = useState([])
   const [products, setProducts] = useState([])
+  const [randomFirstAid, setRandomFirstAid] = useState([])
+
+  // Initialise cart loading and first aid items
+  useEffect(() => {
+    setRandomFirstAid(randomGen(firstAid, 4))
+    setIsLoadingCart(true)
+    return () => {
+      setRandomFirstAid([])
+      setIsLoadingCart(false)
+    }
+
+  }, [])
 
   // Load products
-  useEffect(() => {
-    setIsLoading(true)
-    setIsLoadingCart(true)
+  // useEffect(() => {
+  //   setIsLoading(true)
 
-    const tempFunc = async () => {
-      try {
-        const tempProducts = await fetchProducts()
-        const tempVal = randomGen(await tempProducts, 4)
-        console.log(tempVal);
+  //   const tempFunc = async () => {
+  //     try {
+  //       const tempProducts = await fetchProducts()
+  //       const tempVal = randomGen(await tempProducts, 4)
+  //       console.log(tempVal);
 
-        setProducts(tempVal)
-      }
-      catch (e) {
-        console.log(e);
-      }
-      finally {
-        setTimeout(() => { setIsLoading(false) }, 2000)
-      }
-    }
+  //       setProducts(tempVal)
+  //     }
+  //     catch (e) {
+  //       console.log(e);
+  //     }
+  //     finally {
+  //       setTimeout(() => { setIsLoading(false) }, 2000)
+  //     }
+  //   }
 
-    tempFunc()
-    // setTimeout(() => {tempFunc()}, 500)
-    // setTimeout(() => { setIsLoading(false) }, 2000)
+  //   tempFunc()
+  //   // setProducts([1,2,3,4])
+    
+  //   setTimeout(() => { setIsLoading(false) }, 2000)
 
-    return () => {
-      setProducts([])
-    }
-  }, [])
+  //   return () => {
+  //     setProducts([])
+  //   }
+  // }, [])
 
   // Load articles
   useEffect(() => {
@@ -264,7 +276,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
 
 
-          <View style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor }}>
+          <View style={{ ...globalStyles.content, backgroundColor: colors.mainBgColor}}>
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
                 <Text style={styles.titleText}>First aid</Text>
@@ -275,7 +287,7 @@ const HomeScreen = ({ navigation }) => {
 
               <View style={{ ...styles.sectionContent, justifyContent: 'space-between' }}>
 
-                {randomGen(firstAid, 4).map((item) => (
+                {randomFirstAid.map((item) => (
                   <LinkCard
                     key={item.id}
                     title={item.title}
@@ -320,9 +332,9 @@ const HomeScreen = ({ navigation }) => {
 
             <View style={styles.section}>
               <View style={styles.sectionHeader}>
-                <Text style={styles.titleText}>Products</Text>
+                <Text style={{...styles.titleText, color: colors.mainBgColor}}>Products</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Shop')}>
-                  <Text style={styles.linkText}>{"See all>>"}</Text>
+                  <Text style={{...styles.linkText, color: colors.mainBgColor}}>{"See all>>"}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -350,7 +362,6 @@ const HomeScreen = ({ navigation }) => {
               </View>
 
             </View>
-
 
           </View>
         </ScrollView>

@@ -89,7 +89,7 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
                     />
                 </View>
                 <View style={styles.textBox}>
-                    <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>{product['product name']}</Text>
+                    <Text style={{ ...globalStyles.h3, ...styles.cardTitle }}>{product['product name'].length <= 15 ? product['product name']: `${product['product name'].substring(0, 14)}...`}</Text>
                     <Text style={styles.desc}>Quantity left: {product.quantity_left || '69'} </Text>
                     <Text style={styles.desc}>Unit price: GHC {product["total price"] / product["product quantity"] } </Text>
                 </View>

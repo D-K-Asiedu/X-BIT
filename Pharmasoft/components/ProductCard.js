@@ -76,7 +76,7 @@ const ProductCard = ({link, medicine, buttonless, load, popup}) => {
             marginVertical: 5,
         },
         title:{
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 'bold',
             color: colors.mainTextColor
         },
@@ -108,7 +108,7 @@ const ProductCard = ({link, medicine, buttonless, load, popup}) => {
             />
             </View>
             <View style={styles.textBox}>
-                <Text style={styles.title}>{medicine.name}</Text>
+                <Text style={styles.title}>{medicine.name.length <= 15 ? medicine.name: `${medicine.name.substring(0, 14)}...`}</Text>
                 <Text style={styles.desc}>{medicine.description}</Text>
             </View>
             {!buttonless && <TouchableOpacity style={styles.btn} onPress={addToCart}>
