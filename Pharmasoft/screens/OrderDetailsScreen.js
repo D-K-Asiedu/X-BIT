@@ -132,7 +132,7 @@ const OrderDetailsScreen = ({ navigation }) => {
         try {
             const transactions = await res.json()
             console.log(transactions);
-            return transactions
+            return transactions.reverse()
         }
         catch (e) {
             console.log(e)

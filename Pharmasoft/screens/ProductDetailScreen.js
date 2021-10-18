@@ -19,6 +19,20 @@ const ProductDetailScreen = ({ navigation, route }) => {
     const isLoggedIn = useAuth().isLoggedIn
     const server = useAuth().server
 
+    const image = require('../assets/home-images/medicine.png')
+
+    const [loaded, setLoaded] = useState(false)
+    const [failed, setFailed] = useState(false)
+    const [productImage, setProductImage] = useState(null)
+
+    useEffect(() => {
+        setProductImage(!loaded? image: failed? image : {uri: `${server}${product.image}`})
+        return () => {
+            setProductImage(image)
+        }
+    }, [loaded, failed])
+
+
         //Add to cart
         const addToCart = async () => {
             setIsLoading(true)
@@ -119,9 +133,11 @@ const ProductDetailScreen = ({ navigation, route }) => {
             <View style={{ ...globalStyles.content, ...styles.content }}>
                 <View style={styles.imageBox}>
                     <Image 
-                        style={{ width: 250, height: 250, }} 
-                        defaultSource={require('../assets/home-images/medicine.png')} 
-                        source={{uri: `${server}${product.image}`}}
+                        style={{width: productImage == image? 125 :250, height: productImage == image? 125:250, }} 
+                        source={productImage}
+                        // defaultSource={image}
+                        onError={() => setFailed(true)}
+                        onLoadEnd={() => setLoaded(true)}        
                     />
                 </View>
                 <View style={{...globalStyles.content, ...styles.textBox}}>

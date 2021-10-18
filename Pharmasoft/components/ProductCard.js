@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { useTheme, useColor } from '../styles/ThemeContext'
 import { useAuth } from '../routes/AuthContext'
@@ -13,6 +13,18 @@ const ProductCard = ({link, medicine, buttonless, load, popup}) => {
     const isLoggedIn = useAuth().isLoggedIn
 
     const image = require('../assets/home-images/medicine.png')
+
+    const [loaded, setLoaded] = useState(false)
+    const [failed, setFailed] = useState(false)
+    const [productImage, setProductImage] = useState(image)
+
+    useEffect(() => {
+        setProductImage(!loaded? image: failed? image : {uri: `${server}${medicine.image}`})
+        return () => {
+            setProductImage(image)
+        }
+    }, [loaded, failed])
+
 
     //Add to cart
     const addToCart = async () => {
@@ -72,6 +84,12 @@ const ProductCard = ({link, medicine, buttonless, load, popup}) => {
             elevation: 2,
     
         },
+        image:{
+            width: 150,
+            height: 150,
+            justifyContent: 'center', 
+            alignItems: 'center'
+        },
         textBox:{
             marginVertical: 5,
         },
@@ -100,16 +118,18 @@ const ProductCard = ({link, medicine, buttonless, load, popup}) => {
     return (
         <TouchableWithoutFeedback onPress={() => link()}>
         <View style={styles.card}>
-            <View style={{width: 150, height: 150, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={styles.image}>
             <Image 
-                style={{width: 125, height: 125,}} 
-                source={{uri: `${server}${medicine.image}`}}
-                defaultSource={image} 
+                style={{width: productImage == image? 75 :125, height: productImage == image? 75:125,}} 
+                source={productImage}
+                // defaultSource={image}
+                onError={() => setFailed(true)}
+                onLoadEnd={() => setLoaded(true)}
             />
             </View>
             <View style={styles.textBox}>
                 <Text style={styles.title}>{medicine.name.length <= 15 ? medicine.name: `${medicine.name.substring(0, 14)}...`}</Text>
-                <Text style={styles.desc}>{medicine.description}</Text>
+                <Text style={styles.desc}>{medicine.description.length <= 18 ? medicine.description: `${medicine.description.substring(0, 17)}...`}</Text>
             </View>
             {!buttonless && <TouchableOpacity style={styles.btn} onPress={addToCart}>
                 <Text style={styles.btnText}>Add to cart</Text>

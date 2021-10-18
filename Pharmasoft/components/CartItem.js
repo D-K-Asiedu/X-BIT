@@ -9,6 +9,18 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
     const [count, setCount] = useState(product['product quantity'])
     const [active, setActive] = useState(false)
 
+    const [loaded, setLoaded] = useState(false)
+    const [failed, setFailed] = useState(false)
+    const [image, setImage] = useState(require('../assets/home-images/medicine.png'))
+
+    useEffect(() => {
+        setImage(!loaded? require('../assets/home-images/medicine.png'): failed? require('../assets/home-images/medicine.png') : {uri: `${server}${product.image}`})
+        return () => {
+            setImage(require('../assets/home-images/medicine.png'))
+        }
+    }, [loaded, failed])
+
+
     // Update count value outside component
     useEffect(() => {
         updateCount(product.id, count)
@@ -84,8 +96,10 @@ const CartItem = ({product, deleteProduct, updateCount}) => {
                 <View style={styles.imageBox}>
                     <Image 
                         style={{ width: 75, height: 75, }} 
-                        defaultSource={require('../assets/home-images/medicine.png')}
-                        source={{uri: `${server}${product.image}`}} 
+                        // defaultSource={require('../assets/home-images/medicine.png')}
+                        source={image} 
+                        onError={() => setFailed(true)}
+                        onLoadEnd={() => setLoaded(true)}        
                     />
                 </View>
                 <View style={styles.textBox}>
