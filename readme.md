@@ -12,5 +12,5 @@ In this project we are building an app for ordering medicine and recommending me
 - Addae- Bofah Christopher
 - Domfeh Collins
 
-Link to beta release of the pharmasoft app
-[Pharmasoft apk file](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40kk_fuachie/Pharmasoft-5eda74f1128f420f86605db83f03f139-signed.apk) 
+Link to candidate release of the pharmasoft app
+[Pharmasoft apk file](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40kk_fuachie/Pharmasoft-a910a4ae60c549c6b1b0d869ebdb756c-signed.apk) 
